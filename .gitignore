@@ -3,5 +3,7 @@
 .git-tmp/
 .axon-v*/
 .axon-v*-clean/
-node_modules/
+
+# OS/editor
 .DS_Store
+Thumbs.db

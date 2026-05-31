@@ -1,50 +1,42 @@
 # Become the Brain OS: Evolver
 
-[![Run Evolver](https://img.shields.io/badge/%E2%96%B6%20Run-v12.1.0%20Evolver-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.1.0)
-![version](https://img.shields.io/badge/version-v12.1.0--evolver-0a4a8f?style=flat-square)
+[![▶ Play Evolver](https://img.shields.io/badge/%E2%96%B6%20Play-v12.2.9%20Evolver-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.2.9)
+![version](https://img.shields.io/badge/version-v12.2.9--evolver-0a4a8f?style=flat-square)
 ![local-only](https://img.shields.io/badge/local--only-no%20backend-0d7a5f?style=flat-square)
 ![neural-data](https://img.shields.io/badge/neural%20data-none-0d7a5f?style=flat-square)
 
-**Become the Brain OS: Evolver v12.1.0** is the major-release public game surface for AxonOS.
+**Become the Brain OS: Evolver v12.2.9** is a playability-first major release of the AxonOS educational game surface.
 
-It is a static, local-only educational browser game explaining the operating-system layer between neural hardware and AI.
+It explains the operating-system layer between neural hardware and AI through a simple, forgiving, mobile-first loop:
 
-## Live
-
-<https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.1.0>
+```text
+hold signal -> release in gold -> choose safe OS action -> continue
+```
 
 ## Current build
 
 ```text
-v12.1.0-evolver
+v12.2.9-evolver
 ```
 
-## v12.1.0 release objective
-
-This release is built for high-friction public traffic: one static HTML file, no backend dependency, no analytics dependency, no account creation, no cookie consent friction, and no neural-data processing.
-
-## Non-claim boundary
-
-This is not the AxonOS kernel, not a medical device, not a BCI, and does not read neural data.
-
-## Local run
-
-```bash
-python3 -m http.server 8080
-```
-
-Open:
+## Play
 
 ```text
-http://localhost:8080/evolver-evolution-version/?v=12.1.0
+https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.2.9
 ```
 
-## Release files
+## Design objective
 
-- `evolver-evolution-version/index.html` — canonical game build.
-- `evolver-evolution-version/VERSION` — `v12.1.0-evolver`.
-- `scripts/validate_v12_1_0.py` — release validator.
-- `scripts/install_v12_1_0_from_download.sh` — Termux-safe installer.
-- `scripts/release_tag_v12_1_0.sh` — annotated release tag script.
+v12.2.9 is built to solve the core criticism: previous versions could feel impossible or unstable. This release prioritizes readable gameplay, stable input, explicit phases, and zero dead-end states.
 
-Licensed under Apache-2.0 OR MIT.
+## Honesty boundary
+
+This is an educational simulation. It is not a medical device, not a clinical BCI, not the AxonOS kernel, and reads no neural data.
+
+## Validate
+
+```bash
+python3 scripts/validate_v12_2_9.py
+```
+
+Apache-2.0 OR MIT.
