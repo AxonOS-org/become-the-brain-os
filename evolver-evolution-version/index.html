@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <meta name="theme-color" content="#050509" />
-<title>AxonOS</title>
-<meta name="description" content="AxonOS. Local-only interactive signal simulation." />
+<title>AxonOS — Become the OS · educational game (experimental)</title>
+<meta name="description" content="An educational browser game about how AxonOS — a real-time operating system for brain–computer interfaces — handles signal, intent decoding, and privacy. Not a medical device and reads no neural data. Local-only." />
 <style>
 :root{--bg:#050509;--panel:rgba(255,255,255,.062);--panel2:rgba(255,255,255,.038);--line:rgba(255,255,255,.12);--line2:rgba(216,179,90,.30);--gold:#d8b35a;--gold2:#ffe39a;--cyan:#73f8ff;--red:#ff4f6d;--green:#88ffd2;--ink:#f6f1e8;--muted:#b8b0a4;--shadow:0 24px 90px rgba(0,0,0,.55);--r:26px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;overflow-x:hidden}body{background:radial-gradient(circle at 18% 0%,rgba(216,179,90,.16),transparent 28%),radial-gradient(circle at 84% 8%,rgba(115,248,255,.10),transparent 26%),linear-gradient(135deg,#050509 0%,#0b0c13 52%,#070505 100%)}
@@ -147,7 +147,7 @@ h2{letter-spacing:-.075em;text-wrap:balance}.lead{color:#c9c1b6}.hero p,.panel p
 <body>
 <div class="app" id="app">
  <div class="topbar">
- <div class="brand"><div class="seal" aria-hidden="true"></div><div><h1>AxonOS</h1><p>v7.1.5 · AxonOS </p></div></div>
+ <div class="brand"><div class="seal" aria-hidden="true"></div><div><h1>AxonOS</h1><p>v7.1.5 · educational game</p></div></div>
  <div class="chips"><div class="chip">Best <strong id="topBest">0</strong></div><div class="chip">Daily <strong id="dailyChip">ready</strong></div><div class="chip hideSmall">Streak <strong id="dailyStreakChip">0</strong></div><div class="chip">Level <strong id="levelChip">1</strong></div><div class="chip">XP <strong id="xpChip">0</strong></div><button class="toggle" id="soundBtn" aria-pressed="false">Sound</button><button class="toggle" id="motionBtn" aria-pressed="true">Motion</button></div>
  </div>
  <div class="bootError" id="bootError"></div>
@@ -155,7 +155,7 @@ h2{letter-spacing:-.075em;text-wrap:balance}.lead{color:#c9c1b6}.hero p,.panel p
  <div class="grid">
   <section class="hero">
   <div><div class="eyebrow"><span class="dot"></span> AxonOS</div><h2>AxonOS</h2><p class="lead">Hold. Release in gold. Choose correctly. Keep data local.</p><div class="actions"><button class="btn primary" id="startBtn">Start</button><button class="btn cyan" id="dailyBtn">Daily</button><button class="btn ghost" id="howBtn">How to play</button></div><div class="metrics"><div class="metric"><b>Hold</b><span>signal</span></div><div class="metric"><b>Release</b><span>gold</span></div><div class="metric"><b>Choose</b><span>card</span></div><div class="metric"><b>Local</b><span>only</span></div></div></div>
-  <p>Educational simulation. No real neural data is collected or processed. Scores, XP, badges, and settings stay on this device.</p>
+  <p>Educational game. AxonOS is a real open-source real-time OS for brain–computer interfaces; this game teaches its ideas — it is not the software itself and reads no neural data. Scores, XP, badges, and settings stay on this device.</p>
   </section>
   <aside class="panel">
   <div class="panelTitle"><div><h3>Mode</h3><p>Select a mode. Start.</p></div><span class="tag">v7.1.5</span></div>
@@ -188,7 +188,7 @@ h2{letter-spacing:-.075em;text-wrap:balance}.lead{color:#c9c1b6}.hero p,.panel p
   <aside class="panel"><canvas class="shareCanvas" id="shareCanvas" width="1200" height="630"></canvas><div class="leader"><h4>Local leaderboard</h4><ol id="endLeaderboard"></ol></div></aside>
  </div>
  </main>
- <footer style="margin-top:18px;color:var(--muted);font-size:12px;text-align:center">AxonOS · v7.1.5 · local-only · no backend · no real neural data</footer>
+ <footer style="margin-top:18px;color:var(--muted);font-size:12px;text-align:center">A game by <a href="https://github.com/AxonOS-org" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">The AxonOS Project</a> · <a href="https://axonos.org" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">axonos.org</a> · v7.1.5 · local-only · reads no neural data</footer>
 </div>
 <div class="toast" id="toast"></div>
 <div class="modal" id="howModal" role="dialog" aria-modal="true"><div class="modalCard"><h3>Controls</h3><p><b>Hold</b> to stabilize the signal. <b>Release</b> inside the gold zone. <b>Tap</b> the correct intent/privacy card before the deadline collapses. Artifacts, consent, quests, badges, and local scores appear during the run.</p><div class="modalActions"><button class="btn primary" id="modalStartBtn">Start now</button><button class="btn ghost" id="modalCloseBtn">Close</button></div></div></div>
