@@ -1,38 +1,17 @@
 # Changelog
 
-## v9.3.5-evolver — 2026-05-31
+## v9.3.6-evolver
 
-### Added
-
-- Complete `evolver-evolution-version` browser-game build.
-- Root landing page.
-- Repository README aligned with AxonOS “OS for the Brain” positioning.
-- Build-specific README.
-- Release notes.
-- Validation script.
-- GitHub Pages deploy helper.
-- Local-only profile system: best score, streak, XP, level, badges, quests, leaderboard.
-- Daily Brain deterministic seed mode.
-- Share-card PNG generation.
-- Copy-result and copy-challenge actions.
+Clean hotfix release.
 
 ### Fixed
 
-- Removed stale older release-version markers from the packaged build.
-- Normalized game version to `v9.3.5`.
-- Normalized storage namespace to `axonos_v935_`.
-- Normalized challenge seed prefix to `v935-`.
-- Normalized share-card filename to `axonos-v935-share-card.png`.
-
-### Security and privacy posture
-
-- No backend.
-- No analytics.
-- No trackers.
-- No neural data.
-- No sensor access.
-- LocalStorage only for local progress.
-
-### Non-claim
-
-This is an educational simulation. It is not medical software, not a BCI, and not the AxonOS kernel.
+- Prevented repeated result/XP/leaderboard writes after timeout by making `finish()` idempotent and stopping the RAF loop after completion.
+- Made Daily Brain deterministic by routing gameplay randomness through the seeded RNG.
+- Fixed Retry to restart the actual just-played mode.
+- Fixed Copy challenge to use the actual run mode.
+- Added clipboard fallback for mobile browsers and non-secure contexts.
+- Added pointer/keyboard guards to avoid duplicate hold starts.
+- Updated share-card filename and storage namespace to v9.3.6.
+- Replaced broken CI with a clean workflow that validates `evolver-evolution-version/index.html`.
+- Cleaned root README, Evolver README, VERSION, and root landing page.

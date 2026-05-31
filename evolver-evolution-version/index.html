@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#050509" />
   <meta name="description" content="Become the Brain OS: Evolver is an educational browser game about signal stabilization, intent capture, neural permissions, consent, and privacy. Not a medical device. Reads no neural data. Local-only." />
-  <meta property="og:title" content="Become the Brain OS: Evolver · AxonOS v9.3.5" />
+  <meta property="og:title" content="Become the Brain OS: Evolver · AxonOS v9.3.6" />
   <meta property="og:description" content="You are the operating system between neural hardware and AI. Stabilize signal. Capture intent. Deny raw neural leaks. Respect consent." />
   <meta property="og:type" content="website" />
-  <title>Become the Brain OS: Evolver · AxonOS v9.3.5</title>
+  <title>Become the Brain OS: Evolver · AxonOS v9.3.6</title>
   <style>
     :root{
       --bg:#050509;
@@ -235,11 +235,11 @@
         <span class="sigil" aria-hidden="true"></span>
         <span>
           <h1>AxonOS</h1>
-          <p>Become the Brain OS · v9.3.5</p>
+          <p>Become the Brain OS · v9.3.6</p>
         </span>
       </a>
       <div class="stats" aria-label="Local player status">
-        <span class="pill gold">Build <strong>v9.3.5</strong></span>
+        <span class="pill gold">Build <strong>v9.3.6</strong></span>
         <span class="pill">Best <strong id="bestTop">0</strong></span>
         <span class="pill">Streak <strong id="streakTop">0</strong></span>
         <span class="pill">Level <strong id="levelTop">1</strong></span>
@@ -286,7 +286,7 @@
           <div class="miniList" id="leaderList"></div>
         </aside>
       </div>
-      <footer class="footer">A game by <a href="https://github.com/AxonOS-org">The AxonOS Project</a> · <a href="https://axonos.org">axonos.org</a> · v9.3.5 · local-only · reads no neural data</footer>
+      <footer class="footer">A game by <a href="https://github.com/AxonOS-org">The AxonOS Project</a> · <a href="https://axonos.org">axonos.org</a> · v9.3.6 · local-only · reads no neural data</footer>
     </section>
 
     <section class="screen" id="playScreen" aria-label="Game screen">
@@ -338,7 +338,7 @@
       <div class="resultGrid">
         <article class="card gradeCard">
           <div>
-            <p class="kicker">Run complete · v9.3.5</p>
+            <p class="kicker">Run complete · v9.3.6</p>
             <div class="grade" id="gradeText">S</div>
           </div>
           <div>
@@ -366,7 +366,7 @@
             <small>Become the Brain OS</small>
             <div>
               <b id="shareTitle">AxonOS online</b>
-              <p id="shareText">Score 0 · v9.3.5 · local-only · reads no neural data.</p>
+              <p id="shareText">Score 0 · v9.3.6 · local-only · reads no neural data.</p>
             </div>
             <small>axonos.org</small>
           </div>
@@ -412,8 +412,9 @@
   <script>
   (()=>{
     'use strict';
-    const VERSION='9.3.5';
-    const STORE='axonos_v935_';
+    const VERSION='9.3.6';
+    const STORE='axonos_v936_';
+    const SHARE_FILE='axonos-v936-share-card.png';
     const GOLD_MIN=.42;
     const GOLD_MAX=.60;
     const MODES={
@@ -461,7 +462,8 @@
     const now=()=>performance.now();
     const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
     const fmt=n=>Math.round(n).toLocaleString('en-US');
-    const dayKey=()=>new Date().toISOString().slice(0,10).replaceAll('-','');
+    function dayKey(){const d=new Date();return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`}
+    function rand(){return game&&game.rnd?game.rnd():Math.random()}
     function loadJSON(key, fallback){try{return JSON.parse(localStorage.getItem(STORE+key))??fallback}catch{return fallback}}
     function saveJSON(key, value){try{localStorage.setItem(STORE+key,JSON.stringify(value))}catch{}}
     const P=loadJSON('profile',{best:0,streak:0,xp:0,badges:{},leaders:[],daily:{}});
@@ -491,21 +493,22 @@
       selectedMode=mode;const cfg=MODES[mode];
       const seed=mode==='daily'?Number(dayKey()):Math.floor(Math.random()*1e9);const rnd=seedRand(seed);
       const order=[...MISSIONS].sort(()=>rnd()-.5).slice(0,cfg.rounds);
-      game={mode,seed,cfg,rounds:order,round:0,phase:'hold',started:now(),last:now(),elapsed:0,time:cfg.time,score:0,stability:100,leaks:0,combo:0,maxCombo:0,latencies:[],privacyDenials:0,holds:0,attempts:0,paused:false,holding:false,holdStart:0,needle:.08+rnd()*.08,needleDir:1,amp:.25,artifact:0,answered:false,log:[]};
+      game={mode,seed,rnd,cfg,rounds:order,round:0,phase:'hold',started:now(),last:now(),elapsed:0,time:cfg.time,score:0,stability:100,leaks:0,combo:0,maxCombo:0,latencies:[],privacyDenials:0,holds:0,attempts:0,paused:false,finished:false,holding:false,holdStart:0,needle:.08+rnd()*.08,needleDir:1,amp:.25,artifact:0,answered:false,log:[]};
       show('play');els.cardsGrid.innerHTML='';els.holdPad.classList.remove('holding');els.pauseModal.classList.remove('active');setupMission();log(`boot axonos-evolver/${VERSION} mode=${cfg.name} seed=${seed}`,'info');log('privacy vault: local-only; no neural data path','ok');beep('gold');lastTick=now();cancelAnimationFrame(raf);loop();
     }
     function setupMission(){
-      const m=game.rounds[game.round%game.rounds.length];game.phase='hold';game.answered=false;game.holding=false;game.holdStart=0;game.needle=.05+Math.random()*.16;game.needleDir=1;game.artifact=0;els.cardsGrid.innerHTML='';els.holdPad.disabled=false;els.holdTitle.textContent='Hold signal';els.holdHint.textContent='Release when the cursor enters gold.';els.lockLabel.textContent='Hold to stabilize';els.missionTitle.textContent=m.title;els.missionText.textContent=m.text;els.objectiveText.textContent=m.objective;els.coachText.innerHTML='<b>Coach:</b> hold until the needle enters gold.';log(`mission ${game.round+1}/${game.rounds.length}: ${m.kind}`,'info');updateHUD();
+      const m=game.rounds[game.round%game.rounds.length];game.phase='hold';game.answered=false;game.holding=false;game.holdStart=0;game.needle=.05+rand()*.16;game.needleDir=1;game.artifact=0;els.cardsGrid.innerHTML='';els.holdPad.disabled=false;els.holdTitle.textContent='Hold signal';els.holdHint.textContent='Release when the cursor enters gold.';els.lockLabel.textContent='Hold to stabilize';els.missionTitle.textContent=m.title;els.missionText.textContent=m.text;els.objectiveText.textContent=m.objective;els.coachText.innerHTML='<b>Coach:</b> hold until the needle enters gold.';log(`mission ${game.round+1}/${game.rounds.length}: ${m.kind}`,'info');updateHUD();
     }
     function showCards(){
-      const m=game.rounds[game.round%game.rounds.length];game.phase='choose';els.holdPad.disabled=true;els.holdTitle.textContent='Intent gate open';els.holdHint.textContent='Choose before the deadline collapses.';const cards=[...m.cards].sort(()=>Math.random()-.5);els.cardsGrid.innerHTML=cards.map(c=>`<button type="button" class="choice" data-title="${escapeHTML(c[0])}"><b>${escapeHTML(c[0])}</b><span>${escapeHTML(c[1])}</span><small>${escapeHTML(c[2])}</small></button>`).join('');els.cardsGrid.querySelectorAll('.choice').forEach(btn=>btn.addEventListener('click',()=>answer(btn)));els.coachText.innerHTML='<b>Coach:</b> lock acquired.<br>Select the safe capability path.';log('signal lock accepted; opening card gate','ok');
+      const m=game.rounds[game.round%game.rounds.length];game.phase='choose';els.holdPad.disabled=true;els.holdTitle.textContent='Intent gate open';els.holdHint.textContent='Choose before the deadline collapses.';const cards=[...m.cards].sort(()=>rand()-.5);els.cardsGrid.innerHTML=cards.map(c=>`<button type="button" class="choice" data-title="${escapeHTML(c[0])}"><b>${escapeHTML(c[0])}</b><span>${escapeHTML(c[1])}</span><small>${escapeHTML(c[2])}</small></button>`).join('');els.cardsGrid.querySelectorAll('.choice').forEach(btn=>btn.addEventListener('click',()=>answer(btn)));els.coachText.innerHTML='<b>Coach:</b> lock acquired.<br>Select the safe capability path.';log('signal lock accepted; opening card gate','ok');
     }
     function answer(btn){
-      if(!game||game.answered||game.paused)return;game.answered=true;game.attempts++;const m=game.rounds[game.round%game.rounds.length];const title=btn.dataset.title;const latency=clamp(2.1+Math.random()*2.7+(game.cfg.speed-1)*1.2+(game.leaks*.08),1.4,8.9);game.latencies.push(latency);
+      if(!game||game.finished||game.answered||game.paused)return;game.answered=true;game.attempts++;const m=game.rounds[game.round%game.rounds.length];const title=btn.dataset.title;const latency=clamp(2.1+rand()*2.7+(game.cfg.speed-1)*1.2+(game.leaks*.08),1.4,8.9);game.latencies.push(latency);
       const correct=title===m.correct;if(correct){btn.classList.add('correct');game.combo++;game.maxCombo=Math.max(game.maxCombo,game.combo);const bonus=game.combo*45+Math.max(0,Math.round((game.stability-70)*8));game.score+=900+bonus;game.stability=clamp(game.stability+2,0,100);if(title.toLowerCase().includes('deny')||title.toLowerCase().includes('token'))game.privacyDenials++;log(`allow derived intent: ${title}; latency=${latency.toFixed(2)}ms`,'ok');beep('ok')}else{btn.classList.add('wrong');game.combo=0;game.leaks+=title.toLowerCase().includes('raw')||title.toLowerCase().includes('context')?2:1;game.stability=clamp(game.stability-9,0,100);game.score=Math.max(0,game.score-250);log(`violation: ${title}; leak_count=${game.leaks}`,'bad');beep('bad')}
-      updateHUD();setTimeout(()=>{if(!game)return;game.round++;if(game.round>=game.rounds.length||game.time<=0)finish();else setupMission()},settings.motion?620:220);
+      updateHUD();setTimeout(()=>{if(!game||game.finished)return;game.round++;if(game.round>=game.rounds.length||game.time<=0)finish();else setupMission()},settings.motion?620:220);
     }
     function finish(){
+      if(!game||game.finished)return;game.finished=true;game.holding=false;els.holdPad.classList.remove('holding');
       const avg=game.latencies.length?game.latencies.reduce((a,b)=>a+b,0)/game.latencies.length:0;const zero=game.leaks===0;const stable=game.stability>=90;const cleanBonus=zero?900:0;const finalScore=Math.max(0,Math.round(game.score+game.stability*11-cleanBonus*-1-(game.leaks*320)));game.score=finalScore;
       const grade=finalScore>=8500&&zero?'S':finalScore>=6800?'A':finalScore>=5000?'B':finalScore>=3200?'C':'D';const xp=Math.max(20,Math.round(finalScore/90)+(zero?40:0)+(stable?25:0));
       const badge=awardBadges(zero,stable);P.best=Math.max(P.best,finalScore);P.streak=zero?P.streak+1:0;P.xp+=xp;P.leaders=[{score:finalScore,mode:game.cfg.name,grade,date:new Date().toISOString().slice(0,10)},...(P.leaders||[])].sort((a,b)=>b.score-a.score).slice(0,8);if(game.mode==='daily')P.daily[dayKey()]=finalScore;saveJSON('profile',P);
@@ -518,8 +521,8 @@
       if(!game)return;els.scoreHud.textContent=fmt(game.score);els.stabilityHud.textContent=Math.round(game.stability)+'%';els.leaksHud.textContent=game.leaks;els.comboHud.textContent=game.combo;els.comboLabel.textContent='combo x'+game.combo;els.timeHud.textContent=Math.max(0,Math.ceil(game.time));const avg=game.latencies.length?game.latencies[game.latencies.length-1]:0;els.latencyHud.textContent=avg?avg.toFixed(2)+'ms':'—';els.rivalText.textContent=P.best?`Beat ${fmt(P.best)} local best.`:'Beat your best score.';
     }
     function tick(dt){
-      if(!game||game.paused)return;game.time-=dt/1000;if(game.time<=0){finish();return}const spd=.42*game.cfg.speed;game.needle+=game.needleDir*spd*dt/1000;if(game.needle>1){game.needle=1;game.needleDir=-1}if(game.needle<0){game.needle=0;game.needleDir=1}els.needle.style.left=(game.needle*100)+'%';
-      if(game.holding){game.holds+=dt;const inGold=game.needle>=GOLD_MIN&&game.needle<=GOLD_MAX;els.lockLabel.textContent=inGold?'Gold lock · release':'Stabilizing';game.stability=clamp(game.stability+(inGold?.018:-.010)*dt/16,0,100);if(Math.random()<.006*game.cfg.noise){game.artifact=1;game.stability=clamp(game.stability-1.1,0,100);log('artifact pulse rejected by guard','warn')}}else{els.lockLabel.textContent=game.phase==='hold'?'Hold to stabilize':'Choose card'}
+      if(!game||game.paused||game.finished)return;game.time-=dt/1000;if(game.time<=0){finish();return}const spd=.42*game.cfg.speed;game.needle+=game.needleDir*spd*dt/1000;if(game.needle>1){game.needle=1;game.needleDir=-1}if(game.needle<0){game.needle=0;game.needleDir=1}els.needle.style.left=(game.needle*100)+'%';
+      if(game.holding){game.holds+=dt;const inGold=game.needle>=GOLD_MIN&&game.needle<=GOLD_MAX;els.lockLabel.textContent=inGold?'Gold lock · release':'Stabilizing';game.stability=clamp(game.stability+(inGold?.018:-.010)*dt/16,0,100);if(rand()<.006*game.cfg.noise){game.artifact=1;game.stability=clamp(game.stability-1.1,0,100);log('artifact pulse rejected by guard','warn')}}else{els.lockLabel.textContent=game.phase==='hold'?'Hold to stabilize':'Choose card'}
       if(game.phase==='choose'){game.stability=clamp(game.stability-.011*dt/16,0,100)}updateHUD();
     }
     function draw(t){
@@ -527,23 +530,23 @@
       const channels=[.28,.50,.72];const colors=['rgba(125,231,255,.9)','rgba(241,199,107,.9)','rgba(199,166,255,.82)'];const noise=(game?game.cfg.noise:1);for(let c=0;c<3;c++){ctx.beginPath();ctx.lineWidth=2;ctx.strokeStyle=colors[c];for(let x=0;x<w;x++){const p=(x/w)*Math.PI*8;const base=Math.sin(p+t/520+c*1.7)*24+Math.sin(p*2.7+t/740+c)*9;const jitter=Math.sin(x*.083+t/90+c)*5*noise;const artifact=(game&&game.artifact&&x>w*.53&&x<w*.57)?(c===1?-96:72):0;const y=h*channels[c]+base+jitter+artifact;if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()}
       if(game){game.artifact=Math.max(0,game.artifact-.025);ctx.fillStyle='rgba(241,199,107,.08)';ctx.fillRect(w*GOLD_MIN,0,w*(GOLD_MAX-GOLD_MIN),h);ctx.fillStyle='rgba(255,255,255,.72)';ctx.font='22px ui-monospace,monospace';ctx.fillText(`synthetic-signal · local-only · v${VERSION}`,24,40);ctx.fillStyle='rgba(147,164,187,.9)';ctx.font='18px ui-monospace,monospace';ctx.fillText(`phase=${game.phase} score=${Math.round(game.score)} leaks=${game.leaks} stability=${Math.round(game.stability)}%`,24,h-30)}
     }
-    function loop(){const t=now();const dt=Math.min(50,t-lastTick);lastTick=t;tick(dt);draw(t);raf=requestAnimationFrame(loop)}
-    function pointerDown(e){if(!game||game.paused||game.phase!=='hold')return;e.preventDefault();game.holding=true;game.holdStart=now();els.holdPad.classList.add('holding');els.holdTitle.textContent='Stabilizing';els.holdHint.textContent='Release inside gold.'}
-    function pointerUp(e){if(!game||game.paused||game.phase!=='hold'||!game.holding)return;e.preventDefault();game.holding=false;els.holdPad.classList.remove('holding');const held=now()-game.holdStart;const inGold=game.needle>=GOLD_MIN&&game.needle<=GOLD_MAX;if(inGold&&held>260){game.score+=450+Math.round(held/10);game.stability=clamp(game.stability+5,0,100);beep('gold');showCards()}else{game.combo=0;game.stability=clamp(game.stability-8,0,100);game.score=Math.max(0,game.score-120);els.coachText.innerHTML='<b>Coach:</b> wait for gold.<br>A clean lock is worth more than panic speed.';log('lock rejected: release outside gold band','bad');beep('bad');updateHUD();els.holdTitle.textContent='Hold signal';els.holdHint.textContent='Try again: release in gold.'}}
-    function pause(){if(!game)return;game.paused=true;els.pauseModal.classList.add('active');log('runtime paused','warn')}
-    function resume(){if(!game)return;game.paused=false;els.pauseModal.classList.remove('active');lastTick=now();log('runtime resumed','ok')}
+    function loop(){if(!game||game.finished)return;const t=now();const dt=Math.min(50,t-lastTick);lastTick=t;tick(dt);if(!game||game.finished)return;draw(t);raf=requestAnimationFrame(loop)}
+    function pointerDown(e){if(!game||game.finished||game.paused||game.phase!=='hold'||game.holding)return;e.preventDefault();try{els.holdPad.setPointerCapture&&els.holdPad.setPointerCapture(e.pointerId)}catch{}game.holding=true;game.holdStart=now();els.holdPad.classList.add('holding');els.holdTitle.textContent='Stabilizing';els.holdHint.textContent='Release inside gold.'}
+    function pointerUp(e){if(!game||game.finished||game.paused||game.phase!=='hold'||!game.holding)return;e.preventDefault();try{els.holdPad.releasePointerCapture&&els.holdPad.releasePointerCapture(e.pointerId)}catch{}game.holding=false;els.holdPad.classList.remove('holding');const held=now()-game.holdStart;const inGold=game.needle>=GOLD_MIN&&game.needle<=GOLD_MAX;if(inGold&&held>260){game.score+=450+Math.round(held/10);game.stability=clamp(game.stability+5,0,100);beep('gold');showCards()}else{game.combo=0;game.stability=clamp(game.stability-8,0,100);game.score=Math.max(0,game.score-120);els.coachText.innerHTML='<b>Coach:</b> wait for gold.<br>A clean lock is worth more than panic speed.';log('lock rejected: release outside gold band','bad');beep('bad');updateHUD();els.holdTitle.textContent='Hold signal';els.holdHint.textContent='Try again: release in gold.'}}
+    function pause(){if(!game||game.finished||game.paused)return;game.paused=true;els.pauseModal.classList.add('active');log('runtime paused','warn')}
+    function resume(){if(!game||game.finished)return;game.paused=false;els.pauseModal.classList.remove('active');lastTick=now();log('runtime resumed','ok')}
     function abort(){game=null;cancelAnimationFrame(raf);els.pauseModal.classList.remove('active');show('home');renderHome()}
     function resultText(){if(!game)return'';return `I became the Brain OS: ${els.gradeText.textContent}-grade · ${els.scoreResult.textContent} pts · ${els.leaksResult.textContent} leaks · ${els.latencyResult.textContent} avg latency · AxonOS Evolver v${VERSION} · https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/`}
-    async function copy(text){try{await navigator.clipboard.writeText(text);toast('Copied')}catch{toast('Copy failed')}}
+    async function copy(text){try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);toast('Copied');return}throw new Error('clipboard unavailable')}catch{try{const ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Copied')}catch{toast('Copy failed')}}}
     function downloadCard(){
-      const c=els.shareCanvas,ctx=shareCtx;ctx.clearRect(0,0,c.width,c.height);const g=ctx.createLinearGradient(0,0,c.width,c.height);g.addColorStop(0,'#050509');g.addColorStop(.5,'#111827');g.addColorStop(1,'#050509');ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle='rgba(241,199,107,.55)';ctx.lineWidth=4;ctx.strokeRect(42,42,c.width-84,c.height-84);ctx.fillStyle='#f1c76b';ctx.font='44px ui-sans-serif,system-ui';ctx.fillText('AXONOS · BECOME THE BRAIN OS',80,130);ctx.fillStyle='#ffffff';ctx.font='bold 106px ui-sans-serif,system-ui';ctx.fillText(`${els.gradeText.textContent}-GRADE`,80,300);ctx.font='bold 78px ui-sans-serif,system-ui';ctx.fillText(`${els.scoreResult.textContent} POINTS`,80,405);ctx.fillStyle='#cbd7ea';ctx.font='38px ui-sans-serif,system-ui';ctx.fillText(`${els.leaksResult.textContent} leaks · ${els.latencyResult.textContent} avg latency · ${els.stabilityResult.textContent} stability`,80,500);ctx.fillStyle='#7de7ff';ctx.font='32px ui-sans-serif,system-ui';ctx.fillText(`AxonOS Evolver v${VERSION} · local-only · reads no neural data`,80,760);const a=document.createElement('a');a.download='axonos-v935-share-card.png';a.href=c.toDataURL('image/png');a.click();toast('Card downloaded')
+      const c=els.shareCanvas,ctx=shareCtx;ctx.clearRect(0,0,c.width,c.height);const g=ctx.createLinearGradient(0,0,c.width,c.height);g.addColorStop(0,'#050509');g.addColorStop(.5,'#111827');g.addColorStop(1,'#050509');ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle='rgba(241,199,107,.55)';ctx.lineWidth=4;ctx.strokeRect(42,42,c.width-84,c.height-84);ctx.fillStyle='#f1c76b';ctx.font='44px ui-sans-serif,system-ui';ctx.fillText('AXONOS · BECOME THE BRAIN OS',80,130);ctx.fillStyle='#ffffff';ctx.font='bold 106px ui-sans-serif,system-ui';ctx.fillText(`${els.gradeText.textContent}-GRADE`,80,300);ctx.font='bold 78px ui-sans-serif,system-ui';ctx.fillText(`${els.scoreResult.textContent} POINTS`,80,405);ctx.fillStyle='#cbd7ea';ctx.font='38px ui-sans-serif,system-ui';ctx.fillText(`${els.leaksResult.textContent} leaks · ${els.latencyResult.textContent} avg latency · ${els.stabilityResult.textContent} stability`,80,500);ctx.fillStyle='#7de7ff';ctx.font='32px ui-sans-serif,system-ui';ctx.fillText(`AxonOS Evolver v${VERSION} · local-only · reads no neural data`,80,760);const a=document.createElement('a');a.download=SHARE_FILE;a.href=c.toDataURL('image/png');a.click();toast('Card downloaded')
     }
     function bind(){
       els.startBtn.addEventListener('click',()=>start(selectedMode));els.dailyBtn.addEventListener('click',()=>start('daily'));els.howBtn.addEventListener('click',()=>show('how'));els.howStartBtn.addEventListener('click',()=>start(selectedMode));els.howCloseBtn.addEventListener('click',()=>show('home'));els.brandHome.addEventListener('click',e=>{e.preventDefault();abort()});
       els.soundBtn.addEventListener('click',()=>{settings.sound=!settings.sound;saveJSON('settings',settings);renderHome();if(settings.sound)beep('gold')});els.motionBtn.addEventListener('click',()=>{settings.motion=!settings.motion;saveJSON('settings',settings);renderHome()});
       els.holdPad.addEventListener('pointerdown',pointerDown);window.addEventListener('pointerup',pointerUp);window.addEventListener('pointercancel',pointerUp);window.addEventListener('keydown',e=>{if(e.code==='Space'){if(!game)return;e.preventDefault();if(!game.holding)pointerDown(e)}if(e.key==='Escape'&&game)pause()});window.addEventListener('keyup',e=>{if(e.code==='Space')pointerUp(e)});
-      els.pauseBtn.addEventListener('click',pause);els.abortBtn.addEventListener('click',abort);els.resumeBtn.addEventListener('click',resume);els.abortFromModalBtn.addEventListener('click',abort);els.retryBtn.addEventListener('click',()=>start(selectedMode));els.homeBtn.addEventListener('click',()=>{game=null;show('home');renderHome()});els.copyBtn.addEventListener('click',()=>copy(resultText()));els.challengeBtn.addEventListener('click',()=>copy(`v935-${selectedMode}-${dayKey()}-${(game?.seed??0).toString(36)}`));els.downloadBtn.addEventListener('click',downloadCard);
-      document.addEventListener('visibilitychange',()=>{if(document.hidden&&game&&!game.paused)pause()});
+      els.pauseBtn.addEventListener('click',pause);els.abortBtn.addEventListener('click',abort);els.resumeBtn.addEventListener('click',resume);els.abortFromModalBtn.addEventListener('click',abort);els.retryBtn.addEventListener('click',()=>start(game?.mode||selectedMode));els.homeBtn.addEventListener('click',()=>{cancelAnimationFrame(raf);game=null;show('home');renderHome()});els.copyBtn.addEventListener('click',()=>copy(resultText()));els.challengeBtn.addEventListener('click',()=>copy(`v936-${game?.mode||selectedMode}-${dayKey()}-${(game?.seed??0).toString(36)}`));els.downloadBtn.addEventListener('click',downloadCard);
+      document.addEventListener('visibilitychange',()=>{if(document.hidden&&game&&!game.finished&&!game.paused)pause()});
     }
     bind();renderHome();draw(now());
   })();

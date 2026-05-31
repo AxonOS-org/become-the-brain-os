@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   validate:
-    name: Validate Become the Brain OS Evolver
+    name: Validate Become the Brain OS Evolver v9.3.6
     runs-on: ubuntu-latest
 
     steps:
@@ -34,42 +34,9 @@ jobs:
           test -f evolver-evolution-version/index.html
           test -f evolver-evolution-version/README.md
           test -f evolver-evolution-version/VERSION
+          test -f scripts/validate_v9_3_6.py
           echo "required files ok"
 
-      - name: Validate v9.3.5 version markers
+      - name: Validate package
         run: |
-          grep -q "v9.3.5" README.md
-          grep -q "v9.3.5" evolver-evolution-version/index.html
-          grep -q "v9.3.5" evolver-evolution-version/README.md
-          grep -q "v9.3.5" evolver-evolution-version/VERSION
-          echo "v9.3.5 markers ok"
-
-      - name: Reject stale public version markers
-        run: |
-          ! grep -R "v7.1.5" README.md evolver-evolution-version || exit 1
-          ! grep -R "v9.3.2" README.md evolver-evolution-version || exit 1
-          echo "no stale public version markers"
-
-      - name: Syntax-check Evolver inline JavaScript
-        run: |
-          mkdir -p .ci-tmp
-
-          node - <<'NODE'
-          const fs = require('fs');
-
-          const path = 'evolver-evolution-version/index.html';
-          const html = fs.readFileSync(path, 'utf8');
-
-          const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)]
-            .map(m => m[1])
-            .filter(s => s.trim().length > 0);
-
-          if (!scripts.length) {
-            console.error(`no inline script found in ${path}`);
-            process.exit(1);
-          }
-
-          fs.writeFileSync('.ci-tmp/evolver-inline.js', scripts.join('\n\n'));
-          NODE
-
-          node --check .ci-tmp/evolver-inline.js
+          python3 scripts/validate_v9_3_6.py
