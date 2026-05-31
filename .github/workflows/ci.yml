@@ -13,20 +13,15 @@ permissions:
 
 jobs:
   validate:
-    name: Validate AxonOS Evolver v12.5.1
+    name: Validate AxonOS Evolver v12.7.4
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-
       - name: Validate package
-        run: |
-          python3 scripts/validate_v12_5_1.py
+        run: python3 scripts/validate_v12_7_4.py

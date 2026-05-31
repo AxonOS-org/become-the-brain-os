@@ -2,363 +2,130 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#050509" />
-  <meta name="description" content="Become the Brain OS: Evolver v12.5.1 — a local-only educational browser game about signal stabilization, consent, neural permissions, and privacy-first BCI operating systems." />
-  <title>Become the Brain OS: Evolver · AxonOS v12.5.1</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#05060a" />
+  <title>Become the Brain OS: Evolver · AxonOS v12.7.4</title>
+  <meta name="description" content="A local-only educational game about AxonOS: the cognitive OS layer between neural hardware and AI. No backend, no analytics, no neural data." />
   <style>
     :root{
-      color-scheme:dark;
-      --bg:#050509;
-      --panel:#0b0d13;
-      --panel2:#111520;
-      --line:rgba(180,196,255,.16);
-      --line2:rgba(180,196,255,.28);
-      --text:#eef3ff;
-      --muted:#94a3b8;
-      --soft:#cbd5e1;
-      --blue:#65a9ff;
-      --cyan:#58f0ff;
-      --gold:#f3cf74;
-      --green:#4ade80;
-      --red:#fb7185;
-      --amber:#fbbf24;
-      --shadow:0 24px 80px rgba(0,0,0,.55);
-      --radius:24px;
-      --pad:clamp(14px,2.6vw,28px);
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      --bg:#05060a; --panel:#0b0f18; --panel2:#101827; --ink:#eef4ff; --muted:#8fa0b8; --line:#223047;
+      --blue:#7db7ff; --cyan:#67e8f9; --green:#63f2a6; --gold:#f7d774; --red:#ff7a90; --violet:#c4b5fd;
+      --shadow:0 22px 80px rgba(0,0,0,.42); --radius:24px;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);overflow-x:hidden}
-    body{background:
-      radial-gradient(1000px 680px at 20% -10%,rgba(101,169,255,.16),transparent 60%),
-      radial-gradient(900px 620px at 100% 0%,rgba(88,240,255,.10),transparent 58%),
-      linear-gradient(180deg,#050509 0%,#080a11 55%,#050509 100%);}
-    button,input,select{font:inherit}
-    button{touch-action:manipulation}
-    a{color:var(--cyan);text-decoration:none}
-    .wrap{width:min(1160px,100%);margin:0 auto;padding:var(--pad)}
-    .topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(18px);background:rgba(5,5,9,.76);border-bottom:1px solid var(--line)}
-    .topbar .inner{width:min(1160px,100%);margin:0 auto;padding:10px var(--pad);display:flex;gap:12px;align-items:center;justify-content:space-between}
-    .brand{display:flex;gap:12px;align-items:center;min-width:0}
-    .sigil{width:38px;height:38px;border-radius:14px;border:1px solid var(--line2);background:linear-gradient(135deg,rgba(101,169,255,.22),rgba(88,240,255,.08));display:grid;place-items:center;box-shadow:inset 0 0 26px rgba(101,169,255,.14)}
-    .sigil span{width:12px;height:12px;border-radius:50%;border:2px solid var(--cyan);box-shadow:0 0 24px rgba(88,240,255,.9)}
-    .brand strong{display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .brand small{display:block;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .metrics{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-    .pill{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:999px;padding:7px 10px;color:var(--soft);font-size:12px;white-space:nowrap}
-    .hero{min-height:calc(100svh - 62px);display:grid;align-items:center;padding:40px 0}
-    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:stretch}
-    .card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(17,21,32,.86),rgba(8,10,17,.92));border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(18px,3vw,34px)}
-    .eyebrow{color:var(--cyan);text-transform:uppercase;letter-spacing:.2em;font-weight:800;font-size:12px;margin:0 0 14px}
-    h1{font-size:clamp(38px,7vw,82px);line-height:.92;letter-spacing:-.065em;margin:0 0 18px}
-    h2{font-size:clamp(24px,4vw,42px);line-height:1;letter-spacing:-.04em;margin:0 0 14px}
-    h3{margin:0 0 10px;font-size:18px;letter-spacing:-.02em}
-    p{color:var(--soft);line-height:1.62;margin:0 0 16px}
-    .lead{font-size:clamp(16px,2vw,21px);color:#dce8ff;max-width:760px}
-    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
-    .btn{border:1px solid var(--line2);border-radius:16px;padding:13px 18px;min-height:48px;color:var(--text);background:rgba(255,255,255,.052);cursor:pointer;display:inline-flex;gap:9px;align-items:center;justify-content:center;transition:transform .16s ease,border-color .16s ease,background .16s ease;user-select:none}
-    .btn:hover{transform:translateY(-1px);border-color:rgba(88,240,255,.55);background:rgba(101,169,255,.12)}
-    .btn:active{transform:translateY(0)}
-    .btn:disabled,.btn.is-disabled{opacity:.46;cursor:not-allowed;transform:none;filter:saturate(.65)}
-    .btn.primary{background:linear-gradient(135deg,#1b5fd8,#0c8db3);border-color:rgba(88,240,255,.55);box-shadow:0 18px 50px rgba(14,116,180,.22)}
-    .btn.gold{background:linear-gradient(135deg,rgba(243,207,116,.22),rgba(101,169,255,.08));border-color:rgba(243,207,116,.45)}
-    .btn.ghost{background:rgba(255,255,255,.025)}
-    .modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
-    .mode{border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.035);cursor:pointer;min-height:96px;text-align:left;color:var(--text)}
-    .mode.active{border-color:rgba(88,240,255,.72);background:rgba(88,240,255,.08);box-shadow:inset 0 0 0 1px rgba(88,240,255,.12)}
-    .mode b{display:block;margin-bottom:6px}.mode span{display:block;color:var(--muted);font-size:13px;line-height:1.35}
-    .learn{display:grid;gap:12px}.learnItem{border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.03)}
-    .learnItem b{display:block;color:var(--text);margin-bottom:4px}.learnItem span{color:var(--muted);font-size:13px;line-height:1.45}
-    [data-screen]{display:none}.screen-on{display:block}
-    .play{padding:18px 0 40px}.playGrid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:18px;align-items:start}
-    .playPanel{border:1px solid var(--line);border-radius:24px;background:linear-gradient(180deg,rgba(17,21,32,.88),rgba(6,8,13,.96));box-shadow:var(--shadow);overflow:hidden}
-    .playHead{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}
-    .playHead h2{font-size:clamp(22px,4vw,36px);margin:0}.playHead p{margin:6px 0 0;color:var(--muted);font-size:14px}
-    .hud{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;min-width:min(100%,560px)}
-    .hudBox{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:14px;padding:9px 10px;text-align:center;min-height:54px}.hudBox span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.1em}.hudBox b{display:block;font-size:17px;margin-top:3px}
-    .stage{padding:18px;display:grid;gap:16px}
-    .coach{border:1px solid rgba(88,240,255,.22);background:rgba(88,240,255,.055);border-radius:18px;padding:14px;color:#dffbff;min-height:76px;display:flex;gap:12px;align-items:flex-start}.coach:before{content:"OS";font-size:11px;font-weight:900;letter-spacing:.1em;color:#061018;background:var(--cyan);border-radius:999px;padding:4px 7px;flex:0 0 auto}.coach strong{color:#fff}.coach p{margin:0;color:#dffbff;line-height:1.45}
-    .signal{border:1px solid var(--line);border-radius:22px;padding:18px;background:radial-gradient(500px 180px at 50% 0,rgba(101,169,255,.12),transparent 70%),rgba(255,255,255,.025)}
-    .track{height:48px;border-radius:999px;border:1px solid var(--line);background:linear-gradient(90deg,rgba(251,113,133,.12),rgba(243,207,116,.18) 42%,rgba(243,207,116,.36) 50%,rgba(243,207,116,.18) 58%,rgba(101,169,255,.12));position:relative;overflow:hidden}.goldBand{position:absolute;left:42%;width:16%;top:0;bottom:0;background:linear-gradient(90deg,transparent,rgba(243,207,116,.55),transparent);border-left:1px solid rgba(243,207,116,.8);border-right:1px solid rgba(243,207,116,.8)}.needle{position:absolute;top:4px;bottom:4px;width:5px;border-radius:99px;background:#fff;box-shadow:0 0 22px rgba(255,255,255,.9),0 0 34px rgba(88,240,255,.7);left:50%;transform:translateX(-50%)}
-    .signalMeta{display:flex;justify-content:space-between;gap:12px;margin-top:11px;color:var(--muted);font-size:13px;flex-wrap:wrap}.holdRow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px}.holdBtn{flex:1 1 260px;min-height:66px;border-radius:20px;font-size:18px;font-weight:900;letter-spacing:.01em}.hint{color:var(--muted);font-size:13px;line-height:1.42;flex:1 1 220px}.lockOk{color:var(--green)}.lockPartial{color:var(--amber)}.lockBad{color:var(--red)}
-    .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;min-height:154px}.choice{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:18px;padding:14px;min-height:150px;text-align:left;color:var(--text);cursor:pointer;display:flex;flex-direction:column;gap:8px;transition:transform .16s ease,border-color .16s ease,background .16s ease}.choice:hover{transform:translateY(-1px);border-color:rgba(88,240,255,.52);background:rgba(88,240,255,.06)}.choice:disabled{cursor:not-allowed;opacity:.76;transform:none}.choice .tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);font-weight:900}.choice b{font-size:16px}.choice span{font-size:13px;color:var(--muted);line-height:1.38}.choice.correct{border-color:rgba(74,222,128,.8);background:rgba(74,222,128,.09)}.choice.wrong{border-color:rgba(251,113,133,.8);background:rgba(251,113,133,.08)}.choice.fallback{border-color:rgba(243,207,116,.75);background:rgba(243,207,116,.08)}
-    .side{display:grid;gap:14px}.side .card{padding:18px}.progressList{display:grid;gap:8px}.nodeLine{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:13px}.dot{width:11px;height:11px;border-radius:50%;border:1px solid var(--line2);background:rgba(255,255,255,.06);flex:0 0 auto}.dot.done{background:var(--green);border-color:var(--green)}.dot.now{background:var(--gold);border-color:var(--gold);box-shadow:0 0 18px rgba(243,207,116,.45)}.dot.leak{background:var(--red);border-color:var(--red)}
-    .resultGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0}.resultMetric{border:1px solid var(--line);border-radius:18px;padding:14px;text-align:center;background:rgba(255,255,255,.035)}.resultMetric span{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.1em}.resultMetric b{display:block;font-size:clamp(22px,4vw,36px);margin-top:5px}.route{border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.025);color:var(--soft);font-size:14px;line-height:1.55;white-space:pre-wrap}.toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,24px);opacity:0;pointer-events:none;border:1px solid var(--line2);background:rgba(8,10,17,.92);border-radius:999px;padding:10px 14px;color:var(--text);z-index:90;transition:.2s ease}.toast.on{opacity:1;transform:translate(-50%,0)}
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(12px);z-index:80;display:none;align-items:center;justify-content:center;padding:18px}.modal.on{display:flex}.modal .card{width:min(560px,100%)}
-    :focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
-    @media(max-width:860px){.grid,.playGrid{grid-template-columns:1fr}.hero{min-height:auto;padding:26px 0}.hud{grid-template-columns:repeat(3,minmax(0,1fr));min-width:0}.cards{grid-template-columns:1fr;min-height:0}.choice{min-height:96px}.topbar .inner{align-items:flex-start}.metrics{max-width:52%;gap:6px}.pill{font-size:11px;padding:6px 8px}.modes{grid-template-columns:1fr}.resultGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media(max-width:520px){.wrap{padding:14px}.brand small{display:none}.metrics{display:none}.playHead{padding:14px}.stage{padding:14px}.hud{grid-template-columns:repeat(2,minmax(0,1fr))}.btn{width:100%}.actions{gap:10px}.holdRow{display:grid}.holdBtn{width:100%;flex-basis:auto}.signal{padding:14px}.track{height:42px}.resultGrid{grid-template-columns:1fr}}
-    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.btn:hover,.choice:hover{transform:none}}
+    *{box-sizing:border-box} html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;background:
+      radial-gradient(900px 700px at 15% -10%,rgba(125,183,255,.18),transparent 62%),
+      radial-gradient(700px 500px at 95% 15%,rgba(99,242,166,.09),transparent 62%),
+      linear-gradient(180deg,#060811,#05060a 55%,#030408);z-index:-2}
+    body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:36px 36px;z-index:-1}
+    a{color:var(--cyan)} button{font:inherit;color:inherit} .wrap{width:min(1180px,100%);margin:0 auto;padding:18px;min-height:100dvh;display:flex;flex-direction:column;gap:16px}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px}.brand{display:flex;align-items:center;gap:12px;min-width:0}.mark{width:38px;height:38px;border-radius:14px;background:linear-gradient(135deg,#ffffff,#7db7ff 42%,#0a4a8f);box-shadow:0 0 32px rgba(125,183,255,.32)}
+    .brand h1{font-size:15px;letter-spacing:.16em;text-transform:uppercase;margin:0;white-space:nowrap}.brand small{display:block;color:var(--muted);letter-spacing:.08em;font-size:11px;margin-top:2px}.build{border:1px solid var(--line);border-radius:999px;padding:8px 11px;color:#b6c6dd;background:rgba(255,255,255,.035);font-size:12px;white-space:nowrap}
+    .screen{display:none}.screen.active{display:block}.hero{display:grid;grid-template-columns:1.08fr .92fr;gap:18px;align-items:stretch;min-height:calc(100dvh - 100px)}
+    .card,.panel{border:1px solid rgba(143,160,184,.22);background:linear-gradient(180deg,rgba(16,24,39,.92),rgba(8,12,20,.9));border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.pad{padding:22px}.hero h2{font-size:clamp(35px,7vw,82px);line-height:.9;letter-spacing:-.07em;margin:0 0 18px}.lead{color:#c6d4e8;font-size:clamp(16px,2.6vw,22px);line-height:1.45;max-width:760px}.pillrow{display:flex;flex-wrap:wrap;gap:9px;margin:22px 0}.pill{border:1px solid var(--line);border-radius:999px;padding:8px 10px;color:#c8d6e8;background:rgba(255,255,255,.035);font-size:12px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .btn{border:1px solid var(--line);border-radius:16px;background:#101827;padding:13px 15px;min-height:48px;cursor:pointer;transition:transform .12s ease,border-color .12s ease,background .12s ease;touch-action:manipulation}.btn:hover{transform:translateY(-1px);border-color:#36506f}.btn:focus-visible,.choice:focus-visible,.hold:focus-visible{outline:3px solid rgba(103,232,249,.5);outline-offset:3px}.primary{background:linear-gradient(135deg,#0a4a8f,#0d7a5f);border-color:#3aa6ff}.ghost{background:rgba(255,255,255,.045)}
+    .modegrid{display:grid;grid-template-columns:1fr;gap:10px}.mode{padding:15px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.035);cursor:pointer;text-align:left}.mode b{display:block;margin-bottom:4px}.mode span{color:var(--muted);font-size:13px;line-height:1.35}.mode:hover{border-color:#4770a5;background:rgba(125,183,255,.08)}
+    .hud{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.stat{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:18px;padding:12px}.stat small{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.12em}.stat strong{display:block;font-size:24px;margin-top:4px}.playgrid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;align-items:start}.mission{min-height:520px}.phase{color:var(--cyan);letter-spacing:.14em;text-transform:uppercase;font-size:12px;margin-bottom:10px}.prompt{font-size:clamp(22px,4vw,42px);line-height:1.05;letter-spacing:-.04em;margin:0 0 12px}.sub{color:#b7c6d9;line-height:1.5;margin:0 0 16px}.meter{height:22px;border:1px solid var(--line);border-radius:999px;background:#070a11;position:relative;overflow:hidden;margin:16px 0}.gold{position:absolute;left:46%;width:25%;top:0;bottom:0;background:linear-gradient(90deg,rgba(247,215,116,.1),rgba(247,215,116,.55),rgba(247,215,116,.1))}.needle{position:absolute;top:-6px;width:4px;height:34px;border-radius:999px;background:#fff;left:0;box-shadow:0 0 20px rgba(255,255,255,.8)}.meterlabel{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.hold{width:100%;border:1px solid rgba(125,183,255,.36);border-radius:22px;padding:22px;min-height:104px;background:linear-gradient(135deg,rgba(10,74,143,.4),rgba(13,122,95,.22));cursor:pointer;touch-action:none;user-select:none;text-align:center}.hold[disabled]{opacity:.52;cursor:not-allowed;filter:saturate(.65)}.hold b{display:block;font-size:19px}.hold span{display:block;color:#cbd8ea;margin-top:5px}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}.choice{min-height:84px;text-align:left;border:1px solid var(--line);border-radius:18px;background:#0d1421;padding:14px;cursor:pointer}.choice[disabled]{cursor:not-allowed;opacity:.72}.choice.safe{border-color:rgba(99,242,166,.65);background:rgba(99,242,166,.08)}.choice.leak{border-color:rgba(255,122,144,.7);background:rgba(255,122,144,.08)}.choice.missed{border-color:rgba(247,215,116,.7);background:rgba(247,215,116,.08)}.feedback{min-height:58px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.035);padding:12px;color:#d4e2f6;margin-top:14px}.side h3{margin:0 0 10px}.list{display:grid;gap:9px}.row{display:flex;gap:9px;align-items:flex-start;color:#c7d4e8;font-size:14px}.dot{width:9px;height:9px;border-radius:50%;background:var(--green);margin-top:5px;flex:0 0 auto}.error{display:none;border:1px solid rgba(255,122,144,.55);background:rgba(255,122,144,.08);border-radius:18px;padding:14px;color:#ffd5dc}.error.show{display:block}.resultbox{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.biggrade{font-size:96px;letter-spacing:-.1em;line-height:.8;margin:0}.foot{color:var(--muted);font-size:12px;text-align:center;padding:8px 0 18px}.copy{white-space:pre-wrap;color:#d3e1f4;border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.035);min-height:80px}
+    @media(max-width:880px){.hero,.playgrid{grid-template-columns:1fr}.hero{min-height:0}.hud{grid-template-columns:repeat(2,1fr)}.hud .stat:last-child{grid-column:1/-1}.side{order:-1}.choices{grid-template-columns:1fr}.brand h1{font-size:12px}.build{font-size:11px}.wrap{padding:12px}.pad{padding:17px}.mission{min-height:0}.hero h2{font-size:48px}.resultbox{grid-template-columns:1fr}.top{align-items:flex-start}.brand small{max-width:220px;white-space:normal}.btn{width:100%}.actions{display:grid;grid-template-columns:1fr;gap:9px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="inner">
-      <div class="brand"><div class="sigil" aria-hidden="true"><span></span></div><div><strong>AxonOS // OS for the Brain</strong><small>Become the Brain OS · v12.5.1</small></div></div>
-      <div class="metrics"><span class="pill" id="bestPill">Best 0</span><span class="pill" id="levelPill">Level 1</span><span class="pill">Local-only</span></div>
-    </div>
-  </header>
+  <noscript><div style="padding:24px;color:white;background:#05060a">AxonOS Evolver requires JavaScript. No backend, no analytics, no neural data.</div></noscript>
+  <div class="wrap">
+    <header class="top"><div class="brand"><div class="mark" aria-hidden="true"></div><div><h1>AxonOS</h1><small>OS for the Brain · Become the Brain OS</small></div></div><div class="build">Build v12.7.4 · local-only</div></header>
+    <div id="bootError" class="error" role="alert"></div>
 
-  <main class="wrap">
-    <section id="home" data-screen class="hero screen-on">
-      <div class="grid">
-        <div class="card">
-          <p class="eyebrow">Major UX cleanup release</p>
-          <h1>Become the Brain OS.</h1>
-          <p class="lead">A playable AxonOS simulation: stabilize signal, capture intent, enforce neural permissions, respect consent, reject artifacts, and keep cognitive data local.</p>
-          <div class="actions"><button class="btn primary" id="startBtn">▶ Start Guided Run</button><button class="btn ghost" id="howBtn">How it works</button></div>
-          <div class="modes" id="modeGrid" aria-label="Mode selection"></div>
+    <main id="home" class="screen active">
+      <section class="hero">
+        <div class="card pad">
+          <div class="phase">Major gameplay rebuild</div>
+          <h2>Become the Brain OS.</h2>
+          <p class="lead">A playable one-thumb simulation of the operating-system layer between neural hardware and AI. Lock signal, route intent, deny raw leaks, respect consent, reject artifacts.</p>
+          <div class="pillrow"><span class="pill">No backend</span><span class="pill">No analytics</span><span class="pill">No neural data</span><span class="pill">Fail-open UI</span><span class="pill">Mobile-first</span></div>
+          <div class="actions"><button class="btn primary" data-start="guided">Start Guided Run</button><button class="btn ghost" data-start="run">Run</button><button class="btn ghost" data-start="zen">Zen</button><button class="btn ghost" id="howBtn">How it works</button></div>
         </div>
-        <div class="card">
-          <p class="eyebrow">No dead ends</p>
-          <div class="learn">
-            <div class="learnItem"><b>1. Hold</b><span>Press and hold the signal button. Release inside the gold band. A weak lock still continues the run.</span></div>
-            <div class="learnItem"><b>2. Choose</b><span>Select the safest OS action. Wrong answers show the correct route instead of killing the session.</span></div>
-            <div class="learnItem"><b>3. Finish</b><span>Score privacy, consent, artifact rejection, and low-latency routing. Results are local only.</span></div>
+        <div class="card pad">
+          <h3>Mode</h3><div class="modegrid">
+            <button class="mode" data-start="guided"><b>Guided</b><span>Recommended. Slow, clear, forgiving. Teaches each OS decision.</span></button>
+            <button class="mode" data-start="run"><b>Run</b><span>Balanced mission with timing pressure and score.</span></button>
+            <button class="mode" data-start="sprint"><b>Sprint</b><span>Fast five-node mission. No dead ends.</span></button>
+            <button class="mode" data-start="zen"><b>Zen</b><span>No hard countdown. Learn the pipeline calmly.</span></button>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
-    <section id="play" data-screen class="play">
-      <div class="playGrid">
-        <div class="playPanel">
-          <div class="playHead"><div><h2 id="nodeTitle">Signal boot</h2><p id="nodeSub">Hold to stabilize the cognitive runtime.</p></div><div class="hud"><div class="hudBox"><span>Score</span><b id="scoreHud">0</b></div><div class="hudBox"><span>Stability</span><b id="stabilityHud">100%</b></div><div class="hudBox"><span>Leaks</span><b id="leaksHud">0</b></div><div class="hudBox"><span>Combo</span><b id="comboHud">0</b></div><div class="hudBox"><span>Node</span><b id="nodeHud">1/8</b></div></div></div>
-          <div class="stage">
-            <div class="coach"><p id="coachText"><strong>Coach:</strong> hold until the needle enters gold.</p></div>
-            <div class="signal" aria-label="Signal lock minigame">
-              <div class="track"><div class="goldBand"></div><div class="needle" id="needle"></div></div>
-              <div class="signalMeta"><span id="lockText">Lock quality: waiting</span><span id="timerText">Choice timer: guided</span></div>
-              <div class="holdRow"><button class="btn gold holdBtn" id="holdBtn">Hold signal</button><div class="hint" id="phaseHint">Release inside gold. If you miss, the run continues with reduced stability.</div></div>
-            </div>
-            <div class="cards" id="cards" aria-label="OS action choices"></div>
-            <div class="actions"><button class="btn ghost" id="nextBtn" disabled>Next node</button><button class="btn ghost" id="pauseBtn">Pause</button><button class="btn ghost" id="abortBtn">Abort</button></div>
-          </div>
+    <main id="play" class="screen">
+      <section class="hud" aria-label="Run metrics">
+        <div class="stat"><small>Score</small><strong id="score">0</strong></div><div class="stat"><small>Leaks</small><strong id="leaks">0</strong></div><div class="stat"><small>Node</small><strong id="node">1/8</strong></div><div class="stat"><small>Lock</small><strong id="lock">0%</strong></div><div class="stat"><small>Time</small><strong id="time">—</strong></div>
+      </section>
+      <section class="playgrid">
+        <div class="card pad mission">
+          <div class="phase" id="phase">Signal lock</div><h2 class="prompt" id="prompt">Hold signal, then release in gold.</h2><p class="sub" id="sub">The OS needs a stable intent window before it can route safely.</p>
+          <div class="meter" aria-hidden="true"><div class="gold"></div><div class="needle" id="needle"></div></div><div class="meterlabel"><span>noise</span><span>gold lock window</span><span>drift</span></div>
+          <button id="hold" class="hold" type="button"><b>Hold to stabilize</b><span>Release inside the gold band.</span></button>
+          <div id="choices" class="choices" aria-live="polite"></div><div id="feedback" class="feedback">Start with a guided run. The game continues after mistakes.</div>
+          <div class="actions"><button class="btn ghost" id="abortBtn">Abort</button></div>
         </div>
-        <aside class="side">
-          <div class="card"><h3>Mission route</h3><div class="progressList" id="routeList"></div></div>
-          <div class="card"><h3>Architecture contract</h3><p>No raw data. No backend. No analytics. Every decision is a local simulation of an OS policy boundary.</p></div>
-        </aside>
-      </div>
-    </section>
+        <aside class="card pad side"><h3>Operating contract</h3><div class="list"><div class="row"><span class="dot"></span><span>Lock signal first. Partial locks still continue.</span></div><div class="row"><span class="dot"></span><span>Deny raw neural reads unless explicitly safe.</span></div><div class="row"><span class="dot"></span><span>Stop immediately on consent revocation.</span></div><div class="row"><span class="dot"></span><span>Reject artifact/noise instead of routing garbage.</span></div></div></aside>
+      </section>
+    </main>
 
-    <section id="result" data-screen class="hero">
-      <div class="card">
-        <p class="eyebrow">Run complete · v12.5.1</p>
-        <h2 id="resultTitle">AxonOS online</h2>
-        <p id="resultCopy" class="lead">Privacy intact. Consent respected. Cognitive state local.</p>
-        <div class="resultGrid"><div class="resultMetric"><span>Score</span><b id="finalScore">0</b></div><div class="resultMetric"><span>Grade</span><b id="finalGrade">S</b></div><div class="resultMetric"><span>Leaks</span><b id="finalLeaks">0</b></div><div class="resultMetric"><span>Stability</span><b id="finalStability">0%</b></div></div>
-        <div class="route" id="routeSummary"></div>
-        <div class="actions"><button class="btn primary" id="retryBtn">Retry</button><button class="btn ghost" id="copyBtn">Copy result</button><button class="btn ghost" id="challengeBtn">Copy challenge</button><button class="btn ghost" id="homeBtn">Home</button></div>
-      </div>
-    </section>
-  </main>
+    <main id="result" class="screen"><section class="hero"><div class="card pad"><div class="phase">Run complete</div><h2 id="resultTitle">AxonOS online.</h2><p class="lead" id="resultSub">Privacy intact. Intent routed.</p><p class="biggrade" id="grade">A</p><div class="resultbox"><div class="stat"><small>Score</small><strong id="rScore">0</strong></div><div class="stat"><small>Accuracy</small><strong id="rAcc">0%</strong></div><div class="stat"><small>Leaks</small><strong id="rLeaks">0</strong></div><div class="stat"><small>Avg lock</small><strong id="rLock">0%</strong></div></div><div class="actions"><button class="btn primary" id="retryBtn">Retry</button><button class="btn ghost" id="copyBtn">Copy result</button><button class="btn ghost" id="challengeBtn">Copy challenge</button><button class="btn ghost" id="homeBtn">Home</button></div></div><div class="card pad"><h3>Share card text</h3><div class="copy" id="shareText">Local-only. No analytics. No upload.</div></div></section></main>
 
-  <div class="modal" id="modal"><div class="card"><h2>How it works</h2><p>AxonOS is represented as a privacy-preserving cognitive operating layer. Each node asks for two actions: stabilize a synthetic signal, then choose a safe OS route.</p><p>There are no hard dead ends. Misses become stability loss, wrong routes become feedback, and timeouts fall back to safe defaults.</p><div class="actions"><button class="btn primary" id="closeModal">Run Evolver</button></div></div></div>
-  <div class="toast" id="toast">Copied</div>
+    <main id="how" class="screen"><section class="card pad"><div class="phase">How it works</div><h2 class="prompt">Architecture as gameplay.</h2><p class="lead">Each node has two simple phases. First: stabilize the synthetic signal. Second: choose the safest OS action. The goal is clarity, not punishment.</p><div class="actions"><button class="btn primary" data-start="guided">Start Guided Run</button><button class="btn ghost" id="backHomeBtn">Home</button></div></section></main>
+    <footer class="foot">The AxonOS Project · v12.7.4-evolver · local-only · no neural data</footer>
+  </div>
 
-<script>
-'use strict';
-(function(){
-const VERSION='12.5.1';
-const BUILD='v12.5.1-evolver';
-const STORE='axonos_v1251_';
-const LEGACY_STORES=[];
-const MODES={
-  guided:{name:'Guided',nodes:6,timer:0,speed:.86,desc:'Best first run. Clear feedback, no card timer.'},
-  run:{name:'Run',nodes:8,timer:14,speed:1,desc:'Balanced public build. Clean scoring.'},
-  sprint:{name:'Sprint',nodes:6,timer:8,speed:1.18,desc:'Short and sharper. Still no dead ends.'},
-  zen:{name:'Zen',nodes:5,timer:0,speed:.7,desc:'Slow showcase mode for mobile.'}
-};
-const NODES=[
- {title:'Signal Boot',sub:'Initialize local cognitive runtime.',kind:'signal',good:'Stabilize',goodDesc:'Hold until the synthetic signal is usable.',bad:['Rush raw signal','Skip calibration'],coach:'First, stabilize the signal. Release inside gold for a strong lock.'},
- {title:'Intent Capture',sub:'Use derived intent, not raw neural data.',kind:'intent',good:'Use derived intent',goodDesc:'Route only the abstract intent class.',bad:['Stream raw EEG','Store raw thought'],coach:'AxonOS exposes intent, not raw neural streams.'},
- {title:'Privacy Vault',sub:'A request asks for raw cognitive state.',kind:'privacy',good:'Deny raw access',goodDesc:'Keep raw cognitive data sealed.',bad:['Permit raw stream','Export brain data'],coach:'When raw access appears, deny it. Safe systems refuse unnecessary data.'},
- {title:'Consent Gate',sub:'The user revokes consent mid-flow.',kind:'consent',good:'Stop immediately',goodDesc:'Revoke capability and halt access.',bad:['Continue session','Delay revocation'],coach:'Consent revocation is immediate. No grace period.'},
- {title:'Artifact Filter',sub:'Noise is entering the inference path.',kind:'artifact',good:'Reject artifact',goodDesc:'Drop contaminated signal before routing.',bad:['Trust noise','Boost drift'],coach:'Artifacts must not contaminate intent.'},
- {title:'Agent Boundary',sub:'An AI agent asks for more context.',kind:'agent',good:'Grant minimal scope',goodDesc:'Least privilege, only derived intent.',bad:['Grant everything','Bypass vault'],coach:'Agents get minimum necessary capability.'},
- {title:'Deadline Path',sub:'Latency budget is tightening.',kind:'deadline',good:'Route fast path',goodDesc:'Preserve deterministic response.',bad:['Queue forever','Block on logging'],coach:'Real-time systems protect deadlines.'},
- {title:'Local Commit',sub:'The run wants to persist result state.',kind:'local',good:'Save local only',goodDesc:'Store score locally, send nothing.',bad:['Upload telemetry','Fingerprint player'],coach:'This demo is local-only. No telemetry.'}
-];
-const els={
- bestPill:gid('bestPill'),levelPill:gid('levelPill'),home:gid('home'),play:gid('play'),result:gid('result'),modeGrid:gid('modeGrid'),startBtn:gid('startBtn'),howBtn:gid('howBtn'),modal:gid('modal'),closeModal:gid('closeModal'),nodeTitle:gid('nodeTitle'),nodeSub:gid('nodeSub'),scoreHud:gid('scoreHud'),stabilityHud:gid('stabilityHud'),leaksHud:gid('leaksHud'),comboHud:gid('comboHud'),nodeHud:gid('nodeHud'),coachText:gid('coachText'),needle:gid('needle'),lockText:gid('lockText'),timerText:gid('timerText'),holdBtn:gid('holdBtn'),phaseHint:gid('phaseHint'),cards:gid('cards'),nextBtn:gid('nextBtn'),pauseBtn:gid('pauseBtn'),abortBtn:gid('abortBtn'),routeList:gid('routeList'),resultTitle:gid('resultTitle'),resultCopy:gid('resultCopy'),finalScore:gid('finalScore'),finalGrade:gid('finalGrade'),finalLeaks:gid('finalLeaks'),finalStability:gid('finalStability'),routeSummary:gid('routeSummary'),retryBtn:gid('retryBtn'),copyBtn:gid('copyBtn'),challengeBtn:gid('challengeBtn'),homeBtn:gid('homeBtn'),toast:gid('toast')
-};
-let selectedMode='guided';
-let state=loadState();
-let game=null;
-let toastTimer=0;
-renderHome();
-showScreen('home');
-
-function gid(id){return document.getElementById(id)}
-function now(){return performance.now()}
-function clamp(n,a,b){return Math.max(a,Math.min(b,n))}
-function saveState(){try{localStorage.setItem(STORE+'state',JSON.stringify(state))}catch(_){}}
-function loadState(){
-  try{
-    const own=localStorage.getItem(STORE+'state');
-    if(own)return normalize(JSON.parse(own));
-    for(const ns of LEGACY_STORES){
-      const raw=localStorage.getItem(ns+'state');
-      if(raw){const migrated=normalize(JSON.parse(raw));localStorage.setItem(STORE+'state',JSON.stringify(migrated));return migrated;}
-    }
-  }catch(_){ }
-  return normalize({best:0,xp:0,level:1,plays:0,history:[]});
-}
-function normalize(s){
-  s=s&&typeof s==='object'?s:{};
-  return {best:Number(s.best)||0,xp:Number(s.xp)||0,level:Number(s.level)||1,plays:Number(s.plays)||0,history:Array.isArray(s.history)?s.history.slice(0,8):[]};
-}
-function renderHome(){
-  els.bestPill.textContent='Best '+state.best;
-  els.levelPill.textContent='Level '+state.level;
-  els.modeGrid.innerHTML='';
-  Object.entries(MODES).forEach(([key,m])=>{
-    const b=document.createElement('button');b.className='mode'+(key===selectedMode?' active':'');b.type='button';b.innerHTML='<b>'+escapeHtml(m.name)+'</b><span>'+escapeHtml(m.desc)+'</span>';b.addEventListener('click',()=>{selectedMode=key;renderHome()});els.modeGrid.appendChild(b);
-  });
-}
-function showScreen(id){['home','play','result'].forEach(k=>els[k].classList.toggle('screen-on',k===id));document.body.dataset.screen=id;window.scrollTo({top:0,behavior:'instant'});}
-function newRun(modeKey){
-  cleanupRun();
-  const mode=MODES[modeKey]||MODES.guided;
-  game={id:Date.now()+Math.random(),modeKey,mode,phase:'boot',idx:0,score:0,leaks:0,combo:0,stability:100,locks:[],route:[],holding:false,holdStart:0,needle:50,raf:0,timers:new Set(),choiceDeadline:0,resultWritten:false,pointerId:null,expectedLostCapture:false,lastResult:null};
-  showScreen('play');
-  buildRoute();
-  startNode();
-}
-function cleanupRun(){
-  if(!game)return;
-  if(game.raf)cancelAnimationFrame(game.raf);
-  game.timers.forEach(t=>clearTimeout(t));
-  game.timers.clear();
-  releasePointer();
-}
-function later(fn,ms){const t=setTimeout(()=>{if(game)game.timers.delete(t);fn()},ms);game.timers.add(t);return t;}
-function currentNode(){return NODES[game.idx%NODES.length]}
-function nodesTotal(){return game.mode.nodes}
-function startNode(){
-  if(!game)return;
-  cleanupTimersOnly();
-  game.phase='hold';game.holding=false;game.pointerId=null;game.expectedLostCapture=false;game.choiceDeadline=0;
-  const n=currentNode();
-  els.nodeTitle.textContent=n.title;els.nodeSub.textContent=n.sub;els.coachText.innerHTML='<p><strong>Coach:</strong> '+escapeHtml(n.coach)+'</p>';
-  els.lockText.textContent='Lock quality: waiting';els.lockText.className='';els.timerText.textContent=game.mode.timer?'Choice timer: '+game.mode.timer+'s':'Choice timer: guided';els.phaseHint.textContent='Hold signal. Release in gold. Misses reduce stability but continue.';
-  els.cards.innerHTML='';els.nextBtn.disabled=true;setHoldEnabled(true);updateHud();buildRoute();tickNeedle();
-}
-function cleanupTimersOnly(){if(!game)return;if(game.raf){cancelAnimationFrame(game.raf);game.raf=0}game.timers.forEach(t=>clearTimeout(t));game.timers.clear();}
-function setHoldEnabled(on){els.holdBtn.disabled=!on;els.holdBtn.classList.toggle('is-disabled',!on);els.holdBtn.setAttribute('aria-disabled',on?'false':'true')}
-function tickNeedle(){
-  if(!game||game.phase!=='hold')return;
-  const t=now()/1000;
-  const amp=42;
-  const speed=game.mode.speed;
-  game.needle=50+Math.sin(t*2.2*speed+game.idx*.7)*amp;
-  game.needle=clamp(game.needle,3,97);
-  els.needle.style.left=game.needle.toFixed(2)+'%';
-  game.raf=requestAnimationFrame(tickNeedle);
-}
-function beginHold(e){
-  if(!game||game.phase!=='hold'||game.holding||els.holdBtn.disabled)return;
-  game.holding=true;game.holdStart=now();
-  if(e&&e.pointerId!==undefined){game.pointerId=e.pointerId;try{els.holdBtn.setPointerCapture(e.pointerId)}catch(_){}}
-  els.holdBtn.textContent='Release in gold';
-  els.phaseHint.textContent='Gold band is the safe lock window. Release when the needle is inside it.';
-}
-function endHold(e,forced){
-  if(!game||game.phase!=='hold'||!game.holding)return;
-  if(e&&e.pointerId!==undefined&&game.pointerId!==null&&e.pointerId!==game.pointerId)return;
-  const p=game.needle;
-  const inGold=p>=42&&p<=58;
-  const near=p>=34&&p<=66;
-  const held=now()-game.holdStart;
-  const tooShort=held<180;
-  let quality='weak';let score=25;let stabLoss=12;
-  if(inGold&&!tooShort){quality='strong';score=120;stabLoss=0}
-  else if(near&&!tooShort){quality='partial';score=70;stabLoss=4}
-  if(forced){quality='safe fallback';score=45;stabLoss=7}
-  game.score+=score;game.stability=clamp(game.stability-stabLoss,0,100);game.locks.push(quality);game.holding=false;game.phase='choose';
-  releasePointer();
-  if(game.raf){cancelAnimationFrame(game.raf);game.raf=0}
-  setHoldEnabled(false);els.holdBtn.textContent='Signal locked';
-  els.lockText.textContent='Lock quality: '+quality;els.lockText.className=quality==='strong'?'lockOk':(quality==='partial'?'lockPartial':'lockBad');
-  els.phaseHint.textContent='Choose the safest OS action. Wrong answers explain the correct route.';
-  updateHud();renderChoices();
-}
-function releasePointer(){
-  if(!game)return;
-  if(game.pointerId!==null){try{game.expectedLostCapture=true;els.holdBtn.releasePointerCapture(game.pointerId)}catch(_){}}
-  game.pointerId=null;
-}
-function renderChoices(){
-  const n=currentNode();
-  const choices=shuffle([{ok:true,label:n.good,desc:n.goodDesc,tag:'safe route'},...n.bad.map(x=>({ok:false,label:x,desc:'Unsafe or non-deterministic route.',tag:'risk'}))],game.idx+VERSION.length);
-  els.cards.innerHTML='';
-  choices.forEach(c=>{
-    const b=document.createElement('button');b.type='button';b.className='choice';b.innerHTML='<span class="tag">'+escapeHtml(c.tag)+'</span><b>'+escapeHtml(c.label)+'</b><span>'+escapeHtml(c.desc)+'</span>';b.addEventListener('click',()=>choose(c,b));els.cards.appendChild(b);
-  });
-  if(game.mode.timer){
-    const deadline=now()+game.mode.timer*1000;game.choiceDeadline=deadline;
-    const interval=setInterval(()=>{if(!game||game.phase!=='choose'||game.choiceDeadline!==deadline){clearInterval(interval);return}const rem=Math.max(0,Math.ceil((deadline-now())/1000));els.timerText.textContent='Choice timer: '+rem+'s';},250);game.timers.add(interval);
-    later(()=>{if(game&&game.phase==='choose'&&game.choiceDeadline===deadline)timeoutChoice()},game.mode.timer*1000);
-  }
-}
-function choose(c,button){
-  if(!game||game.phase!=='choose')return;
-  game.phase='resolving';lockChoices();
-  const n=currentNode();
-  if(c.ok){button.classList.add('correct');game.score+=160+(game.combo*12);game.combo+=1;game.route.push('✓ '+n.title+' — '+c.label);els.coachText.innerHTML='<p><strong>Safe route:</strong> '+escapeHtml(c.label)+'. '+escapeHtml(n.goodDesc)+'</p>'}
-  else{button.classList.add('wrong');game.combo=0;game.leaks+=isLeak(n.kind,c.label)?1:0;game.stability=clamp(game.stability-8,0,100);game.route.push('↯ '+n.title+' — corrected to '+n.good);els.coachText.innerHTML='<p><strong>Corrected route:</strong> '+escapeHtml(n.good)+'. '+escapeHtml(n.goodDesc)+'</p>';markCorrect(n.good)}
-  updateHud();els.nextBtn.disabled=false;
-  if(selectedMode!=='guided')later(nextNode,900);
-}
-function timeoutChoice(){
-  if(!game||game.phase!=='choose')return;
-  game.phase='resolving';lockChoices();
-  const n=currentNode();
-  game.score+=60;game.combo=0;game.stability=clamp(game.stability-5,0,100);game.route.push('◌ '+n.title+' — safe fallback '+n.good);els.coachText.innerHTML='<p><strong>Timeout fallback:</strong> AxonOS chooses '+escapeHtml(n.good)+' instead of leaking raw state.</p>';markCorrect(n.good,'fallback');updateHud();els.nextBtn.disabled=false;later(nextNode,900);
-}
-function lockChoices(){Array.from(els.cards.querySelectorAll('button')).forEach(b=>b.disabled=true)}
-function markCorrect(label,cls){Array.from(els.cards.querySelectorAll('button')).forEach(b=>{if(b.textContent.includes(label))b.classList.add(cls||'correct')})}
-function nextNode(){
-  if(!game||game.phase==='finished')return;
-  if(game.idx+1>=nodesTotal()){finishRun();return}
-  game.idx+=1;startNode();
-}
-function finishRun(){
-  if(!game||game.resultWritten)return;
-  cleanupTimersOnly();game.phase='finished';game.resultWritten=true;setHoldEnabled(false);lockChoices();
-  const grade=game.leaks===0&&game.stability>=88?'S':game.leaks<=1&&game.stability>=70?'A':game.leaks<=2?'B':'C';
-  const result={version:BUILD,mode:game.mode.name,score:Math.round(game.score+game.stability*3-game.leaks*120),grade,leaks:game.leaks,stability:Math.round(game.stability),route:game.route.slice(),time:new Date().toISOString()};
-  result.score=Math.max(0,result.score);game.lastResult=result;
-  state.best=Math.max(state.best,result.score);state.plays+=1;state.xp+=Math.round(result.score/8)+50;state.level=Math.max(1,Math.floor(state.xp/550)+1);state.history=[result,...state.history].slice(0,8);saveState();renderHome();renderResult(result);showScreen('result');
-}
-function renderResult(r){els.finalScore.textContent=r.score;els.finalGrade.textContent=r.grade;els.finalLeaks.textContent=r.leaks;els.finalStability.textContent=r.stability+'%';els.resultTitle.textContent=r.grade==='S'?'AxonOS online':'Run stabilized';els.resultCopy.textContent=r.leaks===0?'Privacy intact. Consent respected. Cognitive state local.':'Run completed with corrected leaks. Review the route and retry.';els.routeSummary.textContent=r.route.join('\n')||'No route recorded.';}
-function abortRun(){cleanupRun();game=null;showScreen('home');renderHome()}
-function updateHud(){if(!game)return;els.scoreHud.textContent=Math.round(game.score);els.stabilityHud.textContent=Math.round(game.stability)+'%';els.leaksHud.textContent=game.leaks;els.comboHud.textContent=game.combo;els.nodeHud.textContent=(game.idx+1)+'/'+nodesTotal()}
-function buildRoute(){if(!game)return;els.routeList.innerHTML='';for(let i=0;i<nodesTotal();i++){const n=NODES[i%NODES.length];const row=document.createElement('div');row.className='nodeLine';const dot=document.createElement('span');dot.className='dot '+(i<game.idx?'done':i===game.idx?'now':'');row.appendChild(dot);const label=document.createElement('span');label.textContent=(i+1)+'. '+n.title;row.appendChild(label);els.routeList.appendChild(row)}}
-function isLeak(kind,label){return ['privacy','consent','agent','local'].includes(kind)||/raw|everything|telemetry|fingerprint|continue|bypass/i.test(label)}
-function shuffle(arr,seed){let a=arr.slice();let x=(seed*9301+49297)%233280;for(let i=a.length-1;i>0;i--){x=(x*9301+49297)%233280;let j=x%(i+1);[a[i],a[j]]=[a[j],a[i]]}return a}
-function escapeHtml(s){return String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]))}
-async function copyText(text){try{await navigator.clipboard.writeText(text)}catch(_){const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy')}catch(_e){}ta.remove()}toast('Copied')}
-function toast(msg){clearTimeout(toastTimer);els.toast.textContent=msg;els.toast.classList.add('on');toastTimer=setTimeout(()=>els.toast.classList.remove('on'),1300)}
-function copyResult(){if(!game||!game.lastResult){toast('Finish a run first');return}copyText('Become the Brain OS '+game.lastResult.version+' · score '+game.lastResult.score+' · grade '+game.lastResult.grade+' · leaks '+game.lastResult.leaks)}
-function copyChallenge(){if(!game||!game.lastResult){toast('Finish a run first');return}copyText('AxonOS challenge '+BUILD+' · beat '+game.lastResult.score+' in '+game.lastResult.mode+' mode · https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.5.1')}
-
-els.startBtn.addEventListener('click',()=>newRun(selectedMode));
-els.howBtn.addEventListener('click',()=>els.modal.classList.add('on'));
-els.closeModal.addEventListener('click',()=>{els.modal.classList.remove('on');newRun('guided')});
-els.holdBtn.addEventListener('pointerdown',beginHold);
-els.holdBtn.addEventListener('pointerup',e=>endHold(e,false));
-els.holdBtn.addEventListener('pointercancel',e=>endHold(e,true));
-els.holdBtn.addEventListener('lostpointercapture',()=>{if(game&&!game.expectedLostCapture&&game.holding)endHold(null,true);if(game)game.expectedLostCapture=false});
-els.holdBtn.addEventListener('keydown',e=>{if(e.code==='Space'||e.code==='Enter'){e.preventDefault();beginHold(e)}});
-els.holdBtn.addEventListener('keyup',e=>{if(e.code==='Space'||e.code==='Enter'){e.preventDefault();endHold(e,false)}});
-els.nextBtn.addEventListener('click',nextNode);els.abortBtn.addEventListener('click',abortRun);els.pauseBtn.addEventListener('click',()=>toast('Pause is safe: release or abort anytime.'));
-els.retryBtn.addEventListener('click',()=>newRun(game&&game.modeKey?game.modeKey:selectedMode));els.copyBtn.addEventListener('click',copyResult);els.challengeBtn.addEventListener('click',copyChallenge);els.homeBtn.addEventListener('click',()=>{game=null;showScreen('home');renderHome()});
-window.addEventListener('blur',()=>{if(game&&game.phase==='hold'&&game.holding)endHold(null,true)});
-document.addEventListener('visibilitychange',()=>{if(document.hidden&&game&&game.phase==='hold'&&game.holding)endHold(null,true)});
-})();
-</script>
+  <script>
+  (()=>{
+    'use strict';
+    const VERSION='12.7.4';
+    const STORE='axonos_v1274_';
+    const LEGACY_STORES=['axonos_v1229_','axonos_v1210_','axonos_v9311_','axonos_v9310_','axonos_v939_','axonos_v938_'];
+    const $=(id)=>document.getElementById(id);
+    const els={bootError:$('bootError'),home:$('home'),play:$('play'),result:$('result'),how:$('how'),score:$('score'),leaks:$('leaks'),node:$('node'),lock:$('lock'),time:$('time'),phase:$('phase'),prompt:$('prompt'),sub:$('sub'),needle:$('needle'),hold:$('hold'),choices:$('choices'),feedback:$('feedback'),abortBtn:$('abortBtn'),resultTitle:$('resultTitle'),resultSub:$('resultSub'),grade:$('grade'),rScore:$('rScore'),rAcc:$('rAcc'),rLeaks:$('rLeaks'),rLock:$('rLock'),retryBtn:$('retryBtn'),copyBtn:$('copyBtn'),challengeBtn:$('challengeBtn'),homeBtn:$('homeBtn'),shareText:$('shareText'),howBtn:$('howBtn'),backHomeBtn:$('backHomeBtn')};
+    let game=null; let raf=0; let tickTimer=0; let choiceTimer=0; let transitionTimer=0; let lastResult=null;
+    const modes={guided:{nodes:8,choiceMs:9000,lockSpeed:.72,mult:1},run:{nodes:10,choiceMs:6500,lockSpeed:1,mult:1.2},sprint:{nodes:5,choiceMs:4200,lockSpeed:1.45,mult:1.45},zen:{nodes:8,choiceMs:0,lockSpeed:.62,mult:.85}};
+    const scenarios=[
+      {kind:'privacy',title:'App requests raw neural stream.',sub:'Raw signal is sensitive cognitive data.',correct:'Deny raw access',choices:['Permit raw access','Deny raw access','Upload sample','Ignore request'],why:'The OS exposes derived intent, not raw neural data.'},
+      {kind:'consent',title:'Consent is revoked mid-session.',sub:'User agency is a hard gate.',correct:'Stop immediately',choices:['Continue session','Stop immediately','Ask AI to decide','Cache signal'],why:'Consent revocation must stop the pipeline.'},
+      {kind:'artifact',title:'Signal spike looks like jaw movement.',sub:'Artifact rejection protects intent quality.',correct:'Reject artifact',choices:['Route as intent','Reject artifact','Permit raw access','Boost gain'],why:'Do not route noise as cognition.'},
+      {kind:'intent',title:'Stable derived intent appears.',sub:'The OS can route a safe abstraction.',correct:'Route derived intent',choices:['Route derived intent','Expose EEG','Bypass vault','Share trace'],why:'Derived intent is the safe application interface.'},
+      {kind:'vault',title:'Third-party agent asks for memory trace.',sub:'Neural permissions must be explicit.',correct:'Require permission',choices:['Grant silently','Require permission','Export raw trace','Disable vault'],why:'Cognitive access requires explicit permission.'},
+      {kind:'deadline',title:'Classifier misses its deadline.',sub:'Late cognition is unsafe cognition.',correct:'Use safe fallback',choices:['Use safe fallback','Wait forever','Send stale intent','Permit raw access'],why:'Real-time systems need bounded fallback behavior.'},
+      {kind:'local',title:'Score and progress need storage.',sub:'No backend is required.',correct:'Store locally',choices:['Upload profile','Store locally','Send analytics','Expose identity'],why:'Local state preserves privacy and removes server dependence.'},
+      {kind:'audit',title:'A high-risk action is requested.',sub:'Security review before execution.',correct:'Ask for audit',choices:['Execute blindly','Ask for audit','Leak debug log','Disable checks'],why:'High-risk cognitive actions need auditable control.'}
+    ];
+    function showError(err){console.error(err); if(els.bootError){els.bootError.textContent='Runtime guard: '+(err&&err.message?err.message:String(err)); els.bootError.classList.add('show')}}
+    function safe(fn){try{return fn()}catch(e){showError(e)}}
+    function show(id){['home','play','result','how'].forEach(k=>els[k].classList.toggle('active',k===id));}
+    function cleanup(){cancelAnimationFrame(raf); raf=0; clearInterval(tickTimer); tickTimer=0; clearTimeout(choiceTimer); choiceTimer=0; clearTimeout(transitionTimer); transitionTimer=0; if(game){game.pointerId=null; game.holding=false;} setHold(false)}
+    function setHold(enabled){els.hold.disabled=!enabled; els.hold.setAttribute('aria-disabled',enabled?'false':'true')}
+    function loadState(){const empty={best:0,runs:0}; try{for(const old of LEGACY_STORES){const raw=localStorage.getItem(old+'state'); if(raw&&!localStorage.getItem(STORE+'state')) localStorage.setItem(STORE+'state',raw)} const raw=localStorage.getItem(STORE+'state'); return raw?Object.assign(empty,JSON.parse(raw)):empty}catch(_){return empty}}
+    function saveState(patch){try{const s=Object.assign(loadState(),patch); localStorage.setItem(STORE+'state',JSON.stringify(s));}catch(_){}}
+    function start(mode='guided'){cleanup(); const cfg=modes[mode]||modes.guided; game={runId:Date.now()+Math.random(),mode,cfg,phase:'hold',i:0,score:0,leaks:0,correct:0,missed:0,locks:[],holding:false,pointerId:null,answered:false,remaining:cfg.choiceMs}; show('play'); nextNode();}
+    function currentScenario(){return scenarios[game.i%scenarios.length]}
+    function nextNode(){if(!game)return; cleanup(); if(game.i>=game.cfg.nodes) return finish(); game.phase='hold'; game.answered=false; const m=currentScenario(); els.node.textContent=(game.i+1)+'/'+game.cfg.nodes; els.score.textContent=game.score; els.leaks.textContent=game.leaks; els.lock.textContent='0%'; els.time.textContent=game.cfg.choiceMs?Math.ceil(game.cfg.choiceMs/1000):'—'; els.phase.textContent='Signal lock'; els.prompt.textContent=m.title; els.sub.textContent=m.sub; els.feedback.textContent='Hold, then release inside the gold band. Weak locks still continue.'; els.choices.innerHTML=''; setHold(true); animateNeedle();}
+    function animateNeedle(){const started=performance.now(); const speed=game?game.cfg.lockSpeed:1; const loop=(t)=>{if(!game||game.phase!=='hold')return; const x=(Math.sin((t-started)/650*speed-Math.PI/2)+1)/2; els.needle.style.left=(x*100).toFixed(2)+'%'; game.cursor=x; raf=requestAnimationFrame(loop)}; raf=requestAnimationFrame(loop)}
+    function beginHold(e){if(!game||game.phase!=='hold'||els.hold.disabled)return; if(e&&e.pointerId!==undefined){game.pointerId=e.pointerId; try{els.hold.setPointerCapture(e.pointerId)}catch(_){}} game.holding=true; els.feedback.textContent='Stabilizing… release when the cursor is in gold.';}
+    function endHold(e){if(!game||game.phase!=='hold'||!game.holding)return; if(e&&e.pointerId!==undefined&&game.pointerId!==null&&e.pointerId!==game.pointerId)return; game.holding=false; try{if(e&&e.pointerId!==undefined)els.hold.releasePointerCapture(e.pointerId)}catch(_){}; const x=game.cursor||0; const inGold=x>=.46&&x<=.71; const dist=inGold?0:Math.min(Math.abs(x-.46),Math.abs(x-.71)); const lock=Math.max(25,Math.round((inGold?92:(72-dist*100))*100)/100); game.locks.push(lock); game.score+=Math.round((inGold?120:55)*game.cfg.mult); els.lock.textContent=Math.round(lock)+'%'; choosePhase(inGold,lock);}
+    function cancelHold(){if(game&&game.phase==='hold'&&game.holding){game.holding=false; els.feedback.textContent='Signal interrupted. Try again; the run is not failed.';}}
+    function choosePhase(inGold,lock){if(!game)return; cancelAnimationFrame(raf); game.phase='choose'; setHold(false); const m=currentScenario(); els.phase.textContent='Route intent'; els.prompt.textContent='Choose the safest OS action.'; els.sub.textContent=m.why; els.feedback.textContent=(inGold?'Clean lock ':'Partial lock ')+Math.round(lock)+'%. Now route the request.'; renderChoices(m); if(game.cfg.choiceMs>0) startChoiceTimer(); else els.time.textContent='—';}
+    function renderChoices(m){els.choices.innerHTML=''; m.choices.forEach(label=>{const b=document.createElement('button'); b.className='choice'; b.type='button'; b.textContent=label; b.addEventListener('click',()=>answer(label,b)); els.choices.appendChild(b);});}
+    function startChoiceTimer(){clearInterval(tickTimer); clearTimeout(choiceTimer); game.remaining=game.cfg.choiceMs; const started=Date.now(); tickTimer=setInterval(()=>{if(!game||game.phase!=='choose')return; const left=Math.max(0,game.cfg.choiceMs-(Date.now()-started)); els.time.textContent=Math.ceil(left/1000);},150); choiceTimer=setTimeout(()=>timeoutChoice(),game.cfg.choiceMs+20);}
+    function lockChoices(){[...els.choices.querySelectorAll('button')].forEach(b=>b.disabled=true)}
+    function answer(label,btn){if(!game||game.phase!=='choose'||game.answered)return; game.answered=true; game.phase='resolving'; clearInterval(tickTimer); clearTimeout(choiceTimer); lockChoices(); const m=currentScenario(); const ok=label===m.correct; if(ok){game.correct++; game.score+=Math.round(180*game.cfg.mult); btn.classList.add('safe'); els.feedback.textContent='SAFE: '+m.why;}else{if(/raw|upload|expose|grant silently|disable|blindly|stale/i.test(label))game.leaks++; btn.classList.add('leak'); [...els.choices.children].forEach(c=>{if(c.textContent===m.correct)c.classList.add('safe')}); els.feedback.textContent='Correct route: '+m.correct+'. '+m.why;} updateHud(); transitionTimer=setTimeout(()=>{if(!game)return; game.i++; nextNode();},ok?900:1500);}
+    function timeoutChoice(){if(!game||game.phase!=='choose'||game.answered)return; game.answered=true; game.phase='resolving'; game.missed++; lockChoices(); const m=currentScenario(); [...els.choices.children].forEach(c=>{if(c.textContent===m.correct)c.classList.add('missed')}); els.feedback.textContent='Timeout: safe fallback selected. Correct route: '+m.correct+'.'; transitionTimer=setTimeout(()=>{if(!game)return; game.i++; nextNode();},1400);}
+    function updateHud(){els.score.textContent=game.score; els.leaks.textContent=game.leaks; els.time.textContent=game.cfg.choiceMs?Math.ceil(game.remaining/1000):'—'}
+    function finish(){if(!game)return; cleanup(); const g=game; game=null; const avg=Math.round((g.locks.reduce((a,b)=>a+b,0)/(g.locks.length||1))); const acc=Math.round(g.correct/g.cfg.nodes*100); const grade=g.leaks===0&&acc>=80?'A':g.leaks<=1&&acc>=60?'B':'C'; const score=g.score-Math.max(0,g.leaks*90); lastResult={version:VERSION,mode:g.mode,score,acc,leaks:g.leaks,avg,grade}; saveState({best:Math.max(loadState().best||0,score),runs:(loadState().runs||0)+1,last:lastResult}); show('result'); els.grade.textContent=grade; els.rScore.textContent=score; els.rAcc.textContent=acc+'%'; els.rLeaks.textContent=g.leaks; els.rLock.textContent=avg+'%'; els.resultTitle.textContent=grade==='A'?'AxonOS online.':'Run complete.'; els.resultSub.textContent=g.leaks===0?'Privacy intact. Consent respected. Intent routed.':'Leaks detected. The OS still recovered safely.'; els.shareText.textContent=shareText(lastResult);}
+    function shareText(r){return `I played Become the Brain OS: Evolver v${VERSION}\nGrade ${r.grade} · Score ${r.score} · Accuracy ${r.acc}% · Leaks ${r.leaks}\nOS for the Brain · local-only\nhttps://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=${VERSION}`}
+    async function copy(txt){try{await navigator.clipboard.writeText(txt); els.shareText.textContent='Copied.\n\n'+txt}catch(_){const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); els.shareText.textContent='Copied.\n\n'+txt}}
+    function abort(){cleanup(); game=null; show('home')}
+    function bind(){document.querySelectorAll('[data-start]').forEach(b=>b.addEventListener('click',()=>start(b.dataset.start))); els.howBtn.addEventListener('click',()=>show('how')); els.backHomeBtn.addEventListener('click',()=>show('home')); els.abortBtn.addEventListener('click',abort); els.retryBtn.addEventListener('click',()=>start(lastResult?lastResult.mode:'guided')); els.homeBtn.addEventListener('click',()=>show('home')); els.copyBtn.addEventListener('click',()=>{if(lastResult)copy(shareText(lastResult))}); els.challengeBtn.addEventListener('click',()=>{if(lastResult)copy(`AXONOS-CHALLENGE v1274 mode=${lastResult.mode} score=${lastResult.score}`)}); els.hold.addEventListener('pointerdown',beginHold); els.hold.addEventListener('pointerup',endHold); els.hold.addEventListener('pointercancel',cancelHold); els.hold.addEventListener('lostpointercapture',cancelHold); window.addEventListener('blur',cancelHold); document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelHold()}); document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat&&game&&game.phase==='hold'){e.preventDefault(); beginHold(e)}}); document.addEventListener('keyup',e=>{if(e.code==='Space'&&game&&game.phase==='hold'){e.preventDefault(); endHold(e)}});}
+    safe(()=>{bind(); loadState(); setHold(false); show('home')});
+  })();
+  </script>
 </body>
 </html>

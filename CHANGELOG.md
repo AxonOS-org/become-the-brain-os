@@ -1,14 +1,10 @@
 # Changelog
 
-## v12.5.1-evolver
+## v12.7.4-evolver
 
-Cleanup and bugfix release focused on playable UX.
-
-- Replaced fragile runtime with a simpler explicit lifecycle.
-- Removed hard-dead-end gameplay.
-- Fixed hold/release input ownership.
-- Added safe fallback on timeout/blur/cancel.
-- Added stable mobile layout and tap targets.
-- Rebuilt CI as valid multi-line YAML.
-- Added clean validator and release scripts.
-- Synchronized all version surfaces to `v12.5.1-evolver`.
+- Emergency black-screen prevention release.
+- Rebuilt runtime with fail-open visible UI.
+- Added boot error panel instead of blank screen on JS failure.
+- Rebuilt gameplay as guided, forgiving loop.
+- Repaired pointer, keyboard, timeout, abort, result, copy and persistence paths.
+- Rebuilt CI as multiline YAML.

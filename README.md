@@ -1,32 +1,32 @@
 # Become the Brain OS: Evolver
 
-[![▶ Play Evolver](https://img.shields.io/badge/%E2%96%B6%20Play-Become%20the%20Brain%20OS%3A%20Evolver-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.5.1)
-[![Release](https://img.shields.io/badge/release-v12.5.1-0d7a5f?style=for-the-badge&labelColor=050509)](https://github.com/AxonOS-org/become-the-brain-os/releases/tag/v12.5.1)
+[![▶ Play Evolver](https://img.shields.io/badge/%E2%96%B6%20Play-v12.7.4-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.7.4)
+![version](https://img.shields.io/badge/version-v12.7.4--evolver-0d7a5f?style=flat-square)
 ![local-only](https://img.shields.io/badge/local--only-no%20backend-0d7a5f?style=flat-square)
 ![neural data](https://img.shields.io/badge/neural%20data-none-0d7a5f?style=flat-square)
 
-**Current release:** `v12.5.1-evolver`
+**Become the Brain OS: Evolver v12.7.4** is a fail-open, local-only educational game for AxonOS.
 
-A local-only educational browser game by the AxonOS project.
+It explains the operating-system layer between neural hardware and AI: signal stabilization, derived intent routing, consent revocation, privacy-vault enforcement, artifact rejection, deadlines, and safe fallback.
 
-The game explains the operating-system layer between neural hardware and AI: signal stabilization, derived intent, neural permissions, consent revocation, artifact rejection, deadline discipline, and local-only cognitive state.
+## Current release
+
+```text
+v12.7.4-evolver
+```
 
 ## Play
 
 ```text
-https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.5.1
+https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.7.4
 ```
-
-## Release intent
-
-`v12.5.1` is a cleanup and playability release. It removes the previous release-surface drift and replaces the game loop with a simpler, playable, mobile-safe loop.
 
 ## Honesty boundary
 
-This is an educational simulation. It is not a medical device, not a BCI, not the AxonOS kernel, and reads no neural data.
+This is an educational simulation. It is not a medical device, not a clinical BCI, not the AxonOS kernel, and does not read neural data.
 
 ## Validate
 
 ```bash
-python3 scripts/validate_v12_5_1.py
+python3 scripts/validate_v12_7_4.py
 ```

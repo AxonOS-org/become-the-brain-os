@@ -1,6 +1,6 @@
-# Local validation / Termux temp
 .ci-tmp/
 .git-tmp/
 .axon-v*/
-*.swp
+.axon-v*-clean/
 .DS_Store
+node_modules/

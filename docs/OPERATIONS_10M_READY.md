@@ -1,25 +1,5 @@
-# Operations Readiness — v12.5.1-evolver
+# Operations: Static 10M-readiness
 
-This release is a static GitHub Pages artifact.
+The build is a static artifact. It has no backend, no API, no database, no authentication, no analytics dependency, no cookies, and no server-side state.
 
-## Load profile
-
-The game has:
-
-- no backend;
-- no API;
-- no database;
-- no login;
-- no analytics dependency;
-- no cookies;
-- no server-side state.
-
-The limiting factor is static hosting/CDN delivery, not application server capacity.
-
-## Launch checklist
-
-1. Push `main`.
-2. Push annotated tag `v12.5.1`.
-3. Create GitHub Release marked latest.
-4. Open the game with `?v=12.5.1`.
-5. Test mobile and desktop.
+For major traffic, front the GitHub Pages artifact with a CDN/mirror and cache-busted version URL.
