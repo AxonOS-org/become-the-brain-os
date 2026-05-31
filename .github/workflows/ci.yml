@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   validate:
-    name: Validate AxonOS Evolver v9.3.11
+    name: Validate AxonOS Evolver v12.1.0
     runs-on: ubuntu-latest
 
     steps:
@@ -29,4 +29,11 @@ jobs:
 
       - name: Validate package
         run: |
-          python3 scripts/validate_v9_3_11.py
+          python3 scripts/validate_v12_1_0.py
+
+      - name: Verify release version
+        run: |
+          grep -q "v12.1.0" README.md
+          grep -q "v12.1.0" evolver-evolution-version/README.md
+          grep -q "v12.1.0-evolver" evolver-evolution-version/VERSION
+          grep -q "v12.1.0" evolver-evolution-version/index.html

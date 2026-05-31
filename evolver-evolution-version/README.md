@@ -1,26 +1,50 @@
 # Become the Brain OS: Evolver
 
-Current build:
+[![Run Evolver](https://img.shields.io/badge/%E2%96%B6%20Run-v12.1.0%20Evolver-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.1.0)
+![version](https://img.shields.io/badge/version-v12.1.0--evolver-0a4a8f?style=flat-square)
+![local-only](https://img.shields.io/badge/local--only-no%20backend-0d7a5f?style=flat-square)
+![neural-data](https://img.shields.io/badge/neural%20data-none-0d7a5f?style=flat-square)
+
+**Become the Brain OS: Evolver v12.1.0** is the major-release public game surface for AxonOS.
+
+It is a static, local-only educational browser game explaining the operating-system layer between neural hardware and AI.
+
+## Live
+
+<https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.1.0>
+
+## Current build
 
 ```text
-v9.3.11-evolver
+v12.1.0-evolver
 ```
 
-Live URL:
+## v12.1.0 release objective
 
-<https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=9.3.11>
+This release is built for high-friction public traffic: one static HTML file, no backend dependency, no analytics dependency, no account creation, no cookie consent friction, and no neural-data processing.
 
-## What changed
+## Non-claim boundary
 
-- cleaned release metadata;
-- fixed GitHub Actions YAML formatting;
-- removed self-matching stale-version checks from public deployment commands;
-- added legacy localStorage migration from older v9.3.x namespaces;
-- hardened pointer-capture cleanup for abort, pause, cancel, and finish paths;
-- guarded challenge-copy until a real result exists;
-- cache-busted result URL now includes `?v=9.3.11`;
-- package manifest excludes local temp and unpack folders.
+This is not the AxonOS kernel, not a medical device, not a BCI, and does not read neural data.
 
-## Boundary
+## Local run
 
-Educational simulation only. No backend. No analytics. No trackers. No neural data.
+```bash
+python3 -m http.server 8080
+```
+
+Open:
+
+```text
+http://localhost:8080/evolver-evolution-version/?v=12.1.0
+```
+
+## Release files
+
+- `evolver-evolution-version/index.html` — canonical game build.
+- `evolver-evolution-version/VERSION` — `v12.1.0-evolver`.
+- `scripts/validate_v12_1_0.py` — release validator.
+- `scripts/install_v12_1_0_from_download.sh` — Termux-safe installer.
+- `scripts/release_tag_v12_1_0.sh` — annotated release tag script.
+
+Licensed under Apache-2.0 OR MIT.

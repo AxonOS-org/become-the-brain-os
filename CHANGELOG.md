@@ -1,15 +1,11 @@
 # Changelog
 
-## v9.3.11-evolver
+## v12.1.0-evolver — Major UX/runtime release
 
-Cleanup and release-integrity stabilization.
-
-- Fixed broken/one-line CI YAML risk.
-- Added strict public-surface validation.
-- Added legacy localStorage migration from prior v9.3.x builds.
-- Hardened pointer-capture cleanup in runtime lifecycle paths.
-- Guarded challenge copy against empty results.
-- Added cache-busted result URL.
-- Excluded temp folders from package and Git.
-
-- no-temp-folder-self-check: validator no longer fails because Termux/Git creates local `.git-tmp` or `.ci-tmp` folders.
+- Rebuilt game runtime as an explicit finite-state machine.
+- Rebuilt UX surface under AxonOS Standard Style.
+- Added traffic-safe static deployment posture.
+- Added localStorage migration from previous public namespaces.
+- Rebuilt CI as valid multi-line YAML.
+- Added release tag script for annotated `v12.1.0` tag.
+- Added 10M-readiness operations note.

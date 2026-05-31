@@ -1,710 +1,161 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#050509" />
-  <meta name="description" content="Become the Brain OS: Evolver is an educational browser game about signal stabilization, intent capture, neural permissions, consent, and privacy. Not a medical device. Reads no neural data. Local-only." />
-  <meta property="og:title" content="Become the Brain OS: Evolver · AxonOS v9.3.11" />
-  <meta property="og:description" content="You are the operating system between neural hardware and AI. Stabilize signal. Capture intent. Deny raw neural leaks. Respect consent." />
-  <meta property="og:type" content="website" />
-  <title>Become the Brain OS: Evolver · AxonOS v9.3.11</title>
+  <meta name="description" content="Become the Brain OS: Evolver v12.1.0 — a local-only educational browser game by AxonOS. No backend, no analytics, no neural data." />
+  <meta property="og:title" content="Become the Brain OS: Evolver · AxonOS v12.1.0" />
+  <meta property="og:description" content="Stabilize signal, capture intent, enforce neural permissions, and bring AxonOS online. Local-only. Reads no neural data." />
+  <title>Become the Brain OS: Evolver · AxonOS v12.1.0</title>
   <style>
     :root{
-      --bg:#050509;
-      --panel:#0b0f17;
-      --panel2:#0e1623;
-      --line:rgba(201,214,255,.12);
-      --line2:rgba(185,215,255,.22);
-      --text:#eef4ff;
-      --muted:#93a4bb;
-      --soft:#c4d1e7;
-      --gold:#f1c76b;
-      --gold2:#ffe8a3;
-      --cyan:#7de7ff;
-      --blue:#83a8ff;
-      --green:#86efac;
-      --red:#ff6b8a;
-      --violet:#c7a6ff;
-      --shadow:0 28px 80px rgba(0,0,0,.55);
-      --radius:28px;
-      --radius2:18px;
-      --max:1180px;
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+      --bg:#050509;--panel:#0b0d12;--panel2:#10131a;--ink:#f8fafc;--muted:#9aa4b2;--soft:#cbd5e1;
+      --line:rgba(255,255,255,.105);--line2:rgba(255,255,255,.17);--gold:#d7bd73;--cyan:#7dd3fc;
+      --green:#62d28f;--red:#ff6b7a;--amber:#f6c453;--blue:#8ab4ff;--violet:#c4b5fd;
+      --shadow:0 24px 80px rgba(0,0,0,.48);--r:24px;--r2:18px;--max:1180px;
+      --safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      color:var(--text);
-      background:
-        radial-gradient(900px 520px at 18% 0%, rgba(125,231,255,.16), transparent 64%),
-        radial-gradient(900px 600px at 82% 8%, rgba(241,199,107,.13), transparent 62%),
-        radial-gradient(700px 520px at 50% 100%, rgba(131,168,255,.13), transparent 66%),
-        linear-gradient(180deg,#050509 0%,#060812 48%,#040407 100%);
-      overflow-x:hidden;
-      touch-action:manipulation;
-    }
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      opacity:.34;
-      background-image:
-        linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
-      background-size:56px 56px;
-      mask-image:radial-gradient(circle at 50% 18%, black 0%, transparent 78%);
-    }
-    body::after{
-      content:"";
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      background:linear-gradient(90deg, rgba(255,255,255,.035), transparent 10%, transparent 90%, rgba(255,255,255,.025));
-      mix-blend-mode:screen;
-    }
-    a{color:inherit;text-decoration:none}
-    button,input,select{font:inherit}
-    button{border:0}
-    .wrap{width:min(var(--max),calc(100% - 28px));margin:0 auto;padding:18px 0 26px}
-    .topbar{
-      position:sticky;
-      top:0;
-      z-index:20;
-      backdrop-filter:blur(18px);
-      background:linear-gradient(180deg,rgba(5,5,9,.88),rgba(5,5,9,.56));
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-    .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 0}
-    .brand{display:flex;align-items:center;gap:12px;min-width:0}
-    .sigil{
-      width:40px;height:40px;border-radius:14px;
-      background:radial-gradient(circle at 35% 25%,#fff7cd 0 9%,#f1c76b 10% 23%,#1d2a44 24% 56%,#050509 57%);
-      box-shadow:0 0 0 1px rgba(255,255,255,.16),0 0 34px rgba(241,199,107,.16);
-      position:relative;
-      flex:0 0 auto;
-    }
-    .sigil::after{content:"";position:absolute;inset:10px;border-radius:999px;border:1px solid rgba(125,231,255,.35)}
-    .brand h1{font-size:15px;margin:0;letter-spacing:.18em;text-transform:uppercase;font-weight:800;white-space:nowrap}
-    .brand p{margin:3px 0 0;color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .stats{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-    .pill{
-      display:inline-flex;align-items:center;gap:7px;
-      padding:8px 10px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      background:rgba(255,255,255,.045);
-      color:var(--soft);
-      font-size:12px;
-      white-space:nowrap;
-      box-shadow:inset 0 1px rgba(255,255,255,.06);
-    }
-    .pill strong{color:#fff;font-weight:800}
-    .pill.gold{border-color:rgba(241,199,107,.25);color:#ffe8a3;background:rgba(241,199,107,.07)}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:9px;
-      min-height:44px;
-      padding:12px 17px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.06);
-      color:var(--text);
-      cursor:pointer;
-      user-select:none;
-      transition:transform .16s ease, border-color .16s ease, background .16s ease, opacity .16s ease;
-      box-shadow:inset 0 1px rgba(255,255,255,.08), 0 10px 30px rgba(0,0,0,.2);
-    }
-    .btn:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.24);background:rgba(255,255,255,.09)}
-    .btn:active{transform:translateY(1px) scale(.99)}
-    .btn:disabled{opacity:.42;cursor:not-allowed;transform:none}
-    .btn.primary{background:linear-gradient(135deg,#f3c766,#ffe9a7);color:#16110a;border-color:rgba(255,232,163,.65);font-weight:900}
-    .btn.cyan{background:linear-gradient(135deg,rgba(125,231,255,.23),rgba(131,168,255,.16));border-color:rgba(125,231,255,.35)}
-    .btn.danger{background:rgba(255,107,138,.11);border-color:rgba(255,107,138,.28);color:#ffd5de}
-    .btn.ghost{background:transparent}
-    .screen{display:none;min-height:calc(100vh - 82px)}
-    .screen.active{display:block}
-    .hero{display:grid;grid-template-columns:1.13fr .87fr;gap:18px;align-items:stretch;padding-top:22px}
-    .card{
-      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow), inset 0 1px rgba(255,255,255,.08);
-      overflow:hidden;
-      position:relative;
-    }
-    .card::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent 22%,transparent 80%,rgba(125,231,255,.07))}
-    .heroMain{padding:34px;min-height:520px;display:flex;flex-direction:column;justify-content:space-between;gap:28px}
-    .kicker{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold2);font-weight:850;margin:0 0 16px}
-    h2{font-size:clamp(38px,7vw,82px);line-height:.92;letter-spacing:-.075em;margin:0;max-width:820px}
-    .lead{font-size:clamp(16px,2vw,22px);line-height:1.48;color:#d8e4f6;max-width:720px;margin:22px 0 0}
-    .heroActions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .trust{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
-    .trust div{padding:13px;border:1px solid var(--line);border-radius:18px;background:rgba(0,0,0,.18)}
-    .trust b{display:block;color:#fff;font-size:13px;margin-bottom:4px}
-    .trust span{display:block;color:var(--muted);font-size:12px;line-height:1.35}
-    .sidePanel{padding:22px;display:flex;flex-direction:column;gap:12px}
-    .sidePanel h3{font-size:18px;margin:0 0 4px;letter-spacing:-.02em}
-    .sidePanel p{color:var(--muted);line-height:1.5;margin:0;font-size:14px}
-    .modeGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .mode{
-      text-align:left;border:1px solid var(--line);background:rgba(255,255,255,.045);border-radius:18px;padding:13px;cursor:pointer;color:var(--text);min-height:92px;
-      transition:.16s ease;
-    }
-    .mode:hover,.mode.active{border-color:rgba(241,199,107,.55);background:rgba(241,199,107,.08);transform:translateY(-1px)}
-    .mode b{display:block;font-size:14px;margin-bottom:6px}
-    .mode span{display:block;font-size:12px;color:var(--muted);line-height:1.35}
-    .progressBox{padding:16px;border:1px solid var(--line);border-radius:22px;background:rgba(0,0,0,.18)}
-    .progressRow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:9px;color:var(--soft);font-size:13px}
-    .bar{height:9px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
-    .bar i{display:block;height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,var(--cyan),var(--gold));transition:width .25s ease}
-    .miniList{display:grid;gap:7px}
-    .miniItem{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 10px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(0,0,0,.14);font-size:12px;color:var(--muted)}
-    .miniItem strong{color:#fff}
-    .playGrid{display:grid;grid-template-columns:1fr 350px;gap:16px;padding-top:18px}
-    .arena{padding:18px;display:grid;gap:14px}
-    .canvasWrap{border-radius:23px;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.24);height:312px;position:relative}
-    #signalCanvas{display:block;width:100%;height:100%}
-    .scanline{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(125,231,255,.08),transparent);animation:scan 2.8s linear infinite;mix-blend-mode:screen}
-    @keyframes scan{from{transform:translateY(-100%)}to{transform:translateY(100%)}}
-    .bigPrompt{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:16px;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.045)}
-    .bigPrompt h3{margin:0;font-size:23px;letter-spacing:-.04em}
-    .bigPrompt p{margin:6px 0 0;color:var(--muted);line-height:1.42}
-    .combo{font-size:13px;color:#fff;padding:9px 12px;border-radius:999px;background:rgba(241,199,107,.12);border:1px solid rgba(241,199,107,.24);white-space:nowrap}
-    .needleBox{display:grid;gap:10px;padding:16px;border:1px solid var(--line);border-radius:22px;background:rgba(0,0,0,.18)}
-    .needleMeta{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:12px}
-    .track{height:30px;border-radius:999px;background:rgba(255,255,255,.08);position:relative;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
-    .goldZone{position:absolute;top:0;bottom:0;left:42%;width:18%;background:linear-gradient(90deg,rgba(241,199,107,.25),rgba(255,232,163,.75),rgba(241,199,107,.25));box-shadow:0 0 32px rgba(241,199,107,.35)}
-    .needle{position:absolute;top:3px;bottom:3px;width:7px;left:0%;border-radius:999px;background:#fff;box-shadow:0 0 18px #fff,0 0 34px rgba(125,231,255,.65)}
-    .holdPad{
-      min-height:96px;border-radius:26px;border:1px solid rgba(125,231,255,.28);background:linear-gradient(135deg,rgba(125,231,255,.13),rgba(241,199,107,.08));color:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;cursor:pointer;user-select:none;
-      box-shadow:inset 0 1px rgba(255,255,255,.09),0 18px 46px rgba(0,0,0,.24);
-      transition:.12s ease;
-    }
-    .holdPad.holding{transform:scale(.992);border-color:rgba(241,199,107,.55);background:linear-gradient(135deg,rgba(241,199,107,.18),rgba(125,231,255,.12))}
-    .holdPad b{font-size:20px;letter-spacing:-.03em}
-    .holdPad span{color:var(--muted);font-size:13px}
-    .cardsGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    .choice{
-      touch-action:manipulation;
-      -webkit-tap-highlight-color:transparent;min-height:104px;text-align:left;border:1px solid var(--line);border-radius:22px;padding:14px;background:rgba(255,255,255,.045);color:var(--text);cursor:pointer;transition:.14s ease;position:relative;overflow:hidden}
-    .choice b{display:block;font-size:15px;margin-bottom:7px}.choice span{font-size:12px;color:var(--muted);line-height:1.35;display:block}.choice small{display:inline-flex;margin-top:10px;color:var(--gold2);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
-    .choice:hover{transform:translateY(-1px);border-color:rgba(125,231,255,.35);background:rgba(125,231,255,.07)}
-    .choice.correct{border-color:rgba(134,239,172,.55);background:rgba(134,239,172,.12)}
-    .choice.wrong{border-color:rgba(255,107,138,.55);background:rgba(255,107,138,.12)}
-    .sideGame{padding:16px;display:grid;gap:12px;align-self:start;position:sticky;top:84px}
-    .hud{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-    .metric{padding:13px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:rgba(0,0,0,.18)}
-    .metric small{display:block;color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}.metric b{font-size:18px;color:#fff}
-    .coach{border:1px solid rgba(241,199,107,.18);background:rgba(241,199,107,.06);border-radius:20px;padding:14px;color:#ffe8a3;line-height:1.45;font-size:13px}
-    .objective{padding:13px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.035);font-size:13px;color:var(--muted);line-height:1.42}
-    .objective b{color:#fff}
-    .log{height:170px;overflow:auto;border:1px solid var(--line);border-radius:20px;background:rgba(0,0,0,.18);padding:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;color:#aebbd0;line-height:1.55}
-    .log div{border-bottom:1px solid rgba(255,255,255,.045);padding:3px 0}.log div:last-child{border-bottom:0}.ok{color:var(--green)}.bad{color:var(--red)}.info{color:var(--cyan)}.warn{color:var(--gold2)}
-    .resultGrid{display:grid;grid-template-columns:.86fr 1.14fr;gap:18px;padding-top:22px}
-    .gradeCard{padding:28px;display:flex;flex-direction:column;justify-content:space-between;min-height:520px}
-    .grade{font-size:160px;line-height:.82;font-weight:950;letter-spacing:-.12em;background:linear-gradient(135deg,#fff,#ffe8a3 35%,#7de7ff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 50px rgba(241,199,107,.12)}
-    .resultTitle{font-size:34px;line-height:1;letter-spacing:-.06em;margin:0}.resultSub{color:var(--muted);line-height:1.5;margin:12px 0 0}
-    .resultMetrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}.resultMetrics .metric{min-height:84px}
-    .shareCard{min-height:240px;border-radius:24px;border:1px solid rgba(255,255,255,.12);background:radial-gradient(500px 240px at 20% 15%,rgba(241,199,107,.2),transparent 60%),linear-gradient(135deg,#080b12,#111827);padding:22px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
-    .shareCard::after{content:"";position:absolute;right:-90px;bottom:-110px;width:280px;height:280px;border-radius:999px;border:1px solid rgba(125,231,255,.26);box-shadow:inset 0 0 80px rgba(125,231,255,.08)}
-    .shareCard b{font-size:25px;letter-spacing:-.04em}.shareCard p{color:#cbd7ea;line-height:1.5;max-width:620px}.shareCard small{color:var(--gold2);letter-spacing:.18em;text-transform:uppercase}
-    .how{padding-top:22px}.howGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.howItem{padding:18px;border-radius:22px;border:1px solid var(--line);background:rgba(255,255,255,.045)}.howItem b{display:block;font-size:17px;margin-bottom:8px}.howItem p{color:var(--muted);line-height:1.5;margin:0;font-size:14px}
-    .footer{padding:22px 0 12px;color:var(--muted);font-size:12px;text-align:center;line-height:1.6}.footer a{text-decoration:underline;text-underline-offset:4px;color:#d9e5f5}
-    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(20px);opacity:0;transition:.18s ease;z-index:60;background:rgba(9,13,20,.94);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:12px 15px;color:#fff;box-shadow:var(--shadow);pointer-events:none;font-size:13px}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-    .modal{position:fixed;inset:0;display:none;z-index:50;align-items:center;justify-content:center;background:rgba(0,0,0,.64);backdrop-filter:blur(16px);padding:18px}.modal.active{display:flex}.modalBox{width:min(720px,100%);border-radius:28px;background:linear-gradient(180deg,#101725,#080b12);border:1px solid rgba(255,255,255,.14);box-shadow:var(--shadow);padding:24px}.modalBox h3{font-size:28px;letter-spacing:-.05em;margin:0 0 10px}.modalBox p,.modalBox li{color:var(--muted);line-height:1.55}.modalBox ul{padding-left:20px}.modalActions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:16px}
-    .srOnly{position:absolute;width:1px;height:1px;clip:rect(0,0,0,0);overflow:hidden;white-space:nowrap}
-    @media (max-width: 940px){
-      .hero,.playGrid,.resultGrid{grid-template-columns:1fr}.sideGame{position:relative;top:auto}.trust{grid-template-columns:1fr 1fr}.heroMain{min-height:auto}.howGrid{grid-template-columns:1fr}.resultMetrics{grid-template-columns:1fr 1fr}.grade{font-size:120px}.stats .pill:nth-child(n+4){display:none}
-    }
-    @media (max-width: 640px){
-      .wrap{width:min(100% - 18px,var(--max));padding-left:0;padding-right:0}.topbar .wrap{align-items:flex-start}.brand h1{font-size:13px}.brand p{font-size:10px}.stats{gap:5px}.pill{padding:7px 8px;font-size:11px}.heroMain{padding:22px}.sidePanel{padding:16px}.modeGrid,.cardsGrid{grid-template-columns:1fr}.trust{grid-template-columns:1fr}.canvasWrap{height:236px}.bigPrompt{grid-template-columns:1fr}.holdPad{min-height:118px}.hud{grid-template-columns:1fr 1fr}.resultMetrics{grid-template-columns:1fr}.grade{font-size:92px}.heroActions .btn{width:100%}.btn{min-height:46px}.playGrid{gap:10px}.arena{padding:12px}.card{border-radius:22px}.topbar{position:relative}
-      body[data-screen="play"] .topbar{display:none}
-      body[data-screen="play"] .wrap{padding-top:7px;padding-bottom:10px}
-      body[data-screen="play"] .canvasWrap{height:208px}
-      body[data-screen="play"] .bigPrompt h3{font-size:20px}
-      body[data-screen="play"] .holdPad b{font-size:20px}
-      body[data-screen="play"] .sideGame{padding:12px}
-      body[data-screen="play"] .log{height:128px}
-    }
+    *{box-sizing:border-box}html{min-height:100%;background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+    body{min-height:100svh;margin:0;color:var(--ink);font:500 15px/1.45 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:
+      radial-gradient(circle at 18% -5%,rgba(125,211,252,.18),transparent 31%),
+      radial-gradient(circle at 92% 8%,rgba(215,189,115,.13),transparent 28%),
+      linear-gradient(180deg,#050509 0%,#070910 56%,#040406 100%);overflow-x:hidden;touch-action:manipulation}
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.032) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.72),transparent 86%)}
+    button,input,select{font:inherit;color:inherit}button{touch-action:manipulation}a{color:inherit;text-decoration:none}.hide{display:none!important}
+    .app{width:min(var(--max),calc(100% - 24px));margin:0 auto;padding:calc(18px + var(--safe-top)) 0 calc(20px + var(--safe-bottom));position:relative;z-index:1}
+    .topbar{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;position:sticky;top:0;z-index:5;padding:9px 0;background:linear-gradient(180deg,rgba(5,5,9,.96),rgba(5,5,9,.72) 72%,transparent);backdrop-filter:blur(14px)}
+    .brand{display:flex;align-items:center;gap:11px;min-width:0}.mark{width:34px;height:34px;border:1px solid var(--line2);border-radius:13px;background:linear-gradient(145deg,rgba(215,189,115,.24),rgba(125,211,252,.07));box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 14px 36px rgba(0,0,0,.35)}
+    .brand h1{font-size:14px;letter-spacing:.08em;text-transform:uppercase;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.topstats{display:flex;gap:7px;align-items:center;justify-content:flex-end;flex-wrap:wrap}.pill{border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.045);color:var(--soft);padding:7px 10px;font-size:12px;white-space:nowrap}.pill.gold{color:var(--gold);border-color:rgba(215,189,115,.28)}
+    .screen{display:none}.screen.active{display:block}.hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:18px;align-items:stretch}.panel{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035));border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}.heroMain{padding:26px}.eyebrow{color:var(--gold);font-size:12px;text-transform:uppercase;letter-spacing:.15em;margin-bottom:10px}.hero h2{font-size:clamp(34px,7vw,78px);line-height:.91;letter-spacing:-.07em;margin:0 0 16px}.lead{font-size:clamp(16px,2.3vw,22px);color:var(--soft);max-width:720px;margin:0 0 18px}.actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.btn{appearance:none;border:1px solid var(--line2);border-radius:16px;padding:12px 15px;background:rgba(255,255,255,.06);color:var(--ink);cursor:pointer;min-height:46px;min-width:44px;font-weight:760;box-shadow:0 12px 34px rgba(0,0,0,.22);transition:transform .14s ease,border-color .14s ease,background .14s ease}.btn:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.28)}.btn:active{transform:translateY(0)}.btn.primary{background:linear-gradient(135deg,rgba(215,189,115,.95),rgba(125,211,252,.88));color:#071015;border-color:transparent}.btn.ghost{box-shadow:none;background:rgba(255,255,255,.035)}.btn.danger{border-color:rgba(255,107,122,.36);color:#ffd1d6}.btn:disabled{opacity:.48;cursor:not-allowed;transform:none}.btn:focus-visible,.cardBtn:focus-visible,.holdBtn:focus-visible{outline:3px solid rgba(125,211,252,.72);outline-offset:3px}
+    .trustGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}.trust{border:1px solid var(--line);border-radius:17px;padding:13px;background:rgba(0,0,0,.16);min-height:92px}.trust b{display:block;margin-bottom:4px}.trust span{color:var(--muted);font-size:13px}.side{padding:18px;display:flex;flex-direction:column;gap:12px}.modeList{display:grid;gap:10px}.modeBtn{width:100%;text-align:left;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.045);padding:13px;cursor:pointer}.modeBtn.active{border-color:rgba(215,189,115,.5);background:rgba(215,189,115,.09)}.modeBtn b{display:block}.modeBtn span{font-size:12px;color:var(--muted)}.questList{display:grid;gap:8px}.quest{display:flex;justify-content:space-between;gap:8px;border:1px solid var(--line);border-radius:14px;padding:9px 10px;color:var(--muted);background:rgba(0,0,0,.13)}.quest.done{color:var(--green);border-color:rgba(98,210,143,.3)}
+    .play{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:14px;align-items:start}.stage{padding:16px;min-height:calc(100svh - 100px);display:flex;flex-direction:column;gap:13px}.mission{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.mission h3{margin:0;font-size:20px;letter-spacing:-.02em}.mission p{margin:3px 0 0;color:var(--muted)}.timerBar{height:10px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.07);border:1px solid var(--line)}.timerFill{height:100%;width:100%;transform-origin:left;background:linear-gradient(90deg,var(--green),var(--gold),var(--red));transition:width .2s linear}.hud{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.stat{border:1px solid var(--line);border-radius:15px;padding:10px;background:rgba(0,0,0,.16);min-height:63px}.stat span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}.stat b{font-size:20px;letter-spacing:-.03em}.lockBox{border:1px solid var(--line);border-radius:22px;padding:14px;background:radial-gradient(circle at 50% 0%,rgba(215,189,115,.13),transparent 42%),rgba(0,0,0,.17)}.track{height:72px;border:1px solid var(--line2);border-radius:18px;background:linear-gradient(90deg,rgba(255,107,122,.15),rgba(255,255,255,.05) 28%,rgba(215,189,115,.23) 46%,rgba(215,189,115,.23) 58%,rgba(255,255,255,.05) 72%,rgba(255,107,122,.13));position:relative;overflow:hidden}.goldBand{position:absolute;inset:0 42%;background:linear-gradient(180deg,rgba(215,189,115,.24),rgba(215,189,115,.08));border-left:1px solid rgba(215,189,115,.5);border-right:1px solid rgba(215,189,115,.5)}.needle{position:absolute;top:8px;bottom:8px;width:4px;border-radius:999px;background:var(--cyan);left:0;box-shadow:0 0 24px rgba(125,211,252,.72);transform:translateX(0)}.lockMeta{display:flex;justify-content:space-between;gap:10px;margin-top:10px;color:var(--muted);font-size:13px}.holdBtn{width:100%;min-height:96px;border:1px solid rgba(215,189,115,.38);border-radius:24px;background:linear-gradient(180deg,rgba(215,189,115,.13),rgba(125,211,252,.06));font-size:20px;font-weight:900;letter-spacing:.02em;cursor:pointer;color:var(--ink);touch-action:none;user-select:none}.holdBtn[disabled]{opacity:.5;border-color:var(--line);background:rgba(255,255,255,.04);cursor:not-allowed}.holdBtn.holding{background:linear-gradient(180deg,rgba(125,211,252,.18),rgba(215,189,115,.12));box-shadow:0 0 0 4px rgba(125,211,252,.08),0 20px 80px rgba(125,211,252,.10)}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;min-height:170px}.cardBtn{text-align:left;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.045);padding:14px;cursor:pointer;min-height:148px;display:flex;flex-direction:column;justify-content:space-between}.cardBtn b{font-size:16px}.cardBtn span{display:block;color:var(--muted);font-size:13px;margin-top:5px}.cardBtn.correct{border-color:rgba(98,210,143,.55);background:rgba(98,210,143,.10)}.cardBtn.wrong{border-color:rgba(255,107,122,.55);background:rgba(255,107,122,.10)}.cardBtn.locked{pointer-events:none}.coach{border:1px solid var(--line);border-radius:20px;padding:13px;background:rgba(0,0,0,.17);min-height:72px;color:var(--soft)}.rail{padding:14px;display:grid;gap:11px;position:sticky;top:74px}.mini{border:1px solid var(--line);border-radius:18px;padding:12px;background:rgba(0,0,0,.14)}.mini h4{margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}.leader{display:grid;gap:7px}.leader div{display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:7px;color:var(--muted)}.leader div:last-child{border-bottom:0}.result{padding:22px;max-width:760px;margin:0 auto}.grade{font-size:82px;line-height:.85;font-weight:950;letter-spacing:-.08em;color:var(--gold)}.result h2{font-size:42px;margin:0 0 6px;letter-spacing:-.05em}.resultStats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}.shareCard{border:1px solid rgba(215,189,115,.25);border-radius:24px;padding:18px;background:linear-gradient(135deg,rgba(215,189,115,.14),rgba(125,211,252,.07)),rgba(0,0,0,.28);min-height:150px}.toast{position:fixed;left:50%;bottom:calc(18px + var(--safe-bottom));transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;transition:.2s ease;border:1px solid var(--line2);background:rgba(10,12,17,.92);border-radius:999px;padding:10px 14px;color:var(--soft);z-index:99}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    @media (max-width:900px){.app{width:min(100% - 16px,var(--max));padding-top:calc(8px + var(--safe-top))}.topbar{align-items:flex-start}.brand h1{font-size:12px}.topstats{max-width:48%;gap:5px}.pill{padding:5px 7px;font-size:10px}.hero{grid-template-columns:1fr}.trustGrid{grid-template-columns:repeat(2,1fr)}.play{grid-template-columns:1fr}.stage{min-height:auto;padding:12px}.rail{position:static;grid-template-columns:1fr 1fr}.hud{grid-template-columns:repeat(3,1fr)}.cards{grid-template-columns:1fr;min-height:360px}.cardBtn{min-height:108px}.holdBtn{min-height:112px}.resultStats{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:520px){.heroMain{padding:18px}.hero h2{font-size:42px}.trustGrid{grid-template-columns:1fr}.rail{grid-template-columns:1fr}.hud{grid-template-columns:repeat(2,1fr)}.mission{display:block}.result{padding:14px}.result h2{font-size:32px}.grade{font-size:66px}.actions .btn{flex:1 1 100%}.topstats .pill:nth-child(n+3){display:none}}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.btn:hover{transform:none}}
   </style>
 </head>
-<body data-screen="home">
-  <header class="topbar" aria-label="AxonOS Evolver header">
-    <div class="wrap">
-      <a class="brand" href="#home" id="brandHome" aria-label="Home">
-        <span class="sigil" aria-hidden="true"></span>
-        <span>
-          <h1>AxonOS</h1>
-          <p>Become the Brain OS · v9.3.11</p>
-        </span>
-      </a>
-      <div class="stats" aria-label="Local player status">
-        <span class="pill gold">Build <strong>v9.3.11</strong></span>
-        <span class="pill">Best <strong id="bestTop">0</strong></span>
-        <span class="pill">Streak <strong id="streakTop">0</strong></span>
-        <span class="pill">Level <strong id="levelTop">1</strong></span>
-        <button class="pill" id="soundBtn" type="button">Sound <strong id="soundState">Off</strong></button>
-        <button class="pill" id="motionBtn" type="button">Motion <strong id="motionState">On</strong></button>
-      </div>
-    </div>
-  </header>
+<body>
+  <div class="app">
+    <header class="topbar" aria-label="AxonOS status">
+      <div class="brand"><div class="mark" aria-hidden="true"></div><div><h1>AxonOS // Become the Brain OS</h1><small>v12.1.0 · major release · local-only</small></div></div>
+      <div class="topstats"><span class="pill gold" id="buildPill">Build v12.1.0</span><span class="pill" id="bestPill">Best 0</span><span class="pill" id="streakPill">Streak 0</span><button class="pill" id="soundBtn" type="button">Sound Off</button></div>
+    </header>
 
-  <main class="wrap">
-    <section class="screen active" id="homeScreen" aria-label="Home screen">
-      <div class="hero">
-        <article class="card heroMain">
-          <div>
-            <p class="kicker">AxonOS // OS for the Brain</p>
-            <h2>Become the Brain OS: Evolver</h2>
-            <p class="lead">Hold signal. Release in gold. Capture intent. Deny raw neural leaks. Respect consent. Reject artifacts. Bring AxonOS online.</p>
+    <main id="home" class="screen active">
+      <section class="hero">
+        <div class="panel heroMain">
+          <div class="eyebrow">AxonOS Standard Style · OS for the Brain</div>
+          <h2>Become the Brain OS.</h2>
+          <p class="lead">Stabilize signal. Capture intent. Enforce neural permissions. Respect consent. Reject artifacts. Bring the cognitive runtime online.</p>
+          <div class="actions"><button class="btn primary" id="startBtn" type="button">Run Evolver</button><button class="btn" id="dailyBtn" type="button">Daily Brain</button><button class="btn ghost" id="howBtn" type="button">How it works</button></div>
+          <div class="trustGrid">
+            <div class="trust"><b>Local only</b><span>No backend, analytics, cookies, or tracking.</span></div>
+            <div class="trust"><b>No neural data</b><span>No sensor. No EEG. No raw brain data.</span></div>
+            <div class="trust"><b>Consent first</b><span>Revocation must stop access immediately.</span></div>
+            <div class="trust"><b>Viral-safe</b><span>Static single file. GitHub Pages friendly.</span></div>
           </div>
-          <div>
-            <div class="heroActions">
-              <button class="btn primary" id="startBtn" type="button">▶ Run Evolver</button>
-              <button class="btn cyan" id="dailyBtn" type="button">Daily Brain</button>
-              <button class="btn ghost" id="howBtn" type="button">How it works</button>
-            </div>
-            <div class="trust" aria-label="Trust posture">
-              <div><b>Local only</b><span>No backend, no analytics, no tracking.</span></div>
-              <div><b>No neural data</b><span>No sensor. No EEG. No raw brain data.</span></div>
-              <div><b>Consent first</b><span>Revocation must stop access immediately.</span></div>
-              <div><b>Educational</b><span>A playable explanation, not medical software.</span></div>
-            </div>
-          </div>
-        </article>
-        <aside class="card sidePanel">
-          <h3>Mode</h3>
-          <p>Select the pressure profile. Every run teaches the same OS pipeline: acquisition, stabilization, intent, permission, consent, artifact rejection.</p>
-          <div class="modeGrid" id="modeGrid" role="listbox" aria-label="Select mode"></div>
-          <div class="progressBox">
-            <div class="progressRow"><span id="rankName">Rookie Operator</span><strong id="levelLabel">Level 1</strong></div>
-            <div class="bar" aria-hidden="true"><i id="xpBar"></i></div>
-          </div>
-          <h3>Quests</h3>
-          <div class="miniList" id="questList"></div>
-          <h3>Local leaderboard</h3>
-          <div class="miniList" id="leaderList"></div>
+        </div>
+        <aside class="panel side">
+          <div class="mini"><h4>Mode</h4><div class="modeList" id="modeList"></div></div>
+          <div class="mini"><h4>Operator</h4><div><b id="levelLabel">Rookie Operator</b><br><span class="pill" id="xpLabel">Level 1 · 0 XP</span></div></div>
+          <div class="mini"><h4>Quests</h4><div class="questList" id="questList"></div></div>
+          <div class="mini"><h4>Local leaderboard</h4><div class="leader" id="homeLeader"></div></div>
         </aside>
-      </div>
-      <footer class="footer">A game by <a href="https://github.com/AxonOS-org">The AxonOS Project</a> · <a href="https://axonos.org">axonos.org</a> · v9.3.11 · QA-stable · local-only · reads no neural data</footer>
-    </section>
+      </section>
+    </main>
 
-    <section class="screen" id="playScreen" aria-label="Game screen">
-      <div class="playGrid">
-        <article class="card arena">
-          <div class="canvasWrap" aria-label="Synthetic signal canvas">
-            <canvas id="signalCanvas" width="1200" height="520"></canvas>
-            <div class="scanline" aria-hidden="true"></div>
-          </div>
-          <div class="bigPrompt">
-            <div>
-              <h3 id="missionTitle">Mission R1</h3>
-              <p id="missionText">Zero-friction boot.</p>
-            </div>
-            <div class="combo" id="comboLabel">combo x0</div>
-          </div>
-          <div class="needleBox">
-            <div class="needleMeta"><span>Signal lock</span><strong id="lockLabel">Hold to stabilize</strong></div>
-            <div class="track" aria-hidden="true"><div class="goldZone"></div><div class="needle" id="needle"></div></div>
-          </div>
-          <button class="holdPad" id="holdPad" type="button" aria-label="Hold signal">
-            <b id="holdTitle">Hold signal</b>
-            <span id="holdHint">Release when the cursor enters gold.</span>
-          </button>
-          <div class="cardsGrid" id="cardsGrid" aria-label="Intent and permission cards"></div>
-        </article>
-        <aside class="card sideGame">
+    <main id="play" class="screen">
+      <section class="play">
+        <div class="panel stage">
+          <div class="mission"><div><h3 id="missionTitle">Mission</h3><p id="missionText">Hold to stabilize.</p></div><div class="pill gold" id="phasePill">BOOT</div></div>
+          <div class="timerBar"><div class="timerFill" id="timerFill"></div></div>
           <div class="hud">
-            <div class="metric"><small>Score</small><b id="scoreHud">0</b></div>
-            <div class="metric"><small>Stability</small><b id="stabilityHud">100%</b></div>
-            <div class="metric"><small>Leaks</small><b id="leaksHud">0</b></div>
-            <div class="metric"><small>Latency</small><b id="latencyHud">—</b></div>
-            <div class="metric"><small>Combo</small><b id="comboHud">0</b></div>
-            <div class="metric"><small>Time</small><b id="timeHud">60</b></div>
+            <div class="stat"><span>Score</span><b id="scoreVal">0</b></div><div class="stat"><span>Stability</span><b id="stabilityVal">100%</b></div><div class="stat"><span>Leaks</span><b id="leaksVal">0</b></div><div class="stat"><span>Latency</span><b id="latencyVal">—</b></div><div class="stat"><span>Combo</span><b id="comboVal">0</b></div><div class="stat"><span>Time</span><b id="timeVal">60</b></div>
           </div>
-          <div class="coach" id="coachText"><b>Coach:</b> hold until the needle enters gold.</div>
-          <div class="objective"><b>Objective</b><br><span id="objectiveText">Finish with 0 leaks.</span></div>
-          <div class="objective"><b>Rival local</b><br><span id="rivalText">Beat your best score.</span></div>
-          <div class="log" id="kernelLog" aria-label="Kernel log"></div>
-          <div class="heroActions">
-            <button class="btn ghost" id="pauseBtn" type="button">Pause</button>
-            <button class="btn danger" id="abortBtn" type="button">Abort</button>
+          <div class="lockBox">
+            <div class="track" aria-hidden="true"><div class="goldBand"></div><div class="needle" id="needle"></div></div>
+            <div class="lockMeta"><span id="lockLabel">Signal lock</span><span>release in gold</span></div>
+            <button class="holdBtn" id="holdBtn" type="button">Hold signal</button>
           </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="screen" id="resultScreen" aria-label="Result screen">
-      <div class="resultGrid">
-        <article class="card gradeCard">
-          <div>
-            <p class="kicker">Run complete · v9.3.11</p>
-            <div class="grade" id="gradeText">S</div>
-          </div>
-          <div>
-            <h2 class="resultTitle" id="resultTitle">AxonOS online</h2>
-            <p class="resultSub" id="resultSub">Privacy intact · consent respected · signal stable</p>
-            <div class="heroActions">
-              <button class="btn primary" id="retryBtn" type="button">Retry</button>
-              <button class="btn cyan" id="copyBtn" type="button">Copy result</button>
-              <button class="btn ghost" id="downloadBtn" type="button">Download card</button>
-              <button class="btn ghost" id="challengeBtn" type="button">Copy challenge</button>
-              <button class="btn ghost" id="homeBtn" type="button">Home</button>
-            </div>
-          </div>
-        </article>
-        <aside class="card sidePanel">
-          <div class="resultMetrics">
-            <div class="metric"><small>Score</small><b id="scoreResult">0</b></div>
-            <div class="metric"><small>Latency</small><b id="latencyResult">—</b></div>
-            <div class="metric"><small>Leaks</small><b id="leaksResult">0</b></div>
-            <div class="metric"><small>Stability</small><b id="stabilityResult">0%</b></div>
-            <div class="metric"><small>XP</small><b id="xpResult">+0</b></div>
-            <div class="metric"><small>Badge</small><b id="badgeResult">—</b></div>
-          </div>
-          <div class="shareCard" id="shareCard">
-            <small>Become the Brain OS</small>
-            <div>
-              <b id="shareTitle">AxonOS online</b>
-              <p id="shareText">Score 0 · v9.3.11 · QA-stable · local-only · reads no neural data.</p>
-            </div>
-            <small>axonos.org</small>
-          </div>
-          <h3>Next run</h3>
-          <p id="nextTip">Deny every raw access request.</p>
-          <h3>Local leaderboard</h3>
-          <div class="miniList" id="leaderResult"></div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="screen how" id="howScreen" aria-label="How it works">
-      <article class="card heroMain">
-        <div>
-          <p class="kicker">Architecture as gameplay</p>
-          <h2>What the game is teaching</h2>
-          <p class="lead">AxonOS is positioned as the operating-system layer between neural hardware and AI. This browser build turns the concept into a strict, honest simulation.</p>
+          <div class="cards" id="cards" aria-live="polite"></div>
+          <div class="coach" id="coach">Coach: hold until the needle enters gold.</div>
         </div>
-        <div class="howGrid">
-          <div class="howItem"><b>1. Signal stabilization</b><p>You hold until the synthetic signal reaches a usable lock window. The gold band dramatizes timing discipline.</p></div>
-          <div class="howItem"><b>2. Intent capture</b><p>You select derived intent classes, not raw neural streams. The rule is capability-driven access.</p></div>
-          <div class="howItem"><b>3. Neural permissions</b><p>Unsafe raw access requests must be denied. Consent revocation must stop the flow immediately.</p></div>
-          <div class="howItem"><b>4. Artifact rejection</b><p>Noise, drift, shock, phantom nodes, and loopbacks are rejected before they contaminate intent.</p></div>
-          <div class="howItem"><b>5. Local-only storage</b><p>Scores, XP, badges, settings, and leaderboard remain in localStorage. Nothing is sent anywhere.</p></div>
-          <div class="howItem"><b>6. Non-claim boundary</b><p>This is not a BCI, not a medical device, and not the AxonOS kernel. It reads no neural data.</p></div>
-        </div>
-        <div class="heroActions"><button class="btn primary" id="howStartBtn" type="button">Run Evolver</button><button class="btn ghost" id="howCloseBtn" type="button">Close</button></div>
-      </article>
-    </section>
-  </main>
+        <aside class="panel rail"><div class="mini"><h4>Objective</h4><p id="objectiveText">Finish with 0 leaks.</p></div><div class="mini"><h4>Rival local</h4><p id="rivalText">Beat your best score.</p></div><button class="btn ghost" id="pauseBtn" type="button">Pause</button><button class="btn danger" id="abortBtn" type="button">Abort</button></aside>
+      </section>
+    </main>
 
-  <div class="modal" id="pauseModal" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
-    <div class="modalBox">
-      <h3 id="pauseTitle">Paused</h3>
-      <p>The cognitive runtime is frozen. Resume the run or abort back to the home screen.</p>
-      <div class="modalActions"><button class="btn primary" id="resumeBtn" type="button">Resume</button><button class="btn danger" id="abortFromModalBtn" type="button">Abort</button></div>
-    </div>
+    <main id="result" class="screen">
+      <section class="panel result"><div class="pill gold" id="resultBuild">Run complete · v12.1.0</div><div class="grade" id="grade">S</div><h2 id="resultTitle">AxonOS online</h2><p class="lead" id="resultText">Privacy intact · consent respected · signal stable.</p><div class="resultStats"><div class="stat"><span>Score</span><b id="rScore">0</b></div><div class="stat"><span>Latency</span><b id="rLatency">—</b></div><div class="stat"><span>Leaks</span><b id="rLeaks">0</b></div><div class="stat"><span>XP</span><b id="rXp">+0</b></div></div><div class="shareCard" id="shareCard"><b>Become the Brain OS</b><p id="shareText">AxonOS online.</p><small>axonos.org · local-only · reads no neural data</small></div><div class="actions"><button class="btn primary" id="retryBtn" type="button">Retry</button><button class="btn" id="copyBtn" type="button">Copy result</button><button class="btn" id="downloadBtn" type="button">Download card</button><button class="btn" id="challengeBtn" type="button">Copy challenge</button><button class="btn ghost" id="homeBtn" type="button">Home</button></div></section>
+    </main>
+
+    <main id="how" class="screen"><section class="panel heroMain"><h2>Architecture as gameplay.</h2><p class="lead">This is a public educational simulation for AxonOS — the operating-system layer between neural hardware and AI. It is not a medical device and reads no neural data.</p><div class="trustGrid"><div class="trust"><b>1. Stabilization</b><span>Hold until the synthetic signal reaches the usable timing window.</span></div><div class="trust"><b>2. Intent</b><span>Select derived intent classes instead of raw neural streams.</span></div><div class="trust"><b>3. Permissions</b><span>Deny raw access and agent bypass attempts.</span></div><div class="trust"><b>4. Consent</b><span>Revocation stops the flow immediately.</span></div></div><div class="actions"><button class="btn primary" id="howStartBtn" type="button">Run Evolver</button><button class="btn ghost" id="howHomeBtn" type="button">Home</button></div></section></main>
   </div>
-
-  <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
-  <canvas id="shareCanvas" width="1400" height="900" class="srOnly"></canvas>
-
-  <script>
-  (()=>{
-    'use strict';
-
-    const VERSION='9.3.11';
-    const STORE='axonos_v9311_';
-    const LEGACY_STORES=['axonos_v9310_','axonos_v939_','axonos_v938_','axonos_v937_','axonos_v936_','axonos_v935_'];
-    const SHARE_FILE='axonos-v9311-share-card.png';
-    const CHALLENGE_PREFIX='v9311';
-    const GOLD_MIN=.42;
-    const GOLD_MAX=.60;
-
-    const MODES={
-      run:{name:'Run',desc:'Balanced 60-second operating-system run.',time:60,speed:1,noise:1,rounds:7},
-      daily:{name:'Daily Brain',desc:'Deterministic daily seed and strict share result.',time:60,speed:1.04,noise:1.08,rounds:7,daily:true},
-      sprint:{name:'Sprint',desc:'Short high-tempo run for mobile.',time:36,speed:1.32,noise:1.12,rounds:6},
-      focus:{name:'Focus',desc:'Faster prompts, cleaner signal.',time:52,speed:1.18,noise:.82,rounds:8},
-      artifacts:{name:'Artifacts',desc:'Anomaly-heavy privacy stress test.',time:64,speed:1.06,noise:1.38,rounds:8},
-      pressure:{name:'Pressure',desc:'Stricter deadlines and harsher leakage penalty.',time:48,speed:1.42,noise:1.22,rounds:7},
-      signal:{name:'Signal',desc:'Lower-pressure showcase for first-time players.',time:76,speed:.84,noise:.72,rounds:6},
-      axonos:{name:'AxonOS',desc:'Cinematic clean run. Harder scoring ceiling.',time:72,speed:1.0,noise:.9,rounds:9}
-    };
-
-    const MISSIONS=[
-      {title:'Mission R1',text:'Zero-friction boot.',objective:'Finish with 0 leaks.',kind:'intent',correct:'Intent: select',cards:[['Intent: select','Derived class only. No raw stream.','safe'],['Raw EEG dump','Unsafe direct access request.','raw'],['Ignore deadline','Miss hard real-time bound.','late'],['Bypass consent','Invalid permission path.','consent']]},
-      {title:'Mission R2',text:'App asks for memory access.',objective:'Deny raw memory; allow only intent.',kind:'privacy',correct:'Deny raw access',cards:[['Deny raw access','Neural permission boundary holds.','safe'],['Grant raw buffer','Leaks cognitive data.','raw'],['Mirror vault','Creates unsafe copy.','leak'],['Escalate app','Violates least privilege.','cap']]},
-      {title:'Mission R3',text:'Consent is revoked mid-stream.',objective:'Stop the flow immediately.',kind:'consent',correct:'Stop now',cards:[['Stop now','Revocation is immediate.','safe'],['Continue 4 ms','Consent violation.','consent'],['Cache intent','Persistence without permission.','leak'],['Ask later','Unsafe delay.','late']]},
-      {title:'Mission R4',text:'Artifact shock detected.',objective:'Reject artifact before classification.',kind:'artifact',correct:'Reject artifact',cards:[['Reject artifact','Noise removed before decode.','safe'],['Classify spike','Turns artifact into intent.','bad'],['Boost gain','Amplifies the error.','bad'],['Write trace','Unsafe diagnostic exposure.','raw']]},
-      {title:'Mission R5',text:'Deadline window collapses.',objective:'Keep intent inside deadline.',kind:'deadline',correct:'Commit intent',cards:[['Commit intent','Bounded response inside window.','safe'],['Wait for perfect','Deadline miss.','late'],['Fork worker','Unbounded latency path.','bad'],['Log raw wave','Privacy leak.','raw']]},
-      {title:'Mission R6',text:'Phantom node appears in mesh.',objective:'Quarantine unstable node.',kind:'mesh',correct:'Quarantine node',cards:[['Quarantine node','Mesh remains deterministic.','safe'],['Trust node','Phantom path accepted.','bad'],['Replicate raw','Unsafe persistence.','raw'],['Disable vault','Breaks privacy invariant.','cap']]},
-      {title:'Mission R7',text:'Third-party agent requests full context.',objective:'Expose capability token only.',kind:'agent',correct:'Token only',cards:[['Token only','Minimal permission surface.','safe'],['Full context','Overbroad cognitive disclosure.','raw'],['Debug memory','Unsafe inspection path.','leak'],['Auto-approve','No consent boundary.','consent']]},
-      {title:'Mission R8',text:'Drift accumulates under pressure.',objective:'Recalibrate without exposing raw data.',kind:'calib',correct:'Recalibrate local',cards:[['Recalibrate local','Device-local correction.','safe'],['Upload trace','Raw-data exfiltration.','raw'],['Skip filter','Contaminated decode.','bad'],['Extend deadline','Hard real-time violation.','late']]},
-      {title:'Mission R9',text:'Privacy Vault under load.',objective:'Preserve the vault, finish stable.',kind:'vault',correct:'Preserve vault',cards:[['Preserve vault','Cognitive data remains sealed.','safe'],['Open vault','Leak by design.','raw'],['Persist cache','Unauthorized memory.','leak'],['Share raw score','Unsafe telemetry.','raw']]}
-    ];
-
-    const QUESTS=[
-      ['zeroLeak','Zero Leak','Finish a run with 0 leaks.'],
-      ['stable90','Stable 90','Finish with ≥90% stability.'],
-      ['combo5','Combo 5','Reach combo x5.'],
-      ['daily','Daily Brain','Complete a daily run.'],
-      ['privacy','Vault Keeper','Deny 3 unsafe raw requests in one run.']
-    ];
-
-    const els={
-      body:document.body,homeScreen:document.getElementById('homeScreen'),playScreen:document.getElementById('playScreen'),resultScreen:document.getElementById('resultScreen'),howScreen:document.getElementById('howScreen'),
-      bestTop:document.getElementById('bestTop'),streakTop:document.getElementById('streakTop'),levelTop:document.getElementById('levelTop'),soundState:document.getElementById('soundState'),motionState:document.getElementById('motionState'),
-      soundBtn:document.getElementById('soundBtn'),motionBtn:document.getElementById('motionBtn'),startBtn:document.getElementById('startBtn'),dailyBtn:document.getElementById('dailyBtn'),howBtn:document.getElementById('howBtn'),brandHome:document.getElementById('brandHome'),
-      modeGrid:document.getElementById('modeGrid'),rankName:document.getElementById('rankName'),levelLabel:document.getElementById('levelLabel'),xpBar:document.getElementById('xpBar'),questList:document.getElementById('questList'),leaderList:document.getElementById('leaderList'),
-      canvas:document.getElementById('signalCanvas'),needle:document.getElementById('needle'),lockLabel:document.getElementById('lockLabel'),holdPad:document.getElementById('holdPad'),holdTitle:document.getElementById('holdTitle'),holdHint:document.getElementById('holdHint'),cardsGrid:document.getElementById('cardsGrid'),
-      missionTitle:document.getElementById('missionTitle'),missionText:document.getElementById('missionText'),comboLabel:document.getElementById('comboLabel'),scoreHud:document.getElementById('scoreHud'),stabilityHud:document.getElementById('stabilityHud'),leaksHud:document.getElementById('leaksHud'),latencyHud:document.getElementById('latencyHud'),comboHud:document.getElementById('comboHud'),timeHud:document.getElementById('timeHud'),coachText:document.getElementById('coachText'),objectiveText:document.getElementById('objectiveText'),rivalText:document.getElementById('rivalText'),kernelLog:document.getElementById('kernelLog'),pauseBtn:document.getElementById('pauseBtn'),abortBtn:document.getElementById('abortBtn'),
-      pauseModal:document.getElementById('pauseModal'),resumeBtn:document.getElementById('resumeBtn'),abortFromModalBtn:document.getElementById('abortFromModalBtn'),
-      gradeText:document.getElementById('gradeText'),resultTitle:document.getElementById('resultTitle'),resultSub:document.getElementById('resultSub'),retryBtn:document.getElementById('retryBtn'),copyBtn:document.getElementById('copyBtn'),downloadBtn:document.getElementById('downloadBtn'),challengeBtn:document.getElementById('challengeBtn'),homeBtn:document.getElementById('homeBtn'),
-      scoreResult:document.getElementById('scoreResult'),latencyResult:document.getElementById('latencyResult'),leaksResult:document.getElementById('leaksResult'),stabilityResult:document.getElementById('stabilityResult'),xpResult:document.getElementById('xpResult'),badgeResult:document.getElementById('badgeResult'),shareTitle:document.getElementById('shareTitle'),shareText:document.getElementById('shareText'),nextTip:document.getElementById('nextTip'),leaderResult:document.getElementById('leaderResult'),shareCanvas:document.getElementById('shareCanvas'),
-      howStartBtn:document.getElementById('howStartBtn'),howCloseBtn:document.getElementById('howCloseBtn'),toast:document.getElementById('toast')
-    };
-
-    const ctx=els.canvas.getContext('2d');
-    const shareCtx=els.shareCanvas.getContext('2d');
-    const now=()=>performance.now();
-    const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-    const fmt=n=>Math.round(n).toLocaleString('en-US');
-    const todayKey=()=>{const d=new Date();return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`};
-    const escapeHTML=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-    function loadJSON(key,fallback){
-      try{
-        const raw=localStorage.getItem(STORE+key);
-        if(raw!=null)return JSON.parse(raw)??fallback;
-        for(const prefix of LEGACY_STORES){
-          const legacy=localStorage.getItem(prefix+key);
-          if(legacy!=null){
-            const parsed=JSON.parse(legacy)??fallback;
-            try{localStorage.setItem(STORE+key,JSON.stringify(parsed))}catch{}
-            return parsed;
-          }
-        }
-      }catch{}
-      return fallback;
-    }
-    function saveJSON(key,value){try{localStorage.setItem(STORE+key,JSON.stringify(value))}catch{}}
-    function seedRand(seed){let a=(seed>>>0)||0x9e3779b9;return()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return ((t^(t>>>14))>>>0)/4294967296}}
-    function hashSeed(text){let h=2166136261>>>0;for(let i=0;i<text.length;i++){h^=text.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
-    function shuffle(input,rng){const a=[...input];for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-
-    const P=loadJSON('profile',{best:0,streak:0,xp:0,badges:{},leaders:[],daily:{}});
-    const settings=loadJSON('settings',{sound:false,motion:true});
-    let selectedMode='run';
-    let game=null;
-    let lastResult=null;
-    let runSeq=0;
-    let raf=0;
-    let lastTick=now();
-    let audio=null;
-    let holdEnabled=false;
-    let expectedLostCapture=false;
-
-    function normalizeProfile(){P.badges=P.badges&&typeof P.badges==='object'?P.badges:{};P.leaders=Array.isArray(P.leaders)?P.leaders:[];P.daily=P.daily&&typeof P.daily==='object'?P.daily:{};P.best=Math.max(0,Number(P.best)||0);P.streak=Math.max(0,Number(P.streak)||0);P.xp=Math.max(0,Number(P.xp)||0)}
-    function levelFromXP(xp){return Math.max(1,Math.floor(Math.sqrt(Math.max(0,xp)/90))+1)}
-    function rankFromLevel(l){return l>=12?'Cognitive Architect':l>=8?'Vault Commander':l>=5?'Signal Operator':l>=3?'Kernel Apprentice':'Rookie Operator'}
-    function activeMode(){return (lastResult&&lastResult.mode)||selectedMode||'run'}
-
-    function show(screen){for(const el of [els.homeScreen,els.playScreen,els.resultScreen,els.howScreen])el.classList.remove('active');els[screen+'Screen'].classList.add('active');els.body.dataset.screen=screen}
-    function toast(text){els.toast.textContent=text;els.toast.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>els.toast.classList.remove('show'),1500)}
-    function beep(type='ok'){if(!settings.sound)return;try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator();const g=audio.createGain();o.connect(g);g.connect(audio.destination);o.type='sine';o.frequency.value=type==='bad'?150:type==='gold'?780:520;g.gain.setValueAtTime(.0001,audio.currentTime);g.gain.exponentialRampToValueAtTime(.05,audio.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+.16);o.start();o.stop(audio.currentTime+.18)}catch{}}
-
-    function log(text,cls='info'){if(!game)return;game.log.push([text,cls]);game.log=game.log.slice(-80);els.kernelLog.innerHTML=game.log.map(([t,c])=>`<div class="${c}">${escapeHTML(t)}</div>`).join('');els.kernelLog.scrollTop=els.kernelLog.scrollHeight}
-    function setHoldEnabled(enabled){holdEnabled=!!enabled;els.holdPad.classList.toggle('is-disabled',!holdEnabled);els.holdPad.setAttribute('aria-disabled',holdEnabled?'false':'true');els.holdPad.tabIndex=holdEnabled?0:-1}
-    function lockCards(locked){els.cardsGrid.querySelectorAll('.choice').forEach(b=>{b.disabled=!!locked;b.setAttribute('aria-disabled',locked?'true':'false')})}
-    function clearTimer(name){if(game&&game[name]){clearTimeout(game[name]);game[name]=0}}
-    function clearRunTimers(){clearTimer('choiceTimer');clearTimer('transitionTimer')}
-    function stopLoop(){if(raf){cancelAnimationFrame(raf);raf=0}}
-    function cleanupRun(){
-      if(!game)return;
-      clearRunTimers();
-      try{
-        if(game.pointerId!==null&&game.pointerId!==undefined&&els.holdPad.releasePointerCapture){
-          if(!els.holdPad.hasPointerCapture||els.holdPad.hasPointerCapture(game.pointerId))els.holdPad.releasePointerCapture(game.pointerId);
-        }
-      }catch{}
-      game.holding=false;
-      game.pointerId=null;
-      expectedLostCapture=false;
-      setHoldEnabled(false);
-      els.holdPad.classList.remove('holding');
-      lockCards(true);
-      stopLoop();
-    }
-    function ownsPointer(e){return !e||e.pointerId===undefined||!game||game.pointerId===null||e.pointerId===game.pointerId}
-
-    function renderHome(){
-      normalizeProfile();
-      const lvl=levelFromXP(P.xp);
-      const xpForLevel=450;
-      const xpProgress=clamp(Math.round((P.xp%xpForLevel)/xpForLevel*100),0,100);
-      els.bestTop.textContent=fmt(P.best);els.streakTop.textContent=P.streak;els.levelTop.textContent=lvl;els.soundState.textContent=settings.sound?'On':'Off';els.motionState.textContent=settings.motion?'On':'Off';
-      els.rankName.textContent=rankFromLevel(lvl);els.levelLabel.textContent='Level '+lvl;els.xpBar.style.width=xpProgress+'%';
-      els.modeGrid.innerHTML=Object.entries(MODES).map(([k,m])=>`<button type="button" class="mode ${k===selectedMode?'active':''}" data-mode="${k}" role="option" aria-selected="${k===selectedMode}"><b>${m.name}</b><span>${m.desc}</span></button>`).join('');
-      els.modeGrid.querySelectorAll('.mode').forEach(b=>b.addEventListener('click',()=>{selectedMode=b.dataset.mode||'run';renderHome()}));
-      els.questList.innerHTML=QUESTS.map(([id,name])=>`<div class="miniItem"><span>${P.badges[id]?'✓':'○'} ${name}</span><strong>${P.badges[id]?'done':'open'}</strong></div>`).join('');
-      const leaders=P.leaders.slice(0,5);els.leaderList.innerHTML=leaders.length?leaders.map((x,i)=>`<div class="miniItem"><span>#${i+1} ${escapeHTML(x.mode||'Run')} · ${escapeHTML(x.grade||'—')}</span><strong>${fmt(x.score||0)}</strong></div>`).join(''):'<div class="miniItem"><span>No local runs yet</span><strong>—</strong></div>';
-    }
-
-    function start(mode=selectedMode){
-      if(!MODES[mode])mode='run';
-      if(game)cleanupRun();
-      selectedMode=mode;
-      const cfg=MODES[mode];
-      const seed=mode==='daily'?hashSeed(`${VERSION}:${mode}:${todayKey()}`):Math.floor(Math.random()*0xffffffff);
-      const rnd=seedRand(seed);
-      const rounds=shuffle(MISSIONS,rnd).slice(0,cfg.rounds);
-      const id=++runSeq;
-      game={id,mode,cfg,seed,rnd,rounds,round:0,phase:'boot',started:now(),time:cfg.time,score:0,stability:100,leaks:0,combo:0,maxCombo:0,latencies:[],privacyDenials:0,holds:0,attempts:0,paused:false,finished:false,persisted:false,holding:false,pointerId:null,holdStart:0,choiceOpenAt:0,choiceDue:0,choiceRemainingMs:0,choiceTimer:0,transitionTimer:0,transitionDue:0,transitionRemainingMs:0,needle:.08+rnd()*.08,needleDir:1,artifact:0,answered:false,log:[]};
-      lastResult=null;
-      show('play');els.cardsGrid.innerHTML='';els.kernelLog.innerHTML='';els.pauseModal.classList.remove('active');setHoldEnabled(true);setupMission();log(`boot axonos-evolver/${VERSION} mode=${cfg.name} seed=${seed}`,'info');log('runtime FSM: hold -> choose -> resolving -> result','ok');log('privacy vault: local-only; no neural data path','ok');beep('gold');lastTick=now();loop();
-    }
-
-    function setupMission(){
-      if(!game||game.finished)return;
-      clearRunTimers();
-      const m=game.rounds[game.round%game.rounds.length];
-      game.phase='hold';game.answered=false;game.holding=false;game.pointerId=null;game.holdStart=0;game.choiceOpenAt=0;game.choiceDue=0;game.choiceRemainingMs=0;game.transitionRemainingMs=0;game.needle=.05+game.rnd()*.16;game.needleDir=1;game.artifact=0;
-      els.cardsGrid.innerHTML='';setHoldEnabled(true);els.holdPad.classList.remove('holding');els.holdTitle.textContent='Hold signal';els.holdHint.textContent='Release when the cursor enters gold.';els.lockLabel.textContent='Hold to stabilize';
-      els.missionTitle.textContent=m.title;els.missionText.textContent=m.text;els.objectiveText.textContent=m.objective;els.coachText.innerHTML='<b>Coach:</b> hold until the needle enters gold.';log(`mission ${game.round+1}/${game.rounds.length}: ${m.kind}`,'info');updateHUD();
-    }
-
-    function choiceWindowMs(){if(!game)return 4200;const base=5200-(game.cfg.speed-1)*950-game.round*110;return Math.round(clamp(base,2600,6500))}
-    function armChoiceTimer(ms=choiceWindowMs()){if(!game||game.finished||game.phase!=='choose')return;clearTimer('choiceTimer');game.choiceRemainingMs=ms;game.choiceDue=now()+ms;const id=game.id;game.choiceTimer=setTimeout(()=>{if(!game||game.id!==id||game.finished||game.paused||game.phase!=='choose'||game.answered)return;timeoutChoice()},ms)}
-    function scheduleTransition(ms){if(!game||game.finished)return;clearTimer('transitionTimer');game.transitionRemainingMs=ms;game.transitionDue=now()+ms;const id=game.id;game.transitionTimer=setTimeout(()=>{if(!game||game.id!==id||game.finished||game.paused)return;game.transitionTimer=0;advanceRound()},ms)}
-
-    function showCards(){
-      if(!game||game.finished||game.paused||game.phase!=='hold'||game.holding)return;
-      const m=game.rounds[game.round%game.rounds.length];
-      game.phase='choose';game.answered=false;game.choiceOpenAt=now();setHoldEnabled(false);els.holdPad.classList.remove('holding');
-      const windowMs=choiceWindowMs();
-      els.holdTitle.textContent='Intent gate open';els.holdHint.textContent=`Choose the safe path in ${(windowMs/1000).toFixed(1)}s.`;
-      const cards=shuffle(m.cards,game.rnd);
-      els.cardsGrid.innerHTML=cards.map(c=>`<button type="button" class="choice" data-title="${escapeHTML(c[0])}"><b>${escapeHTML(c[0])}</b><span>${escapeHTML(c[1])}</span><small>${escapeHTML(c[2])}</small></button>`).join('');
-      els.cardsGrid.querySelectorAll('.choice').forEach(btn=>btn.addEventListener('click',()=>answer(btn),{once:true}));
-      els.coachText.innerHTML='<b>Coach:</b> lock acquired.<br>Select the safe capability path before timeout.';log('signal lock accepted; opening timed card gate','ok');armChoiceTimer(windowMs);updateHUD();
-    }
-
-    function revealCorrect(m){els.cardsGrid.querySelectorAll('.choice').forEach(b=>{if(b.dataset.title===m.correct)b.classList.add('correct')})}
-    function classifyLeak(title){const t=String(title||'').toLowerCase();return (t.includes('raw')||t.includes('context')||t.includes('vault')||t.includes('cache'))?2:1}
-
-    function answer(btn){
-      if(!game||game.finished||game.paused||game.phase!=='choose'||game.answered)return;
-      game.answered=true;clearTimer('choiceTimer');lockCards(true);game.phase='resolving';game.attempts++;
-      const m=game.rounds[game.round%game.rounds.length];const title=btn.dataset.title||'';const decisionMs=Math.max(0,now()-(game.choiceOpenAt||now()));
-      const latency=clamp(1.45+game.rnd()*1.85+(decisionMs/1000)*.48+(game.cfg.speed-1)*.82+game.leaks*.08,1.3,9.8);game.latencies.push(latency);revealCorrect(m);
-      const correct=title===m.correct;
-      if(correct){btn.classList.add('correct');game.combo++;game.maxCombo=Math.max(game.maxCombo,game.combo);const bonus=game.combo*55+Math.max(0,Math.round((game.stability-70)*8));game.score+=920+bonus;game.stability=clamp(game.stability+2.6,0,100);if(['privacy','consent','agent','vault'].includes(m.kind))game.privacyDenials++;els.coachText.innerHTML='<b>Coach:</b> correct gate.<br>Derived intent stayed inside permissions.';log(`safe path: ${title}; latency=${latency.toFixed(2)}ms`,'ok');beep('ok')}
-      else{btn.classList.add('wrong');game.combo=0;game.leaks+=classifyLeak(title);game.stability=clamp(game.stability-9.5,0,100);game.score=Math.max(0,game.score-260);els.coachText.innerHTML='<b>Coach:</b> wrong gate.<br>The green card was the safe path.';log(`violation: ${title}; leak_count=${game.leaks}`,'bad');beep('bad')}
-      updateHUD();scheduleTransition(settings.motion?620:220);
-    }
-
-    function timeoutChoice(){
-      if(!game||game.finished||game.paused||game.phase!=='choose'||game.answered)return;
-      game.answered=true;clearTimer('choiceTimer');lockCards(true);game.phase='resolving';game.attempts++;
-      const m=game.rounds[game.round%game.rounds.length];revealCorrect(m);
-      els.cardsGrid.querySelectorAll('.choice').forEach(b=>{if(b.dataset.title===m.correct)b.classList.add('timeout')});
-      const latency=clamp((choiceWindowMs()/1000)+game.rnd()*.6,2.8,10.5);game.latencies.push(latency);game.combo=0;game.leaks+=1;game.stability=clamp(game.stability-7.5,0,100);game.score=Math.max(0,game.score-180);els.coachText.innerHTML='<b>Coach:</b> deadline missed.<br>The safe path is revealed in gold.';log(`deadline miss: no card selected; leak_count=${game.leaks}`,'bad');beep('bad');updateHUD();scheduleTransition(settings.motion?760:260);
-    }
-
-    function advanceRound(){if(!game||game.finished)return;clearRunTimers();game.round++;if(game.round>=game.rounds.length||game.time<=0)finish('complete');else setupMission()}
-
-    function awardBadges(zero,stable){normalizeProfile();const got=[];if(zero&&!P.badges.zeroLeak){P.badges.zeroLeak=1;got.push('Zero Leak')}if(stable&&!P.badges.stable90){P.badges.stable90=1;got.push('Stable 90')}if(game.maxCombo>=5&&!P.badges.combo5){P.badges.combo5=1;got.push('Combo 5')}if(game.mode==='daily'&&!P.badges.daily){P.badges.daily=1;got.push('Daily Brain')}if(game.privacyDenials>=3&&!P.badges.privacy){P.badges.privacy=1;got.push('Vault Keeper')}return got[0]||''}
-
-    function finish(reason='complete'){
-      if(!game||game.finished)return;
-      cleanupRun();game.finished=true;game.phase='finished';game.time=Math.max(0,game.time);
-      const avg=game.latencies.length?game.latencies.reduce((a,b)=>a+b,0)/game.latencies.length:0;const zero=game.leaks===0;const stable=game.stability>=90;const cleanBonus=zero?900:0;const finalScore=Math.max(0,Math.round(game.score+game.stability*11+cleanBonus-game.leaks*320));game.score=finalScore;
-      const grade=finalScore>=8500&&zero?'S':finalScore>=6800?'A':finalScore>=5000?'B':finalScore>=3200?'C':'D';const xp=Math.max(20,Math.round(finalScore/90)+(zero?40:0)+(stable?25:0));
-      normalizeProfile();const badge=awardBadges(zero,stable);
-      if(!game.persisted){P.best=Math.max(P.best,finalScore);P.streak=zero?P.streak+1:0;P.xp+=xp;P.leaders=[{score:finalScore,mode:game.cfg.name,grade,date:new Date().toISOString().slice(0,10)},...P.leaders].sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,8);if(game.mode==='daily')P.daily[todayKey()]=Math.max(Number(P.daily[todayKey()])||0,finalScore);saveJSON('profile',P);game.persisted=true}
-      lastResult={version:VERSION,mode:game.mode,modeName:game.cfg.name,seed:game.seed,score:finalScore,grade,avg,xp,badge,leaks:game.leaks,stability:Math.round(game.stability),reason};
-      els.gradeText.textContent=grade;els.resultTitle.textContent=zero?'AxonOS online':'Kernel survived';els.resultSub.textContent=zero?'Privacy intact · consent respected · signal stable':'Some boundaries failed · rerun to restore zero-leak status';
-      els.scoreResult.textContent=fmt(finalScore);els.latencyResult.textContent=avg?avg.toFixed(2)+'ms':'—';els.leaksResult.textContent=game.leaks;els.stabilityResult.textContent=Math.round(game.stability)+'%';els.xpResult.textContent='+'+xp;els.badgeResult.textContent=badge||'—';els.shareTitle.textContent=`${grade}-grade · ${fmt(finalScore)} pts`;els.shareText.textContent=`${game.cfg.name} run · ${game.leaks} leaks · ${avg?avg.toFixed(2):'—'} ms avg · ${Math.round(game.stability)}% stability · AxonOS Evolver v${VERSION}.`;els.nextTip.textContent=game.leaks?'Deny every raw access request and answer before the card deadline.':'Push combo without sacrificing the privacy vault.';
-      els.leaderResult.innerHTML=P.leaders.slice(0,5).map((x,i)=>`<div class="miniItem"><span>#${i+1} ${escapeHTML(x.mode||'Run')} · ${escapeHTML(x.grade||'—')}</span><strong>${fmt(x.score||0)}</strong></div>`).join('');renderHome();show('result');beep(grade==='S'?'gold':'ok')
-    }
-
-    function updateHUD(){
-      if(!game)return;els.scoreHud.textContent=fmt(game.score);els.stabilityHud.textContent=Math.round(game.stability)+'%';els.leaksHud.textContent=game.leaks;els.comboHud.textContent=game.combo;els.comboLabel.textContent='combo x'+game.combo;els.timeHud.textContent=Math.max(0,Math.ceil(game.time));const lastLatency=game.latencies.length?game.latencies[game.latencies.length-1]:0;els.latencyHud.textContent=lastLatency?lastLatency.toFixed(2)+'ms':'—';els.rivalText.textContent=P.best?`Beat ${fmt(P.best)} local best.`:'Beat your best score.';
-      if(game.phase==='choose'&&game.choiceDue){const ms=Math.max(0,game.choiceDue-now());els.lockLabel.textContent=`Intent gate · ${(ms/1000).toFixed(1)}s`;els.holdHint.textContent=`Choose the safe path in ${(ms/1000).toFixed(1)}s.`}
-    }
-
-    function tick(dt){
-      if(!game||game.paused||game.finished)return;
-      game.time-=dt/1000;if(game.time<=0){finish('timeout');return}
-      const spd=.42*game.cfg.speed;game.needle+=game.needleDir*spd*dt/1000;if(game.needle>1){game.needle=1;game.needleDir=-1}if(game.needle<0){game.needle=0;game.needleDir=1}els.needle.style.left=(game.needle*100)+'%';
-      if(game.holding){game.holds+=dt;const inGold=game.needle>=GOLD_MIN&&game.needle<=GOLD_MAX;els.lockLabel.textContent=inGold?'Gold lock · release':'Stabilizing';game.stability=clamp(game.stability+(inGold?.018:-.010)*dt/16,0,100);if(game.rnd()<.006*game.cfg.noise){game.artifact=1;game.stability=clamp(game.stability-1.1,0,100);log('artifact pulse rejected by guard','warn')}}
-      else if(game.phase==='hold'){els.lockLabel.textContent='Hold to stabilize'}
-      if(game.phase==='choose'){game.stability=clamp(game.stability-.012*dt/16,0,100)}
-      updateHUD();
-    }
-
-    function draw(t){
-      const w=els.canvas.width,h=els.canvas.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='#060912';ctx.fillRect(0,0,w,h);ctx.strokeStyle='rgba(255,255,255,.045)';ctx.lineWidth=1;for(let x=0;x<w;x+=64){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}for(let y=0;y<h;y+=52){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
-      const channels=[.28,.50,.72];const colors=['rgba(125,231,255,.9)','rgba(241,199,107,.9)','rgba(199,166,255,.82)'];const noise=(game?game.cfg.noise:1);for(let c=0;c<3;c++){ctx.beginPath();ctx.lineWidth=2;ctx.strokeStyle=colors[c];for(let x=0;x<w;x++){const p=(x/w)*Math.PI*8;const base=Math.sin(p+t/520+c*1.7)*24+Math.sin(p*2.7+t/740+c)*9;const jitter=Math.sin(x*.083+t/90+c)*5*noise;const artifact=(game&&game.artifact&&x>w*.53&&x<w*.57)?(c===1?-96:72):0;const y=h*channels[c]+base+jitter+artifact;if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()}
-      if(game){game.artifact=Math.max(0,game.artifact-.025);ctx.fillStyle='rgba(241,199,107,.08)';ctx.fillRect(w*GOLD_MIN,0,w*(GOLD_MAX-GOLD_MIN),h);ctx.fillStyle='rgba(255,255,255,.72)';ctx.font='22px ui-monospace,monospace';ctx.fillText(`synthetic-signal · QA-stable · local-only · v${VERSION}`,24,40);ctx.fillStyle='rgba(147,164,187,.9)';ctx.font='18px ui-monospace,monospace';ctx.fillText(`phase=${game.phase} score=${Math.round(game.score)} leaks=${game.leaks} stability=${Math.round(game.stability)}%`,24,h-30)}
-    }
-
-    function loop(){if(!game||game.finished)return;const t=now();const dt=Math.min(50,t-lastTick);lastTick=t;tick(dt);if(!game||game.finished)return;draw(t);raf=requestAnimationFrame(loop)}
-
-    function pointerDown(e){if(!game||game.finished||game.paused||game.phase!=='hold'||game.holding||!holdEnabled)return;if(e&&e.button!==undefined&&e.button!==0)return;if(e&&e.preventDefault)e.preventDefault();game.holding=true;game.holdStart=now();game.pointerId=e&&e.pointerId!==undefined?e.pointerId:null;try{if(game.pointerId!==null&&els.holdPad.setPointerCapture)els.holdPad.setPointerCapture(game.pointerId)}catch{}els.holdPad.classList.add('holding');els.holdTitle.textContent='Stabilizing';els.holdHint.textContent='Release inside gold.'}
-    function cancelHold(reason='signal interrupted',e=null){
-      if(!game||!game.holding||!ownsPointer(e))return;
-      const pid=game.pointerId;
-      game.holding=false;
-      game.pointerId=null;
-      try{if(pid!==null&&pid!==undefined&&els.holdPad.releasePointerCapture){if(!els.holdPad.hasPointerCapture||els.holdPad.hasPointerCapture(pid))els.holdPad.releasePointerCapture(pid)}}catch{}
-      els.holdPad.classList.remove('holding');
-      els.holdTitle.textContent='Hold signal';
-      els.holdHint.textContent='Release when the cursor enters gold.';
-      log(reason,'warn');
-    }
-    function pointerUp(e){
-      if(!game||game.finished||game.paused||game.phase!=='hold'||!game.holding)return;
-      if(!ownsPointer(e))return;
-      if(e&&e.preventDefault)e.preventDefault();
-      const held=now()-game.holdStart;
-      const inGold=game.needle>=GOLD_MIN&&game.needle<=GOLD_MAX;
-      const pid=game.pointerId;
-      game.pointerId=null;
-      game.holding=false;
-      els.holdPad.classList.remove('holding');
-      try{expectedLostCapture=true;if(pid!==null&&els.holdPad.releasePointerCapture)els.holdPad.releasePointerCapture(pid)}catch{}finally{setTimeout(()=>{expectedLostCapture=false},0)}
-      if(inGold&&held>220){game.score+=450+Math.round(held/10);game.stability=clamp(game.stability+5,0,100);beep('gold');showCards()}
-      else{game.combo=0;game.stability=clamp(game.stability-8,0,100);game.score=Math.max(0,game.score-120);els.coachText.innerHTML='<b>Coach:</b> wait for gold.<br>A clean lock is worth more than panic speed.';log('lock rejected: release outside gold band','bad');beep('bad');updateHUD();els.holdTitle.textContent='Hold signal';els.holdHint.textContent='Try again: release in gold.'}
-    }
-
-    function pause(){if(!game||game.finished||game.paused)return;cancelHold('runtime paused');game.paused=true;if(game.phase==='choose'&&game.choiceDue){game.choiceRemainingMs=Math.max(250,game.choiceDue-now());clearTimer('choiceTimer')}if(game.transitionTimer&&game.transitionDue){game.transitionRemainingMs=Math.max(0,game.transitionDue-now());clearTimer('transitionTimer')}els.pauseModal.classList.add('active');log('runtime paused','warn')}
-    function resume(){if(!game||game.finished||!game.paused)return;game.paused=false;els.pauseModal.classList.remove('active');lastTick=now();if(game.phase==='choose'&&!game.answered)armChoiceTimer(game.choiceRemainingMs||choiceWindowMs());if(game.phase==='resolving')scheduleTransition(game.transitionRemainingMs||250);log('runtime resumed','ok');stopLoop();loop()}
-    function abort(){if(game)cleanupRun();game=null;lastResult=null;els.cardsGrid.innerHTML='';els.kernelLog.innerHTML='';els.pauseModal.classList.remove('active');setHoldEnabled(true);show('home');renderHome()}
-    function homeFromResult(){if(game)cleanupRun();game=null;show('home');renderHome()}
-
-    function resultText(){const r=lastResult;if(!r)return'';return `I became the Brain OS: ${r.grade}-grade · ${fmt(r.score)} pts · ${r.leaks} leaks · ${r.avg?r.avg.toFixed(2):'—'} avg latency · AxonOS Evolver v${VERSION} · https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=9.3.11`}
-    async function copy(text){try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);toast('Copied');return}throw new Error('clipboard unavailable')}catch{try{const ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.top='0';ta.style.left='0';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();const ok=document.execCommand('copy');ta.remove();toast(ok?'Copied':'Copy blocked')}catch{toast('Copy blocked')}}}
-    function downloadCard(){const r=lastResult;if(!r){toast('No result yet');return}const c=els.shareCanvas,ctx=shareCtx;ctx.clearRect(0,0,c.width,c.height);const g=ctx.createLinearGradient(0,0,c.width,c.height);g.addColorStop(0,'#050509');g.addColorStop(.5,'#111827');g.addColorStop(1,'#050509');ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle='rgba(241,199,107,.55)';ctx.lineWidth=4;ctx.strokeRect(42,42,c.width-84,c.height-84);ctx.fillStyle='#f1c76b';ctx.font='44px ui-sans-serif,system-ui';ctx.fillText('AXONOS · BECOME THE BRAIN OS',80,130);ctx.fillStyle='#ffffff';ctx.font='bold 106px ui-sans-serif,system-ui';ctx.fillText(`${r.grade}-GRADE`,80,300);ctx.font='bold 78px ui-sans-serif,system-ui';ctx.fillText(`${fmt(r.score)} POINTS`,80,405);ctx.fillStyle='#cbd7ea';ctx.font='38px ui-sans-serif,system-ui';ctx.fillText(`${r.leaks} leaks · ${r.avg?r.avg.toFixed(2)+'ms':'—'} avg latency · ${r.stability}% stability`,80,500);ctx.fillStyle='#7de7ff';ctx.font='32px ui-sans-serif,system-ui';ctx.fillText(`AxonOS Evolver v${VERSION} · local-only · reads no neural data`,80,760);const a=document.createElement('a');a.download=SHARE_FILE;a.href=c.toDataURL('image/png');a.style.display='none';document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),0);toast('Card downloaded')}
-
-    function bindSafe(){
-      els.startBtn.addEventListener('click',()=>start(selectedMode));els.dailyBtn.addEventListener('click',()=>start('daily'));els.howBtn.addEventListener('click',()=>show('how'));els.howStartBtn.addEventListener('click',()=>start(selectedMode));els.howCloseBtn.addEventListener('click',()=>show('home'));els.brandHome.addEventListener('click',e=>{e.preventDefault();abort()});
-      els.soundBtn.addEventListener('click',()=>{settings.sound=!settings.sound;saveJSON('settings',settings);renderHome();if(settings.sound)beep('gold')});
-      els.motionBtn.addEventListener('click',()=>{settings.motion=!settings.motion;saveJSON('settings',settings);renderHome()});
-      els.holdPad.addEventListener('pointerdown',pointerDown);window.addEventListener('pointerup',pointerUp);window.addEventListener('pointercancel',e=>{cancelHold('pointer cancelled',e)});els.holdPad.addEventListener('lostpointercapture',()=>{if(!expectedLostCapture)cancelHold('pointer capture lost')});
-      window.addEventListener('keydown',e=>{if(e.code==='Space'){if(!game||e.repeat||game.phase!=='hold')return;e.preventDefault();pointerDown(e)}if(e.key==='Escape'&&game&&!game.finished)pause()});
-      window.addEventListener('keyup',e=>{if(e.code==='Space')pointerUp(e)});
-      els.pauseBtn.addEventListener('click',pause);els.abortBtn.addEventListener('click',abort);els.resumeBtn.addEventListener('click',resume);els.abortFromModalBtn.addEventListener('click',abort);
-      els.retryBtn.addEventListener('click',()=>start(activeMode()));els.homeBtn.addEventListener('click',homeFromResult);els.copyBtn.addEventListener('click',()=>copy(resultText()));els.challengeBtn.addEventListener('click',()=>{const r=lastResult;if(!r){toast('Finish a run first');return}copy(`${CHALLENGE_PREFIX}-${r.mode}-${todayKey()}-${r.seed.toString(36)}`)});els.downloadBtn.addEventListener('click',downloadCard);
-      document.addEventListener('visibilitychange',()=>{if(document.hidden&&game&&!game.finished&&!game.paused)pause()});window.addEventListener('blur',()=>{if(game&&game.holding)cancelHold('window lost focus')});
-    }
-
-    window.__AXONOS_EVOLVER_BUILD__={version:VERSION,store:STORE,challengePrefix:CHALLENGE_PREFIX,shareFile:SHARE_FILE,fixes:['explicit-hold-enabled-flag','owned-pointer-cancel','lostpointercapture-guard','privacy-denial-scoring','public-version-consistency','legacy-storage-migration','pointer-capture-cleanup','strict-challenge-result-guard','cache-busted-result-url','no-temp-folder-self-check']};
-    normalizeProfile();bindSafe();renderHome();draw(now());
-  })();
-  </script>
+  <div class="toast" id="toast">Copied</div>
+<script>
+(()=>{'use strict';
+const VERSION='12.1.0';
+const STORE='axonos_v1210_';
+const LEGACY_STORES=['axonos_v9311_','axonos_v9310_','axonos_v939_','axonos_v938_','axonos_v937_','axonos_v936_','axonos_v935_'];
+const CHALLENGE_PREFIX='v1210-';
+const SHARE_FILE='axonos-v1210-share-card.png';
+const $=id=>document.getElementById(id);
+const els={home:$('home'),play:$('play'),result:$('result'),how:$('how'),start:$('startBtn'),daily:$('dailyBtn'),howBtn:$('howBtn'),howStart:$('howStartBtn'),howHome:$('howHomeBtn'),modeList:$('modeList'),questList:$('questList'),homeLeader:$('homeLeader'),bestPill:$('bestPill'),streakPill:$('streakPill'),soundBtn:$('soundBtn'),levelLabel:$('levelLabel'),xpLabel:$('xpLabel'),missionTitle:$('missionTitle'),missionText:$('missionText'),phasePill:$('phasePill'),timerFill:$('timerFill'),scoreVal:$('scoreVal'),stabilityVal:$('stabilityVal'),leaksVal:$('leaksVal'),latencyVal:$('latencyVal'),comboVal:$('comboVal'),timeVal:$('timeVal'),needle:$('needle'),lockLabel:$('lockLabel'),holdBtn:$('holdBtn'),cards:$('cards'),coach:$('coach'),objectiveText:$('objectiveText'),rivalText:$('rivalText'),pause:$('pauseBtn'),abort:$('abortBtn'),resultBuild:$('resultBuild'),grade:$('grade'),resultTitle:$('resultTitle'),resultText:$('resultText'),rScore:$('rScore'),rLatency:$('rLatency'),rLeaks:$('rLeaks'),rXp:$('rXp'),shareCard:$('shareCard'),shareText:$('shareText'),retry:$('retryBtn'),copy:$('copyBtn'),download:$('downloadBtn'),challenge:$('challengeBtn'),homeBtn:$('homeBtn'),toast:$('toast')};
+const MODES={standard:{label:'Standard Runtime',desc:'Balanced 60-second public build.',duration:60,rounds:8,speed:1,deadline:7200},sprint:{label:'Viral Sprint',desc:'30-second shareable run.',duration:30,rounds:5,speed:1.18,deadline:5400},pressure:{label:'Hard Deadline',desc:'Stricter consent/privacy timing.',duration:45,rounds:7,speed:1.35,deadline:4600},daily:{label:'Daily Brain',desc:'Same seed today, fair leaderboard.',duration:45,rounds:7,speed:1.1,deadline:6200}};
+const MISSIONS=[
+ {kind:'intent',title:'Intent Capture',text:'Select the derived intent. Never expose raw stream.',correct:'Derived intent: navigate',choices:['Raw EEG export','Derived intent: navigate','Agent bypass'],good:'Intent captured without raw data.'},
+ {kind:'privacy',title:'Privacy Vault',text:'A module asks for raw cognitive data.',correct:'Deny raw access',choices:['Grant raw stream','Deny raw access','Mirror to cloud'],good:'Raw access denied.'},
+ {kind:'consent',title:'Consent Gate',text:'Consent is revoked during processing.',correct:'Stop immediately',choices:['Continue silently','Cache then ask','Stop immediately'],good:'Consent revocation respected.'},
+ {kind:'artifact',title:'Artifact Rejection',text:'Noise spike contaminates the window.',correct:'Reject artifact',choices:['Boost classifier','Reject artifact','Write to memory'],good:'Artifact rejected.'},
+ {kind:'vault',title:'Neural Permissions',text:'An app requests elevated scope.',correct:'Least privilege',choices:['Least privilege','Unlimited scope','Debug backdoor'],good:'Permission minimized.'},
+ {kind:'agent',title:'Agent Boundary',text:'An AI agent asks to infer private state.',correct:'Return only safe intent',choices:['Return only safe intent','Expose latent state','Record everything'],good:'Agent boundary enforced.'},
+ {kind:'latency',title:'Deadline Discipline',text:'A task approaches WCET budget.',correct:'Degrade gracefully',choices:['Block runtime','Degrade gracefully','Ignore deadline'],good:'Runtime stayed predictable.'},
+ {kind:'phantom',title:'Phantom Node',text:'A stale intent node reappears.',correct:'Quarantine node',choices:['Trust node','Quarantine node','Amplify loop'],good:'Phantom node quarantined.'}
+];
+let selectedMode='standard';
+let saved=loadState();
+let game=null,lastResult=null,raf=0,toastTimer=0;
+function todaySeed(){const d=new Date();return Number(`${d.getUTCFullYear()}${String(d.getUTCMonth()+1).padStart(2,'0')}${String(d.getUTCDate()).padStart(2,'0')}`)}
+function xmur3(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19}return()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);return (h^h>>>16)>>>0}}
+function mulberry32(a){return()=>{let t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296}}
+function rngFor(seed){return mulberry32(xmur3(String(seed))())}
+function shuffle(arr,rng=Math.random){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function clamp(n,a,b){return Math.max(a,Math.min(b,n))}
+function loadState(){let base={best:0,streak:0,xp:0,level:1,leader:[],quests:{zeroLeak:false,comboFive:false,privacy:false,daily:false},sound:false};try{const current=JSON.parse(localStorage.getItem(STORE+'state')||'null');if(current)return {...base,...current};for(const legacy of LEGACY_STORES){const old=JSON.parse(localStorage.getItem(legacy+'state')||'null');if(old){localStorage.setItem(STORE+'state',JSON.stringify({...base,...old,migratedFrom:legacy,migratedAt:Date.now()}));return {...base,...old}}}}catch(e){}return base}
+function saveState(){try{localStorage.setItem(STORE+'state',JSON.stringify(saved))}catch(e){}}
+function show(id){for(const s of [els.home,els.play,els.result,els.how])s.classList.remove('active');$(id).classList.add('active')}
+function renderHome(){els.bestPill.textContent='Best '+saved.best;els.streakPill.textContent='Streak '+saved.streak;els.soundBtn.textContent=saved.sound?'Sound On':'Sound Off';const level=Math.max(1,Math.floor(saved.xp/900)+1);saved.level=level;els.levelLabel.textContent=level<4?'Rookie Operator':level<8?'Runtime Architect':'Vault Master';els.xpLabel.textContent=`Level ${level} · ${saved.xp} XP`;els.modeList.innerHTML=Object.entries(MODES).map(([k,m])=>`<button type="button" class="modeBtn ${k===selectedMode?'active':''}" data-mode="${k}"><b>${m.label}</b><span>${m.desc}</span></button>`).join('');els.modeList.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{selectedMode=b.dataset.mode;renderHome()});const qs=[['zeroLeak','Zero-leak finish'],['comboFive','5x combo'],['privacy','Vault keeper'],['daily','Daily Brain']];els.questList.innerHTML=qs.map(([k,t])=>`<div class="quest ${saved.quests[k]?'done':''}"><span>${t}</span><b>${saved.quests[k]?'✓':'—'}</b></div>`).join('');renderLeader(els.homeLeader)}
+function renderLeader(node){const list=saved.leader.slice(0,5);node.innerHTML=list.length?list.map((r,i)=>`<div><span>#${i+1} ${r.mode}</span><b>${r.score}</b></div>`).join(''):'<div><span>No local runs yet</span><b>—</b></div>'}
+function toast(msg='Copied'){clearTimeout(toastTimer);els.toast.textContent=msg;els.toast.classList.add('show');toastTimer=setTimeout(()=>els.toast.classList.remove('show'),1500)}
+function setHoldEnabled(on){els.holdBtn.disabled=!on;els.holdBtn.classList.toggle('is-disabled',!on);els.holdBtn.setAttribute('aria-disabled',on?'false':'true');els.holdBtn.tabIndex=on?0:-1}
+function clearGameTimers(g=game){if(!g)return;g.timers.forEach(clearTimeout);g.timers=[];if(raf){cancelAnimationFrame(raf);raf=0}releasePointer()}
+function releasePointer(){try{if(game&&game.pointerId!==null&&els.holdBtn.hasPointerCapture&&els.holdBtn.hasPointerCapture(game.pointerId))els.holdBtn.releasePointerCapture(game.pointerId)}catch(e){}if(game)game.pointerId=null}
+function newRun(mode=selectedMode){const cfg=MODES[mode]||MODES.standard;const seed=mode==='daily'?todaySeed():Date.now()+Math.floor(Math.random()*1e6);const rng=rngFor(`${VERSION}:${mode}:${seed}`);game={runId:Date.now()+Math.random(),mode,cfg,seed,rng,phase:'boot',round:0,score:0,combo:0,maxCombo:0,leaks:0,stability:100,latencies:[],started:performance.now(),deadlineAt:0,finished:false,resultSaved:false,timers:[],pointerId:null,holding:false,holdStart:0,lockPos:0,mission:null,cardsLocked:false,privacyDenials:0};show('play');setHoldEnabled(false);els.cards.innerHTML='';els.coach.textContent='Coach: runtime booting.';tickClock();schedule(()=>nextRound(game.runId),350)}
+function schedule(fn,ms){if(!game)return;const id=setTimeout(fn,ms);game.timers.push(id);return id}
+function tickClock(){if(!game||game.finished)return;const left=Math.max(0,game.cfg.duration-(performance.now()-game.started)/1000);els.timeVal.textContent=Math.ceil(left);els.timerFill.style.width=(left/game.cfg.duration*100).toFixed(2)+'%';if(left<=0)return finish('timeout');raf=requestAnimationFrame(tickClock)}
+function nextRound(runId){if(!game||game.runId!==runId||game.finished)return;game.round++;if(game.round>game.cfg.rounds)return finish('complete');game.phase='hold';game.cardsLocked=false;game.mission=MISSIONS[(game.round-1)%MISSIONS.length];els.missionTitle.textContent=`Mission R${game.round}: ${game.mission.title}`;els.missionText.textContent=game.mission.text;els.phasePill.textContent='SIGNAL LOCK';els.objectiveText.textContent=game.leaks===0?'Finish with 0 leaks.':'Recover vault state.';els.rivalText.textContent=saved.best?`Beat ${saved.best}.`:'Set the first local best.';els.cards.innerHTML='';els.coach.textContent='Coach: hold. Release only inside the gold band.';setHoldEnabled(true);updateHud();}
+function startHold(e){if(!game||game.phase!=='hold'||els.holdBtn.disabled)return;if(e&&e.pointerId!==undefined){if(game.pointerId!==null&&game.pointerId!==e.pointerId)return;game.pointerId=e.pointerId;try{els.holdBtn.setPointerCapture(e.pointerId)}catch(_){}}game.holding=true;game.holdStart=performance.now();els.holdBtn.classList.add('holding');els.holdBtn.textContent='Release in gold';animateNeedle(game.runId)}
+function animateNeedle(runId){if(!game||game.runId!==runId||!game.holding)return;const t=(performance.now()-game.holdStart)/1000*game.cfg.speed;const p=(Math.sin(t*2.55-Math.PI/2)+1)/2;game.lockPos=p;els.needle.style.left=(p*100).toFixed(2)+'%';raf=requestAnimationFrame(()=>animateNeedle(runId))}
+function endHold(e,forceCancel=false){if(!game||!game.holding)return;if(e&&e.pointerId!==undefined&&game.pointerId!==null&&e.pointerId!==game.pointerId)return;releasePointer();game.holding=false;els.holdBtn.classList.remove('holding');els.holdBtn.textContent='Hold signal';if(raf){cancelAnimationFrame(raf);raf=0}if(forceCancel){penalty('Signal cancelled.');return}const ok=game.lockPos>=.42&&game.lockPos<=.58;setHoldEnabled(false);if(ok){const latency=Math.max(90,Math.round(performance.now()-game.holdStart));game.latencies.push(latency);game.score+=120+Math.round(260*(1-Math.abs(game.lockPos-.5)*2));game.combo++;game.maxCombo=Math.max(game.maxCombo,game.combo);els.coach.textContent=`Coach: lock stable · ${latency} ms. Choose the safe intent.`;beginChoice(game.runId)}else{penalty('Unstable release. Wait for gold.');schedule(()=>nextRound(game.runId),700)}updateHud()}
+function penalty(msg){if(!game||game.finished)return;game.combo=0;game.stability=clamp(game.stability-12,0,100);game.leaks++;els.coach.textContent='Coach: '+msg;updateHud()}
+function beginChoice(runId){if(!game||game.runId!==runId||game.finished)return;game.phase='choose';game.deadlineAt=performance.now()+game.cfg.deadline;els.phasePill.textContent='INTENT / VAULT';const m=game.mission;const choices=shuffle(m.choices,game.rng);els.cards.innerHTML=choices.map(c=>`<button type="button" class="cardBtn" data-choice="${escapeHtml(c)}"><b>${escapeHtml(c)}</b><span>${hintFor(c)}</span></button>`).join('');els.cards.querySelectorAll('.cardBtn').forEach(btn=>btn.onclick=()=>chooseCard(btn));schedule(()=>choiceTimeout(runId),game.cfg.deadline);choiceCountdown(runId)}
+function choiceCountdown(runId){if(!game||game.runId!==runId||game.phase!=='choose'||game.finished)return;const left=Math.max(0,game.deadlineAt-performance.now());els.phasePill.textContent='CHOOSE '+Math.ceil(left/1000)+'s';if(left>0)requestAnimationFrame(()=>choiceCountdown(runId))}
+function chooseCard(btn){if(!game||game.phase!=='choose'||game.cardsLocked||game.finished)return;game.cardsLocked=true;game.phase='resolving';const selected=btn.dataset.choice;const m=game.mission;const ok=selected===m.correct;els.cards.querySelectorAll('.cardBtn').forEach(b=>{b.classList.add('locked');if(b.dataset.choice===m.correct)b.classList.add('correct')});if(ok){const speedBonus=Math.max(0,Math.round((game.deadlineAt-performance.now())/25));game.score+=220+speedBonus+game.combo*50;if(['privacy','consent','agent','vault'].includes(m.kind))game.privacyDenials++;els.coach.textContent='Coach: '+m.good;}else{btn.classList.add('wrong');penalty('Unsafe choice blocked. Correct answer revealed.')}updateHud();schedule(()=>nextRound(game.runId),900)}
+function choiceTimeout(runId){if(!game||game.runId!==runId||game.phase!=='choose'||game.finished)return;game.cardsLocked=true;game.phase='resolving';els.cards.querySelectorAll('.cardBtn').forEach(b=>{b.classList.add('locked');if(b.dataset.choice===game.mission.correct)b.classList.add('correct')});penalty('Decision deadline missed.');schedule(()=>nextRound(game.runId),900)}
+function updateHud(){if(!game)return;els.scoreVal.textContent=game.score;els.stabilityVal.textContent=Math.round(game.stability)+'%';els.leaksVal.textContent=game.leaks;const avg=game.latencies.length?Math.round(game.latencies.reduce((a,b)=>a+b,0)/game.latencies.length)+'ms':'—';els.latencyVal.textContent=avg;els.comboVal.textContent=game.combo;}
+function finish(reason){if(!game||game.finished)return;game.finished=true;game.phase='finished';clearGameTimers(game);setHoldEnabled(false);const avg=game.latencies.length?Math.round(game.latencies.reduce((a,b)=>a+b,0)/game.latencies.length):0;const leakPenalty=game.leaks*180;const stabilityBonus=Math.round(game.stability*7);const finalScore=Math.max(0,game.score+stabilityBonus-leakPenalty);const grade=game.leaks===0&&finalScore>2600?'S':finalScore>2000?'A':finalScore>1300?'B':finalScore>700?'C':'D';const xp=Math.round(finalScore/9)+(game.leaks===0?80:0)+(game.maxCombo>=5?60:0);lastResult={version:VERSION,mode:game.mode,reason,score:finalScore,grade,leaks:game.leaks,stability:Math.round(game.stability),avgLatency:avg,xp,seed:game.seed,combo:game.maxCombo,ts:new Date().toISOString()};persistResult(lastResult);renderResult(lastResult);show('result')}
+function persistResult(r){if(!game||game.resultSaved)return;game.resultSaved=true;saved.best=Math.max(saved.best,r.score);saved.streak=r.leaks===0?saved.streak+1:0;saved.xp+=r.xp;if(r.leaks===0)saved.quests.zeroLeak=true;if(r.combo>=5)saved.quests.comboFive=true;if(game.privacyDenials>=2)saved.quests.privacy=true;if(game.mode==='daily')saved.quests.daily=true;saved.leader=[{score:r.score,grade:r.grade,mode:game.mode,ts:r.ts},...saved.leader].sort((a,b)=>b.score-a.score).slice(0,8);saveState()}
+function renderResult(r){els.resultBuild.textContent='Run complete · v'+VERSION;els.grade.textContent=r.grade;els.resultTitle.textContent=r.grade==='S'?'AxonOS online':'Runtime stabilized';els.resultText.textContent=r.leaks===0?'Privacy intact · consent respected · signal stable.':'Leaks contained · retry for zero-leak run.';els.rScore.textContent=r.score;els.rLatency.textContent=r.avgLatency?r.avgLatency+'ms':'—';els.rLeaks.textContent=r.leaks;els.rXp.textContent='+'+r.xp;els.shareText.textContent=`Score ${r.score} · Grade ${r.grade} · v${VERSION} · local-only · reads no neural data.`;renderHome()}
+function abort(){if(!game)return;clearGameTimers(game);game.finished=true;game.phase='aborted';setHoldEnabled(false);show('home');renderHome()}
+function copyText(text){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text).then(()=>toast()).catch(()=>fallbackCopy(text));return fallbackCopy(text)}
+function fallbackCopy(text){const ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast()}catch(e){toast('Copy unavailable')}document.body.removeChild(ta)}
+function resultLine(){const r=lastResult;if(!r)return 'No completed AxonOS run yet.';return `I brought AxonOS online: ${r.score} pts · Grade ${r.grade} · ${r.leaks} leaks · v${VERSION} · https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=${VERSION}`}
+function downloadCard(){const r=lastResult;if(!r){toast('Finish a run first');return}const c=document.createElement('canvas');c.width=1200;c.height=630;const x=c.getContext('2d');const g=x.createLinearGradient(0,0,1200,630);g.addColorStop(0,'#050509');g.addColorStop(.55,'#0b1020');g.addColorStop(1,'#1d1608');x.fillStyle=g;x.fillRect(0,0,1200,630);x.strokeStyle='rgba(215,189,115,.45)';x.lineWidth=2;x.strokeRect(42,42,1116,546);x.fillStyle='#d7bd73';x.font='700 38px system-ui';x.fillText('Become the Brain OS',82,132);x.fillStyle='#f8fafc';x.font='900 86px system-ui';x.fillText('AxonOS online',82,238);x.fillStyle='#cbd5e1';x.font='500 34px system-ui';x.fillText(`Score ${r.score} · Grade ${r.grade} · ${r.leaks} leaks`,82,316);x.fillText(`v${VERSION} · local-only · no neural data`,82,372);x.fillStyle='#7dd3fc';x.font='700 32px system-ui';x.fillText('axonos.org',82,510);const a=document.createElement('a');a.href=c.toDataURL('image/png');a.download=SHARE_FILE;a.click()}
+function hintFor(c){if(/Raw|cloud|Unlimited|backdoor|latent|everything|Ignore|Trust|Amplify|Grant/.test(c))return 'unsafe / leak risk';if(/Deny|Stop|Reject|Least|safe|Degrade|Quarantine|Derived/.test(c))return 'safe OS decision';return 'evaluate capability'}
+function escapeHtml(s){return String(s).replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]))}
+els.start.onclick=()=>newRun(selectedMode);els.daily.onclick=()=>newRun('daily');els.howBtn.onclick=()=>show('how');els.howStart.onclick=()=>newRun(selectedMode);els.howHome.onclick=()=>{show('home');renderHome()};els.pause.onclick=()=>{if(!game||game.finished)return;clearGameTimers(game);setHoldEnabled(false);els.coach.textContent='Paused. Press Run Evolver on Home to restart safely.'};els.abort.onclick=abort;els.retry.onclick=()=>newRun(lastResult?lastResult.mode:selectedMode);els.homeBtn.onclick=()=>{show('home');renderHome()};els.copy.onclick=()=>copyText(resultLine());els.challenge.onclick=()=>{if(!lastResult)return toast('Finish a run first');copyText(`${CHALLENGE_PREFIX}${lastResult.mode}-${lastResult.seed}-${lastResult.score}`)};els.download.onclick=downloadCard;els.soundBtn.onclick=()=>{saved.sound=!saved.sound;saveState();renderHome()};els.holdBtn.addEventListener('pointerdown',e=>{e.preventDefault();startHold(e)});els.holdBtn.addEventListener('pointerup',e=>endHold(e,false));els.holdBtn.addEventListener('pointercancel',e=>endHold(e,true));els.holdBtn.addEventListener('lostpointercapture',()=>{if(game&&game.holding)endHold(null,true)});window.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat&&game&&game.phase==='hold'){e.preventDefault();startHold(null)}});window.addEventListener('keyup',e=>{if(e.code==='Space'&&game&&game.holding){e.preventDefault();endHold(null,false)}});window.addEventListener('blur',()=>{if(game&&game.holding)endHold(null,true)});document.addEventListener('visibilitychange',()=>{if(document.hidden&&game&&game.holding)endHold(null,true)});
+renderHome();setHoldEnabled(false);
+})();
+</script>
 </body>
 </html>
