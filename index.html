@@ -2,142 +2,128 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#0a0e14" />
-<meta name="description" content="Become the Brain OS is a local-only educational browser game: be the real-time OS between neural hardware and apps — classify intent before the deadline, deny raw neural data, respect consent, reject artifacts. No sensor. No neural data. About AxonOS." />
-<title>Become the Brain OS · AxonOS v14.2.0</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#06080e" />
+<meta name="description" content="Neural Triage — a fast arcade game where you are the privacy firewall of a brain–computer interface: ALLOW derived intent, BLOCK raw thoughts, survive escalating waves. No sensor, no neural data. A game about AxonOS." />
+<title>Become the Brain OS · AxonOS v16.3.0</title>
 <style>
   :root{
-    --bg:#0a0e14; --panel:#0f1622; --panel2:#131c2b; --line:#1f2c3f;
-    --ink:#e8f1f8; --muted:#8aa0b6; --dim:#5f7790;
-    --cyan:#3ff0d8; --blue:#3b82f6; --axon:#2b6cb0; --gold:#ffd166;
-    --good:#34d399; --bad:#fb7185; --warn:#fbbf24;
-    --r:14px;
+    --bg:#06080e; --panel:#0e1422; --line:#1d2b40; --ink:#eaf2fa; --muted:#8198b0;
+    --cyan:#3ff0d8; --axon:#2b6cb0; --gold:#ffd166; --good:#2ee6a6; --bad:#ff5d73; --warn:#ffb020;
   }
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{margin:0;height:100%}
-  body{
-    background:radial-gradient(1200px 700px at 50% -10%,#10243a 0%,var(--bg) 60%);
-    color:var(--ink);
-    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
-    -webkit-font-smoothing:antialiased; overflow:hidden;
-  }
-  .wrap{max-width:780px;margin:0 auto;height:100%;display:flex;flex-direction:column;padding:14px;gap:12px}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+  html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none}
+  body{background:radial-gradient(900px 600px at 50% -8%,#10243a 0%,var(--bg) 62%);color:var(--ink);
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
   .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+  .wrap{max-width:560px;margin:0 auto;height:100%;display:flex;flex-direction:column;padding:12px;gap:10px}
+  .shake{animation:sh .26s}
+  @keyframes sh{0%,100%{transform:translate(0,0)}20%{transform:translate(-7px,3px)}40%{transform:translate(6px,-4px)}60%{transform:translate(-5px,-3px)}80%{transform:translate(4px,3px)}}
 
-  /* top bar */
-  .top{display:flex;align-items:center;gap:10px}
-  .brand{display:flex;align-items:center;gap:9px;min-width:0}
-  .seal{width:30px;height:30px;border-radius:8px;flex:none;
-    background:linear-gradient(135deg,var(--axon),#0a4a8f);position:relative;
-    box-shadow:0 0 0 1px #ffffff14, 0 6px 18px #0a4a8f44}
-  .seal::after{content:"";position:absolute;inset:8px;border-radius:50%;
-    border:2px solid #bfe9ff;border-right-color:transparent;animation:spin 3.2s linear infinite}
+  .top{display:flex;align-items:center;gap:9px}
+  .seal{width:28px;height:28px;border-radius:8px;flex:none;background:linear-gradient(135deg,var(--axon),#0a4a8f);position:relative;box-shadow:0 6px 16px #0a4a8f44}
+  .seal::after{content:"";position:absolute;inset:7px;border-radius:50%;border:2px solid #bfe9ff;border-right-color:transparent;animation:spin 3s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .brand b{font-size:15px;letter-spacing:.2px;white-space:nowrap}
-  .brand span{font-size:11px;color:var(--muted)}
-  .top .right{margin-left:auto;display:flex;gap:8px}
-  .chip{font-size:11px;color:var(--muted);background:var(--panel);border:1px solid var(--line);
-    padding:5px 9px;border-radius:999px;white-space:nowrap}
+  .top b{font-size:14px} .top span{font-size:11px;color:var(--muted)}
+  .top .r{margin-left:auto;display:flex;gap:7px}
+  .chip{font-size:11px;color:var(--muted);background:var(--panel);border:1px solid var(--line);padding:4px 9px;border-radius:999px}
   .chip b{color:var(--cyan)}
+  .disc{font-size:10.5px;color:var(--muted);text-align:center;border:1px dashed var(--line);border-radius:9px;padding:5px 8px;background:#0a1018}
+  .disc b{color:#cfe0ee}
+  .err{display:none;background:#2c0f17;border:1px solid var(--bad);color:#ffd4dc;border-radius:10px;padding:12px;font-size:13px;text-align:center}
 
-  .disclaimer{font-size:11px;color:var(--muted);text-align:center;
-    border:1px dashed var(--line);border-radius:10px;padding:6px 10px;background:#0c1320}
-  .disclaimer b{color:#cfe0ee}
+  .screen{flex:1;min-height:0;display:flex;flex-direction:column}
 
-  /* card / screens */
-  .screen{flex:1;min-height:0;display:flex;flex-direction:column;gap:12px}
-  .panel{background:linear-gradient(180deg,var(--panel),var(--panel2));
-    border:1px solid var(--line);border-radius:var(--r);padding:18px}
-
-  /* home */
-  .hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px}
-  .eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);display:flex;align-items:center;gap:8px}
-  .eyebrow .d{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
-  h1{font-size:30px;margin:0;line-height:1.1;letter-spacing:-.5px}
-  h1 small{display:block;font-size:14px;color:var(--muted);font-weight:500;letter-spacing:0;margin-top:8px}
-  .lead{color:var(--muted);max-width:46ch;margin:0;line-height:1.55;font-size:14px}
-  .btnrow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-  .btn{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);
-    font:inherit;font-weight:600;font-size:15px;padding:13px 20px;border-radius:12px;cursor:pointer;transition:transform .06s,border-color .15s}
+  /* HOME / END */
+  .center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:6px}
+  .eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan)}
+  h1{font-size:32px;margin:0;line-height:1.05;letter-spacing:-.5px}
+  h1 small{display:block;font-size:13.5px;color:var(--muted);font-weight:500;margin-top:9px;letter-spacing:0;line-height:1.5;max-width:34ch}
+  .lead{color:var(--muted);max-width:40ch;margin:0;line-height:1.55;font-size:13.5px}
+  .legend{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:12px}
+  .pill{border:1px solid var(--line);border-radius:999px;padding:7px 13px;background:var(--panel)}
+  .pill.allow{border-color:#1d5a4a;color:var(--good)} .pill.block{border-color:#5a2330;color:var(--bad)}
+  .btn{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:700;font-size:17px;padding:15px 26px;border-radius:13px;cursor:pointer;transition:transform .06s}
   .btn:active{transform:translateY(1px)}
-  .btn.primary{background:linear-gradient(135deg,var(--axon),#0a4a8f);border-color:#2b6cb0;box-shadow:0 8px 22px #0a4a8f55}
-  .btn.cyan{border-color:#1d5a55;color:var(--cyan)}
-  .btn.ghost{color:var(--muted)}
-  .mini{display:flex;gap:18px;color:var(--muted);font-size:12px;flex-wrap:wrap;justify-content:center}
-  .mini b{color:var(--ink)}
-
-  /* play HUD */
-  .hud{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-  .stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px;text-align:center}
-  .stat .k{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-  .stat .v{font-size:19px;font-weight:700;margin-top:2px}
-  .stat .v.cyan{color:var(--cyan)} .stat .v.gold{color:var(--gold)} .stat .v.bad{color:var(--bad)}
-
-  .scopebar{position:relative;height:84px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#070b12}
-  canvas{display:block;width:100%;height:100%}
-  .stability{position:relative;height:8px;border-radius:999px;background:#0c1320;border:1px solid var(--line);overflow:hidden}
-  .stability > i{position:absolute;left:0;top:0;bottom:0;width:100%;background:linear-gradient(90deg,#0a4a8f,var(--cyan));transition:width .25s}
-
-  .play{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0}
-  .promptcard{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;text-align:center}
-  .ptag{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
-  .ptag.priv{color:var(--gold)} .ptag.consent{color:var(--bad)} .ptag.artifact{color:var(--warn)}
-  .ptext{font-size:24px;font-weight:700;line-height:1.2}
-  .ptext .mono{color:var(--cyan);font-size:21px}
-  .deadline{height:10px;border-radius:999px;background:#0c1320;border:1px solid var(--line);overflow:hidden}
-  .deadline > i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--good),var(--gold),var(--bad));transform-origin:left;transition:transform .08s linear}
-  .opts{display:grid;gap:10px}
-  .opts.two{grid-template-columns:1fr 1fr}
-  .opts.four{grid-template-columns:1fr 1fr}
-  .opt{appearance:none;border:1px solid var(--line);background:var(--panel2);color:var(--ink);
-    font:inherit;font-weight:600;font-size:16px;padding:16px 12px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;min-height:56px;transition:transform .05s,background .1s,border-color .1s}
-  .opt:active{transform:translateY(1px)}
-  .opt .num{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
-  .opt.good{background:#0c2c22;border-color:var(--good);color:#bff4dd}
-  .opt.bad{background:#2c0f17;border-color:var(--bad);color:#ffd4dc}
-
-  .log{height:62px;overflow:hidden;border:1px solid var(--line);border-radius:10px;background:#070b12;padding:8px 10px}
-  .log div{font-size:11.5px;color:var(--muted);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .log b.ok{color:var(--good)} .log b.bad{color:var(--bad)} .log b.io{color:var(--cyan)}
-
-  /* end */
-  .grade{font-size:74px;font-weight:800;line-height:1;letter-spacing:-2px;text-align:center}
-  .grade.S{color:var(--gold)} .grade.A{color:var(--cyan)} .grade.B{color:var(--good)} .grade.C{color:var(--warn)} .grade.D{color:var(--bad)}
-  .endgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:6px}
-  .endgrid .stat .v{font-size:18px}
-  .verdict{text-align:center;color:var(--muted);font-size:13px;line-height:1.5;margin:8px 0 0}
-
+  .btn.primary{background:linear-gradient(135deg,var(--axon),#0a4a8f);border-color:#2b6cb0;box-shadow:0 10px 26px #0a4a8f55}
+  .btn.cyan{border-color:#1d5a55;color:var(--cyan)} .btn.ghost{color:var(--muted);font-weight:600;font-size:14px}
+  .btnrow{display:flex;gap:9px;flex-wrap:wrap;justify-content:center}
+  .mini{display:flex;gap:16px;color:var(--muted);font-size:12px;flex-wrap:wrap;justify-content:center}.mini b{color:var(--ink)}
   .foot{text-align:center;font-size:11px;color:var(--muted);padding-top:2px}
   .foot a{color:var(--cyan);text-decoration:none}
-  .err{display:none;background:#2c0f17;border:1px solid var(--bad);color:#ffd4dc;border-radius:10px;padding:12px;font-size:13px;text-align:center}
+
+  /* PLAY */
+  .hud{display:flex;align-items:center;gap:10px}
+  .hud .score{font-size:26px;font-weight:800;letter-spacing:-.5px}
+  .hud .score small{font-size:11px;color:var(--muted);font-weight:600;display:block;letter-spacing:1px;text-transform:uppercase}
+  .hud .mid{margin-left:auto;text-align:center}
+  .combo{font-size:22px;font-weight:800;color:var(--gold);transition:transform .1s;min-width:64px}
+  .combo small{display:block;font-size:10px;color:var(--muted);letter-spacing:1px}
+  .hearts{font-size:18px;letter-spacing:2px;margin-left:auto}
+  .wavebadge{position:absolute;left:50%;top:34%;transform:translateX(-50%);font-size:40px;font-weight:800;color:var(--cyan);opacity:0;pointer-events:none;text-shadow:0 0 20px var(--cyan)}
+  .arena{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:0;overflow:hidden}
+  .incoming{display:flex;gap:6px;height:14px;align-items:center;opacity:.7}
+  .incoming i{width:9px;height:9px;border-radius:3px;display:inline-block}
+  .packet{position:relative;width:min(86vw,420px);border-radius:18px;border:2px solid var(--line);background:var(--panel);
+    padding:26px 18px;text-align:center;box-shadow:0 16px 40px #0006;transition:transform .18s ease,opacity .18s ease}
+  .packet.safe{border-color:#1d5a4a;background:linear-gradient(180deg,#0c2c22,#0e1422)}
+  .packet.danger{border-color:#5a2330;background:linear-gradient(180deg,#2a0f17,#0e1422)}
+  .packet .kind{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .packet .label{font-size:25px;font-weight:800;line-height:1.15;word-break:break-word}
+  .packet.safe .kind{color:var(--good)} .packet.danger .kind{color:var(--bad)}
+  .ring{position:absolute;left:0;right:0;bottom:0;height:6px;border-bottom-left-radius:16px;border-bottom-right-radius:16px;overflow:hidden;background:#0008}
+  .ring > i{display:block;height:100%;width:100%;transform-origin:left;background:linear-gradient(90deg,var(--good),var(--gold),var(--bad))}
+  .flyL{transform:translateX(-130%) rotate(-12deg);opacity:0}
+  .flyR{transform:translateX(130%) rotate(12deg);opacity:0}
+  .hint{font-size:12px;color:var(--muted)}
+  .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .act{appearance:none;border:2px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:800;font-size:18px;padding:20px 10px;border-radius:14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:transform .05s,filter .1s}
+  .act:active{transform:translateY(2px)}
+  .act small{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:1px}
+  .act.block{border-color:#5a2330;color:var(--bad)} .act.allow{border-color:#1d5a4a;color:var(--good)}
+  .flash{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .12s}
+  .flash.ok{background:radial-gradient(circle at 50% 60%,#2ee6a644,transparent 60%)}
+  .flash.bad{background:radial-gradient(circle at 50% 60%,#ff5d7355,transparent 60%)}
+  #fx{position:fixed;inset:0;pointer-events:none}
+
+  .grade{font-size:80px;font-weight:800;line-height:1;letter-spacing:-2px}
+  .grade.S{color:var(--gold)} .grade.A{color:var(--cyan)} .grade.B{color:var(--good)} .grade.C{color:var(--warn)} .grade.D{color:var(--bad)}
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;width:min(86vw,420px)}
+  .st{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:9px;text-align:center}
+  .st .k{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px} .st .v{font-size:20px;font-weight:800;margin-top:2px}
+  .st .v.gold{color:var(--gold)} .st .v.cyan{color:var(--cyan)} .st .v.bad{color:var(--bad)}
+  .verdict{color:var(--muted);font-size:13px;line-height:1.5;max-width:38ch}
 </style>
 </head>
 <body>
-<div class="wrap">
+<canvas id="fx"></canvas>
+<div class="flash ok" id="flashOk"></div>
+<div class="flash bad" id="flashBad"></div>
+
+<div class="wrap" id="wrap">
   <div class="top">
-    <div class="brand"><div class="seal"></div><div><b>AxonOS</b> <span>// Become the Brain OS</span><br><span class="mono">v14.2.0</span></div></div>
-    <div class="right">
+    <div class="seal"></div>
+    <div><b>AxonOS</b> <span>// Neural Triage</span><br><span class="mono">v16.3.0</span></div>
+    <div class="r">
       <span class="chip" id="bestChip">best <b>—</b></span>
-      <span class="chip" id="soundChip" role="button" tabindex="0">🔊 on</span>
+      <span class="chip" id="soundChip" role="button" tabindex="0">🔊</span>
     </div>
   </div>
-
-  <div class="disclaimer">⚠ <b>A game — not a brain.</b> No sensor, no neural data, no backend. It simulates the AxonOS real-time OS layer.</div>
-
+  <div class="disc">⚠ <b>A game — not a brain.</b> No sensor, no neural data, no backend. It simulates the AxonOS privacy firewall.</div>
   <div id="err" class="err"></div>
 
   <!-- HOME -->
   <div class="screen" id="home">
-    <div class="hero">
-      <div class="eyebrow"><span class="d"></span> Real-time neural OS</div>
-      <h1>Become the Brain OS<small>Be the layer between a brain and the apps. Decode intent in time. Keep cognition private.</small></h1>
-      <p class="lead">Signals arrive. You classify the intent before the deadline, deny raw neural data, respect consent, and reject artifacts. Miss the deadline or leak a thought and the run remembers.</p>
-      <div class="btnrow">
-        <button class="btn primary" id="playBtn">▶ Run the OS</button>
-        <button class="btn ghost" id="howBtn">How it works</button>
+    <div class="center">
+      <div class="eyebrow">▦ Real-time neural firewall</div>
+      <h1>Become the Brain OS<small>Thoughts are streaming out. You decide what's allowed to leave.</small></h1>
+      <div class="legend">
+        <span class="pill allow">✓ ALLOW derived intent</span>
+        <span class="pill block">⛔ BLOCK raw thoughts</span>
       </div>
-      <div class="mini"><span><b>60s</b> run</span><span><b>1–4</b> keys or tap</span><span><b>0</b> leaks = clean</span></div>
+      <p class="lead">Packets hit the brain–app boundary one after another, faster and faster. Let the safe ones through, block the raw ones, and survive. Let a raw thought slip and it's gone forever.</p>
+      <button class="btn primary" id="playBtn">▶ Start the firewall</button>
+      <div class="mini"><span>tap <b>⛔ / ✓</b> or <b>← / →</b></span><span><b>3</b> lives</span><span><b>0</b> leaks = perfect</span></div>
     </div>
     <div class="foot">A game by <a href="https://axonos.org">The AxonOS Project</a> · <a href="https://github.com/AxonOS-org">github.com/AxonOS-org</a> · local-only · reads no neural data</div>
   </div>
@@ -145,39 +131,41 @@
   <!-- PLAY -->
   <div class="screen" id="game" style="display:none">
     <div class="hud">
-      <div class="stat"><div class="k">Time</div><div class="v cyan" id="hTime">60</div></div>
-      <div class="stat"><div class="k">Score</div><div class="v" id="hScore">0</div></div>
-      <div class="stat"><div class="k">Combo</div><div class="v gold" id="hCombo">0×</div></div>
-      <div class="stat"><div class="k">Leaks</div><div class="v" id="hLeaks">0</div></div>
+      <div class="score"><small>score</small><span id="hScore">0</span></div>
+      <div class="mid"><div class="combo" id="hCombo">0×</div></div>
+      <div class="hearts" id="hHearts">♥♥♥</div>
     </div>
-    <div class="scopebar"><canvas id="scope"></canvas></div>
-    <div class="stability"><i id="stabBar"></i></div>
-    <div class="play">
-      <div class="panel promptcard">
-        <div class="ptag" id="pTag">INTENT</div>
-        <div class="ptext" id="pText">—</div>
-        <div class="deadline"><i id="dBar"></i></div>
-        <div class="opts" id="opts"></div>
+    <div class="arena" id="arena">
+      <div class="wavebadge" id="waveBadge">WAVE 1</div>
+      <div class="incoming" id="incoming"></div>
+      <div class="packet" id="packet">
+        <div class="kind" id="pKind">—</div>
+        <div class="label" id="pLabel">—</div>
+        <div class="ring"><i id="pRing"></i></div>
       </div>
-      <div class="log" id="log"></div>
+      <div class="hint" id="hint">block raw · allow derived</div>
+    </div>
+    <div class="actions">
+      <button class="act block" id="blockBtn">⛔ BLOCK<small>raw · noise · revoked</small></button>
+      <button class="act allow" id="allowBtn">✓ ALLOW<small>derived intent</small></button>
     </div>
   </div>
 
   <!-- END -->
   <div class="screen" id="end" style="display:none">
-    <div class="panel" style="flex:1;display:flex;flex-direction:column;justify-content:center">
-      <div class="ptag" style="text-align:center">Run complete</div>
+    <div class="center">
+      <div class="eyebrow">firewall down</div>
       <div class="grade" id="eGrade">A</div>
-      <div class="endgrid">
-        <div class="stat"><div class="k">Score</div><div class="v" id="eScore">0</div></div>
-        <div class="stat"><div class="k">Best combo</div><div class="v gold" id="eCombo">0×</div></div>
-        <div class="stat"><div class="k">Accuracy</div><div class="v cyan" id="eAcc">0%</div></div>
-        <div class="stat"><div class="k">Leaks</div><div class="v" id="eLeaks">0</div></div>
+      <div class="stats">
+        <div class="st"><div class="k">Score</div><div class="v" id="eScore">0</div></div>
+        <div class="st"><div class="k">Best combo</div><div class="v gold" id="eCombo">0×</div></div>
+        <div class="st"><div class="k">Waves</div><div class="v cyan" id="eWaves">0</div></div>
+        <div class="st"><div class="k">Thoughts leaked</div><div class="v" id="eLeaks">0</div></div>
       </div>
       <p class="verdict" id="eVerdict"></p>
-      <div class="btnrow" style="margin-top:6px">
-        <button class="btn primary" id="againBtn">▶ Run again</button>
-        <button class="btn cyan" id="copyBtn">Copy result</button>
+      <div class="btnrow">
+        <button class="btn primary" id="againBtn">▶ Again</button>
+        <button class="btn cyan" id="copyBtn">Share result</button>
         <button class="btn ghost" id="homeBtn">Home</button>
       </div>
     </div>
@@ -188,298 +176,182 @@
 <script>
 (function(){
 'use strict';
+/* ===================== PURE LOGIC (unit-tested in Node) ===================== */
+function makeRng(seed){ let s=(seed>>>0)||0x9e3779b9; return function(){ s^=s<<13;s>>>=0;s^=s>>17;s^=s<<5;s>>>=0;return s/4294967296; }; }
+function pick(rng,a){ return a[Math.floor(rng()*a.length)]; }
 
-/* ============================================================
-   PURE LOGIC  (no DOM here — unit-tested in Node)
-   ============================================================ */
-function makeRng(seed){
-  let s = (seed>>>0) || 0x9e3779b9;
-  return function(){ s^=s<<13; s>>>=0; s^=s>>17; s^=s<<5; s>>>=0; return s/4294967296; };
+var SAFE=['intent: ↑','intent: ↓','intent: ←','intent: →','cursor.pos','intent.class','confidence 0.92','scroll','select','focus'];
+var RAW =['raw EEG','your thoughts','raw.neural','biometric ID','identity','memory trace','cortex stream'];
+var ART =['⚡ blink spike','⚡ muscle noise','⚡ phantom node','⚡ mains hum'];
+var REV =['CONSENT REVOKED','consent expired'];
+
+// kinds: safe(allow), raw/artifact/consent(block). leak = a raw OR consent packet that gets through.
+function makePacket(rng, wave){
+  var r=rng();
+  var pSafe=0.46, pRaw=0.28, pArt=0.16; // remainder = consent
+  var kind = r<pSafe?'safe' : r<pSafe+pRaw?'raw' : r<pSafe+pArt+pRaw?'artifact':'consent';
+  var label = kind==='safe'?pick(rng,SAFE) : kind==='raw'?pick(rng,RAW) : kind==='artifact'?pick(rng,ART) : pick(rng,REV);
+  var deadline = Math.max(620, 1500 - wave*85);
+  return { kind:kind, label:label, danger: kind!=='safe', correct: kind==='safe'?'allow':'block',
+           leakOnPass: (kind==='raw'||kind==='consent'), deadlineMs:Math.round(deadline) };
 }
-function pick(rng, arr){ return arr[Math.floor(rng()*arr.length)]; }
-function shuffle(rng, arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(rng()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
-
-var INTENTS  = ['Move Up','Move Down','Move Left','Move Right','Focus','Rest','Select','Scroll'];
-var RAW_RES  = ['raw.neural.signal','biometric.identity','stimulus.write','raw.eeg.stream','cortex.dump'];
-var OK_RES   = ['intent.class','intent.confidence','cursor.position','session.token','telemetry.local'];
-var ARTIFACTS= ['blink spike','muscle noise','phantom node','cable drift','mains hum','mirror artifact'];
-
-// difficulty 0..1 over the run; deadline shrinks, hazards rise
-function difficultyAt(elapsed, total){ return Math.max(0, Math.min(1, elapsed/total)); }
-
-// returns a prompt object {kind, tag, text, options:[{label,correct}], deadlineMs}
-function makePrompt(rng, diff){
-  var roll = rng();
-  // hazard share grows with difficulty (privacy/consent/artifact get more common)
-  var pPriv = 0.26 + diff*0.10, pCons = 0.12 + diff*0.06, pArt = 0.16 + diff*0.10;
-  var kind = roll < pPriv ? 'privacy' : roll < pPriv+pCons ? 'consent' : roll < pPriv+pCons+pArt ? 'artifact' : 'intent';
-  var base = 2000 - diff*850;            // 2000ms -> ~1150ms
-  var opts, text, tag;
-  if(kind==='intent'){
-    var target = pick(rng, INTENTS);
-    var pool = shuffle(rng, INTENTS.filter(function(x){return x!==target;})).slice(0,3);
-    opts = shuffle(rng, pool.concat([target]).map(function(x){return {label:x, correct:x===target};}));
-    text = 'Decode the intent: ⟶ <span class="mono">'+target.toUpperCase()+'</span>';
-    tag = 'INTENT'; base += 150;
-  } else if(kind==='privacy'){
-    var deny = rng()<0.62;               // most app requests for raw must be denied
-    var res = deny ? pick(rng, RAW_RES) : pick(rng, OK_RES);
-    text = 'App requests <span class="mono">'+res+'</span>';
-    opts = [ {label:'ALLOW', correct:!deny}, {label:'DENY', correct:deny} ];
-    tag = deny ? 'PRIVACY · raw' : 'PRIVACY · derived';
-  } else if(kind==='consent'){
-    text = pick(rng,['User revoked consent','Consent window expired','Guardian paused the session']);
-    opts = [ {label:'STOP', correct:true}, {label:'CONTINUE', correct:false} ];
-    tag = 'CONSENT';
-  } else {
-    text = 'Detected: <span class="mono">'+pick(rng,ARTIFACTS)+'</span>';
-    opts = [ {label:'REJECT', correct:true}, {label:'DECODE', correct:false} ];
-    tag = 'ARTIFACT';
+// action: 'allow' | 'block' | 'timeout'
+function evaluate(packet, action, frac, combo){
+  if(action===packet.correct){
+    var mult=1+Math.min(combo,15)*0.08;
+    return { correct:true, points:Math.round((100+120*Math.max(0,Math.min(1,frac)))*mult), life:0, leak:false };
   }
-  return { kind:kind, tag:tag, text:text, options:opts, deadlineMs:Math.round(base) };
+  // wrong tap, or timeout (failed to act)
+  var passedThrough = (action==='allow') || (action==='timeout'); // it leaked out / wasn't stopped
+  var leak = packet.danger && packet.leakOnPass && passedThrough;
+  return { correct:false, points:0, life:-1, leak:leak };
 }
-
-// evaluate an answer -> {correct, points, leak, stab}
-// choiceIndex<0 means deadline miss
-function evaluate(prompt, choiceIndex, msLeft, combo){
-  var chosen = choiceIndex>=0 ? prompt.options[choiceIndex] : null;
-  var correct = !!(chosen && chosen.correct);
-  var frac = Math.max(0, Math.min(1, msLeft / prompt.deadlineMs));
-  if(correct){
-    var mult = 1 + Math.min(combo,10)*0.1;
-    var points = Math.round((100 + 150*frac) * mult);
-    return { correct:true, points:points, leak:false, stab:+3 };
-  }
-  // wrong or missed
-  var missed = choiceIndex<0;
-  var leak = false;
-  if(prompt.kind==='privacy'){
-    // leak if a raw request was allowed (wrong on a deny-prompt) or missed
-    var denyCorrect = prompt.options[1] && prompt.options[1].correct; // DENY is correct => raw request
-    if(denyCorrect) leak = true;
-  } else if(prompt.kind==='consent'){
-    leak = true; // ignoring/ missing a consent revocation is a violation
-  }
-  var stab = prompt.kind==='consent' ? -20 : prompt.kind==='privacy' ? -14 : missed ? -8 : -10;
-  var points = missed ? -40 : -60;
-  return { correct:false, points:points, leak:leak, stab:stab };
+var GR=['D','C','B','A','S'];
+function gradeOf(score, leaks, waves){
+  var s = score>=9000?4:score>=6000?3:score>=3500?2:score>=1500?1:0;
+  var w = waves>=10?4:waves>=7?3:waves>=5?2:waves>=3?1:0;
+  var l = leaks===0?4:leaks<=2?3:leaks<=4?2:leaks<=7?1:0;
+  return GR[Math.max(0,Math.min(4, Math.min(Math.max(s,w-1), l)))];
 }
+var API={makeRng:makeRng,makePacket:makePacket,evaluate:evaluate,gradeOf:gradeOf,SAFE:SAFE,RAW:RAW,ART:ART,REV:REV};
+if(typeof module!=='undefined'&&module.exports){ module.exports=API; }
+if(typeof window!=='undefined'){ window.__TRIAGE=API; }
 
-var GRADES = ['D','C','B','A','S'];
-function gradeOf(score, leaks, accuracy){
-  var byScore = score>=6000?4 : score>=4500?3 : score>=3000?2 : score>=1500?1 : 0;
-  var byLeak  = leaks===0?4 : leaks<=2?3 : leaks<=4?2 : leaks<=6?1 : 0;
-  var byAcc   = accuracy>=0.9?4 : accuracy>=0.75?3 : accuracy>=0.6?2 : accuracy>=0.4?1 : 0;
-  var idx = Math.min(byScore, byLeak, byAcc);
-  return GRADES[Math.max(0,Math.min(4,idx))];
-}
-
-// export for tests / browser
-var API = { makeRng:makeRng, difficultyAt:difficultyAt, makePrompt:makePrompt, evaluate:evaluate, gradeOf:gradeOf, pick:pick, shuffle:shuffle,
-            INTENTS:INTENTS, RAW_RES:RAW_RES, OK_RES:OK_RES, ARTIFACTS:ARTIFACTS };
-if(typeof module!=='undefined' && module.exports){ module.exports = API; }
-if(typeof window!=='undefined'){ window.__BTBOS = API; }
-
-/* ============================================================
-   DOM + GAME LOOP  (guarded — skipped under Node)
-   ============================================================ */
+/* ===================== DOM + GAME (guarded; skipped in Node) ===================== */
 if(typeof document==='undefined') return;
+var STORE='btbos_v1630_best';
+function $(id){return document.getElementById(id);}
+var ids=['wrap','err','home','game','end','playBtn','againBtn','homeBtn','copyBtn','bestChip','soundChip',
+  'hScore','hCombo','hHearts','arena','waveBadge','incoming','packet','pKind','pLabel','pRing','hint',
+  'blockBtn','allowBtn','eGrade','eScore','eCombo','eWaves','eLeaks','eVerdict','fx','flashOk','flashBad'];
+var el={},miss=[]; ids.forEach(function(k){el[k]=$(k);if(!el[k])miss.push(k);});
+if(miss.length){var e=$('err');if(e){e.style.display='block';e.textContent='Load error (missing: '+miss.join(', ')+'). Hard-refresh.';}return;}
 
-var RUN_SECONDS = 60;
-var STORE = 'btbos_v1420_best';
+function bestGet(){try{return parseInt(localStorage.getItem(STORE)||'0',10)||0;}catch(_){return 0;}}
+function bestSet(v){try{localStorage.setItem(STORE,String(v));}catch(_){}}
+el.bestChip.innerHTML='best <b>'+(bestGet()||'—')+'</b>';
 
-function $(id){ return document.getElementById(id); }
-var ids = ['home','game','end','err','playBtn','howBtn','hTime','hScore','hCombo','hLeaks','scope','stabBar',
-  'pTag','pText','dBar','opts','log','eGrade','eScore','eCombo','eAcc','eLeaks','eVerdict','againBtn','copyBtn',
-  'homeBtn','bestChip','soundChip'];
-var el = {};
-var missing = [];
-ids.forEach(function(k){ el[k]=$(k); if(!el[k]) missing.push(k); });
-if(missing.length){ var e=$('err'); if(e){ e.style.display='block'; e.textContent='Load error (missing: '+missing.join(', ')+'). Try a hard refresh.'; } return; }
+var soundOn=true,actx=null;
+function beep(t){ if(!soundOn)return; try{ actx=actx||new(window.AudioContext||window.webkitAudioContext)();
+  var o=actx.createOscillator(),g=actx.createGain();o.connect(g);g.connect(actx.destination);
+  o.type=t==='ok'?'triangle':'square'; o.frequency.value=t==='ok'?(520+Math.min(G?G.combo:0,20)*18):150; g.gain.value=.05;o.start();
+  g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+.15);o.stop(actx.currentTime+.16);}catch(_){}}
+el.soundChip.addEventListener('click',function(){soundOn=!soundOn;el.soundChip.textContent=soundOn?'🔊':'🔇';});
+el.soundChip.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();el.soundChip.click();}});
 
-// safe storage
-function bestGet(){ try{ return parseInt(localStorage.getItem(STORE)||'0',10)||0; }catch(_){ return 0; } }
-function bestSet(v){ try{ localStorage.setItem(STORE, String(v)); }catch(_){} }
+// particles
+var fx=el.fx, fctx=null, parts=[];
+try{fctx=fx.getContext('2d');}catch(_){fctx=null;}
+function sizeFx(){ if(!fctx)return; var dpr=Math.min(2,window.devicePixelRatio||1); fx.width=innerWidth*dpr;fx.height=innerHeight*dpr;fctx.setTransform(dpr,0,0,dpr,0,0);}
+addEventListener('resize',sizeFx); sizeFx();
+function burst(x,y,color,n){ if(!fctx)return; for(var i=0;i<n;i++){var a=Math.random()*6.28,sp=2+Math.random()*5;parts.push({x:x,y:y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-2,life:1,c:color});}}
+function flash(kind){ var f=kind==='ok'?el.flashOk:el.flashBad; f.style.opacity='1'; setTimeout(function(){f.style.opacity='0';},110); }
+function shake(){ el.wrap.classList.remove('shake'); void el.wrap.offsetWidth; el.wrap.classList.add('shake'); }
 
-// sound (optional, never required)
-var soundOn = true, actx=null;
-function beep(type){
-  if(!soundOn) return;
-  try{
-    actx = actx || new (window.AudioContext||window.webkitAudioContext)();
-    var o=actx.createOscillator(), g=actx.createGain();
-    o.connect(g); g.connect(actx.destination);
-    o.frequency.value = type==='ok'?660 : type==='bad'?160 : 420;
-    g.gain.value=0.04; o.start();
-    g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime+0.16);
-    o.stop(actx.currentTime+0.17);
-  }catch(_){}
-}
-el.soundChip.addEventListener('click', function(){ soundOn=!soundOn; el.soundChip.textContent = soundOn?'🔊 on':'🔇 off'; });
-el.soundChip.addEventListener('keydown', function(ev){ if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); el.soundChip.click(); } });
-
-el.bestChip.innerHTML = 'best <b>'+ (bestGet()||'—') +'</b>';
-
-// canvas scope (decorative; failure never affects gameplay)
-var ctx=null, scopeT=0;
-try{ ctx = el.scope.getContext('2d'); }catch(_){ ctx=null; }
-function sizeScope(){ if(!ctx) return; var r=el.scope.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1);
-  el.scope.width=Math.max(1,r.width*dpr); el.scope.height=Math.max(1,r.height*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); }
-window.addEventListener('resize', sizeScope); sizeScope();
-function drawScope(stability){
-  if(!ctx) return;
-  var r=el.scope.getBoundingClientRect(), w=r.width, h=r.height; scopeT+=0.08;
-  ctx.clearRect(0,0,w,h);
-  ctx.strokeStyle='#13314a'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(0,h/2); ctx.lineTo(w,h/2); ctx.stroke();
-  var amp=(h/2-8)*(0.35+0.55*(stability/100)), noise=0.5*(1-stability/100);
-  ctx.beginPath();
-  for(var x=0;x<=w;x+=3){
-    var y=h/2 + Math.sin(x*0.035+scopeT)*amp*0.6 + Math.sin(x*0.011-scopeT*0.7)*amp*0.4
-          + (Math.sin(x*1.7+scopeT*5)*amp*noise);
-    if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-  }
-  ctx.strokeStyle = stability>50?'#3ff0d8':'#fbbf24'; ctx.lineWidth=2; ctx.shadowColor=ctx.strokeStyle; ctx.shadowBlur=8; ctx.stroke(); ctx.shadowBlur=0;
-}
-
-// kernel log
-function logLine(cls, text){
-  var d=document.createElement('div');
-  d.innerHTML='<b class="'+cls+'">'+(cls==='ok'?'ok':cls==='bad'?'!!':'io')+'</b> '+text;
-  el.log.insertBefore(d, el.log.firstChild);
-  while(el.log.childNodes.length>5) el.log.removeChild(el.log.lastChild);
-}
-
-/* ---- game state ---- */
+/* state */
 var G=null, raf=0;
-function startRun(){
-  G={ score:0, leaks:0, combo:0, bestCombo:0, stability:100, time:RUN_SECONDS,
-      correct:0, total:0, prompt:null, deadline:0, msLeft:0, gap:0, locked:false,
-      rng: makeRng((Date.now()^(Math.random()*1e9))>>>0), last:performance.now() };
-  show('game'); el.log.innerHTML='';
-  logLine('io','boot.v14.2.0 — local_only=true neural_data=none');
-  nextPrompt();
-  cancelAnimationFrame(raf); G.last=performance.now(); raf=requestAnimationFrame(loop);
+function start(){
+  G={score:0,combo:0,bestCombo:0,life:3,wave:1,handled:0,leaks:0,
+     packet:null,deadline:0,msLeft:0,gap:0,locked:false,
+     rng:makeRng((Date.now()^(Math.random()*1e9))>>>0),last:performance.now()};
+  show('game'); el.hHearts.textContent='♥♥♥'; el.hScore.textContent='0'; el.hCombo.textContent='0×';
+  spawn(); cancelAnimationFrame(raf); G.last=performance.now(); raf=requestAnimationFrame(loop);
 }
-function nextPrompt(){
-  var diff = difficultyAt(RUN_SECONDS-G.time, RUN_SECONDS);
-  G.prompt = makePrompt(G.rng, diff);
-  G.deadline = G.prompt.deadlineMs * (1 - Math.min(0.18, G.combo*0.012)); // combo tightens slightly
-  G.msLeft = G.deadline; G.locked=false; G.gap=0;
-  renderPrompt();
+function renderIncoming(){
+  el.incoming.innerHTML='';
+  for(var i=0;i<4;i++){ var c=document.createElement('i');
+    var d=G.rng()<0.46; c.style.background=d?'#2ee6a6':'#ff5d73'; c.style.opacity=String(0.7-i*0.15); el.incoming.appendChild(c); }
 }
-function renderPrompt(){
-  var p=G.prompt;
-  el.pTag.className='ptag'+(p.kind==='privacy'?' priv':p.kind==='consent'?' consent':p.kind==='artifact'?' artifact':'');
-  el.pTag.textContent=p.tag;
-  el.pText.innerHTML=p.text;
-  el.opts.className='opts '+(p.options.length>2?'four':'two');
-  el.opts.innerHTML='';
-  p.options.forEach(function(o,i){
-    var b=document.createElement('button'); b.className='opt';
-    b.innerHTML='<span class="num">'+(i+1)+'</span> '+o.label;
-    b.addEventListener('click', function(){ answer(i); });
-    el.opts.appendChild(b);
-  });
+function spawn(){
+  G.packet=makePacket(G.rng,G.wave);
+  G.deadline=G.packet.deadlineMs; G.msLeft=G.deadline; G.locked=false; G.gap=0;
+  var p=G.packet;
+  el.packet.className='packet '+(p.danger?'danger':'safe');
+  el.pKind.textContent = p.kind==='safe'?'DERIVED INTENT' : p.kind==='raw'?'RAW NEURAL DATA' : p.kind==='artifact'?'ARTIFACT':'CONSENT';
+  el.pLabel.textContent=p.label;
+  el.pRing.style.transform='scaleX(1)';
+  renderIncoming();
 }
-function answer(i){
-  if(!G || G.locked || !G.prompt) return;
-  G.locked=true; G.total++;
-  var r = evaluate(G.prompt, i, G.msLeft, G.combo);
-  applyResult(r, i);
+function rect(){ return el.packet.getBoundingClientRect(); }
+function decide(action){
+  if(!G||G.locked||!G.packet) return;
+  G.locked=true; G.handled++;
+  var frac=Math.max(0,G.msLeft/G.deadline);
+  var r=evaluate(G.packet,action,frac,G.combo);
+  var rc=rect(), cx=rc.left+rc.width/2, cy=rc.top+rc.height/2;
+  if(r.correct){
+    G.score+=r.points; G.combo++; if(G.combo>G.bestCombo)G.bestCombo=G.combo;
+    el.packet.classList.add(action==='allow'?'flyR':'flyL');
+    burst(cx,cy,action==='allow'?'#2ee6a6':'#ff5d73',14); flash('ok'); beep('ok');
+    el.hCombo.style.transform='scale(1.35)'; setTimeout(function(){el.hCombo.style.transform='scale(1)';},120);
+    // wave up every 7 handled-correct milestones
+    if(G.combo>0 && G.combo%7===0){ G.wave++; showWave(); }
+  } else {
+    G.combo=0; G.life--; if(r.leak)G.leaks++;
+    shake(); flash('bad'); beep('bad'); burst(cx,cy,'#ff5d73',10);
+    el.hHearts.textContent = G.life>0 ? Array(G.life+1).join('♥')+Array(4-G.life).join('·') : '···';
+  }
+  el.hScore.textContent=G.score.toLocaleString();
+  el.hCombo.textContent=G.combo+'×';
+  if(G.life<=0){ setTimeout(end,180); return; }
+  G.gap = r.correct?170:300;
 }
-function missPrompt(){
-  if(!G || G.locked || !G.prompt) return;
-  G.locked=true; G.total++;
-  var r = evaluate(G.prompt, -1, 0, G.combo);
-  applyResult(r, -1);
+function timeoutPacket(){ if(!G||G.locked||!G.packet)return; decideTimeout(); }
+function decideTimeout(){
+  G.locked=true; G.handled++;
+  var r=evaluate(G.packet,'timeout',0,G.combo);
+  G.combo=0; G.life--; if(r.leak)G.leaks++;
+  shake(); flash('bad'); beep('bad');
+  el.hHearts.textContent = G.life>0 ? Array(G.life+1).join('♥')+Array(4-G.life).join('·') : '···';
+  el.hCombo.textContent='0×';
+  if(G.life<=0){ setTimeout(end,180); return; }
+  G.gap=300;
 }
-function applyResult(r, choice){
-  G.score = Math.max(0, G.score + r.points);
-  G.stability = Math.max(0, Math.min(100, G.stability + r.stab));
-  if(r.leak) G.leaks++;
-  if(r.correct){ G.correct++; G.combo++; if(G.combo>G.bestCombo) G.bestCombo=G.combo; }
-  else { G.combo=0; }
-  // visual feedback on options
-  var btns=el.opts.querySelectorAll('.opt');
-  G.prompt.options.forEach(function(o,idx){ if(o.correct) btns[idx]&&btns[idx].classList.add('good'); });
-  if(choice>=0 && !r.correct && btns[choice]) btns[choice].classList.add('bad');
-  beep(r.correct?'ok':'bad');
-  var p=G.prompt;
-  if(r.correct) logLine('ok', (p.kind==='privacy'?'vault.'+(p.options[1].correct?'deny':'allow'):p.kind==='consent'?'consent.stop':p.kind==='artifact'?'artifact.reject':'intent.captured')+' +'+r.points);
-  else logLine('bad', (r.leak?'LEAK · ':'')+ (choice<0?'deadline.missed':'wrong') + ' '+r.points);
-  updateHUD();
-  G.gap = 360; // ms before next
-}
-function endRun(){
+function showWave(){ el.waveBadge.textContent='WAVE '+G.wave; el.waveBadge.style.transition='none'; el.waveBadge.style.opacity='1'; el.waveBadge.style.transform='translateX(-50%) scale(1.2)';
+  setTimeout(function(){ el.waveBadge.style.transition='opacity .6s,transform .6s'; el.waveBadge.style.opacity='0'; el.waveBadge.style.transform='translateX(-50%) scale(1)'; },30); }
+function end(){
   cancelAnimationFrame(raf);
-  var acc = G.total? G.correct/G.total : 0;
-  var grade = gradeOf(G.score, G.leaks, acc);
+  var grade=gradeOf(G.score,G.leaks,G.wave);
   if(G.score>bestGet()){ bestSet(G.score); el.bestChip.innerHTML='best <b>'+G.score+'</b>'; }
   el.eGrade.textContent=grade; el.eGrade.className='grade '+grade;
-  el.eScore.textContent=G.score.toLocaleString();
-  el.eCombo.textContent=G.bestCombo+'×';
-  el.eAcc.textContent=Math.round(acc*100)+'%';
-  el.eLeaks.textContent=G.leaks;
-  var v = G.leaks===0
-      ? 'Zero leaks. Cognition stayed private and intent flowed on time — that is exactly what the AxonOS layer is built to guarantee.'
-      : (G.leaks+' leak'+(G.leaks>1?'s':'')+'. Each one is a raw thought or a consent that escaped. The real AxonOS makes those leaks structurally impossible.');
-  el.eVerdict.textContent=v;
-  el._lastResult = { grade:grade, score:G.score, leaks:G.leaks, combo:G.bestCombo, acc:Math.round(acc*100) };
+  el.eScore.textContent=G.score.toLocaleString(); el.eCombo.textContent=G.bestCombo+'×';
+  el.eWaves.textContent=G.wave; el.eLeaks.textContent=G.leaks; el.eLeaks.className='v'+(G.leaks>0?' bad':' gold');
+  el.eVerdict.textContent = G.leaks===0
+    ? 'Zero thoughts leaked. You held the line between mind and machine — exactly what the real AxonOS layer is built to guarantee.'
+    : (G.leaks+' thought'+(G.leaks>1?'s':'')+' escaped. Once raw neural data is out, it never comes back. The real AxonOS makes that leak structurally impossible.');
+  el._r={grade:grade,score:G.score,combo:G.bestCombo,waves:G.wave,leaks:G.leaks};
   show('end');
 }
 function loop(now){
-  var dt = Math.min(80, now - G.last); G.last=now;
-  G.time -= dt/1000;
-  if(G.time<=0){ G.time=0; updateHUD(); endRun(); return; }
-  if(G.locked){
-    G.gap -= dt;
-    if(G.gap<=0 && G.time>0) nextPrompt();
-  } else {
-    G.msLeft -= dt;
-    var frac = Math.max(0, G.msLeft/G.deadline);
-    el.dBar.style.transform='scaleX('+frac+')';
-    if(G.msLeft<=0) missPrompt();
-  }
-  el.hTime.textContent=Math.ceil(G.time);
-  el.stabBar.style.width=G.stability+'%';
-  drawScope(G.stability);
+  var dt=Math.min(70,now-G.last); G.last=now;
+  if(G.locked){ G.gap-=dt; if(G.gap<=0) spawn(); }
+  else { G.msLeft-=dt; var f=Math.max(0,G.msLeft/G.deadline); el.pRing.style.transform='scaleX('+f+')'; if(G.msLeft<=0) decideTimeout(); }
+  // particles
+  if(fctx){ fctx.clearRect(0,0,innerWidth,innerHeight);
+    for(var i=parts.length-1;i>=0;i--){var p=parts[i];p.x+=p.vx;p.y+=p.vy;p.vy+=0.25;p.life-=0.03;
+      if(p.life<=0){parts.splice(i,1);continue;} fctx.globalAlpha=Math.max(0,p.life);fctx.fillStyle=p.c;fctx.fillRect(p.x,p.y,4,4);}
+    fctx.globalAlpha=1; }
   raf=requestAnimationFrame(loop);
 }
-function updateHUD(){
-  el.hScore.textContent=G.score.toLocaleString();
-  el.hCombo.textContent=G.combo+'×';
-  el.hLeaks.textContent=G.leaks; el.hLeaks.className='v'+(G.leaks>0?' bad':'');
-  el.stabBar.style.width=G.stability+'%';
-}
+function show(w){ el.home.style.display=w==='home'?'flex':'none'; el.game.style.display=w==='game'?'flex':'none'; el.end.style.display=w==='end'?'flex':'none'; if(w!=='game'){parts.length=0; if(fctx)fctx.clearRect(0,0,innerWidth,innerHeight);} }
 
-/* ---- screens & input ---- */
-function show(which){
-  el.home.style.display = which==='home'?'flex':'none';
-  el.game.style.display = which==='game'?'flex':'none';
-  el.end.style.display  = which==='end' ?'flex':'none';
-  if(which==='game') sizeScope();
-}
-el.playBtn.addEventListener('click', startRun);
-el.againBtn.addEventListener('click', startRun);
-el.homeBtn.addEventListener('click', function(){ cancelAnimationFrame(raf); show('home'); });
-el.howBtn.addEventListener('click', function(){
-  alert("Become the Brain OS\n\nYou are the real-time OS between a brain and apps.\n\n• Decode the named intent before the deadline bar empties.\n• When an app asks for raw neural data, DENY it. Derived data (intent.class, cursor.position) you ALLOW.\n• If consent is revoked, STOP.\n• Reject artifacts (blinks, noise, phantom nodes).\n\nWrong answers cost stability; privacy and consent mistakes leak. 0 leaks = a clean run.\n\nNo sensor. No neural data. It's a game about AxonOS.");
+el.playBtn.addEventListener('click',start);
+el.againBtn.addEventListener('click',start);
+el.homeBtn.addEventListener('click',function(){cancelAnimationFrame(raf);show('home');});
+el.blockBtn.addEventListener('click',function(){decide('block');});
+el.allowBtn.addEventListener('click',function(){decide('allow');});
+el.copyBtn.addEventListener('click',function(){
+  var r=el._r||{};
+  var t='🧠 Become the Brain OS — '+r.grade+'-rank · '+(r.score||0).toLocaleString()+' pts · '+(r.leaks||0)+' thoughts leaked · '+(r.combo||0)+'× combo · wave '+(r.waves||0)+'. I guarded a brain–computer interface. Can you keep cognition private? Play → axonos.org';
+  try{ navigator.clipboard.writeText(t); el.copyBtn.textContent='Copied ✓'; setTimeout(function(){el.copyBtn.textContent='Share result';},1400);}catch(_){alert(t);}
 });
-el.copyBtn.addEventListener('click', function(){
-  var r=el._lastResult||{}; 
-  var txt='I ran Become the Brain OS for 60s. '+r.grade+'-rank · '+(r.score||0).toLocaleString()+' pts · '+(r.leaks||0)+' leaks · '+(r.combo||0)+'× combo. A game about real-time, private brain–computer interfaces. Play: axonos.org';
-  try{ navigator.clipboard.writeText(txt); el.copyBtn.textContent='Copied ✓'; setTimeout(function(){el.copyBtn.textContent='Copy result';},1400); }
-  catch(_){ alert(txt); }
+document.addEventListener('keydown',function(e){
+  if(el.home.style.display!=='none'){ if(e.key==='Enter')start(); return; }
+  if(el.game.style.display==='none')return;
+  if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A'){e.preventDefault();decide('block');}
+  else if(e.key==='ArrowRight'||e.key==='l'||e.key==='L'){e.preventDefault();decide('allow');}
 });
-document.addEventListener('keydown', function(ev){
-  if(el.game.style.display==='none') { if((ev.key==='Enter')&&el.home.style.display!=='none') startRun(); return; }
-  if(G && !G.locked && G.prompt){
-    var n=parseInt(ev.key,10);
-    if(n>=1 && n<=G.prompt.options.length){ ev.preventDefault(); answer(n-1); }
-  }
-});
-document.addEventListener('visibilitychange', function(){ if(document.hidden && G) { cancelAnimationFrame(raf); } else if(G && el.game.style.display!=='none'){ G.last=performance.now(); raf=requestAnimationFrame(loop); } });
-
+document.addEventListener('visibilitychange',function(){ if(document.hidden){cancelAnimationFrame(raf);} else if(G&&el.game.style.display!=='none'){G.last=performance.now();raf=requestAnimationFrame(loop);} });
 show('home');
 })();
 </script>
