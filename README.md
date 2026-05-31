@@ -12,6 +12,18 @@
 
 ---
 
+## ▶ New — Become the Brain OS: Evolver (experimental)
+
+<div align="center">
+
+[![Run the Evolver build](https://img.shields.io/badge/%E2%96%B6%20Run-Become%20the%20Brain%20OS%3A%20Evolver-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/)
+
+**`v9.3.2-evolver`** — a deeper, one-thumb run: signal stability, intent capture, privacy vaults, consent gates, and real-time neural-OS deadlines. Still being refined.
+
+</div>
+
+---
+
 ## ▶ Play in 10 seconds
 
 - **Online:** open **[axonos-org.github.io/become-the-brain-os](https://axonos-org.github.io/become-the-brain-os/)** — nothing to install.
