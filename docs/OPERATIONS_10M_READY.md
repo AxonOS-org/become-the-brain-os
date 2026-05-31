@@ -1,17 +1,25 @@
-# Operations Note — 10M Readiness
+# Operations Readiness — v12.5.1-evolver
 
-This game is static-first.
+This release is a static GitHub Pages artifact.
 
-## Positive properties
+## Load profile
 
-- No backend bottleneck.
-- No login.
-- No database.
-- No analytics dependency.
-- No cookies.
-- No external runtime dependency.
-- One canonical HTML game file.
+The game has:
 
-## Real-world caveat
+- no backend;
+- no API;
+- no database;
+- no login;
+- no analytics dependency;
+- no cookies;
+- no server-side state.
 
-10,000,000 users in 24 hours requires distribution, cache behavior, GitHub Pages reliability, and social reach. The software package removes backend friction; it does not guarantee traffic.
+The limiting factor is static hosting/CDN delivery, not application server capacity.
+
+## Launch checklist
+
+1. Push `main`.
+2. Push annotated tag `v12.5.1`.
+3. Create GitHub Release marked latest.
+4. Open the game with `?v=12.5.1`.
+5. Test mobile and desktop.

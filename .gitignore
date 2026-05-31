@@ -2,8 +2,5 @@
 .ci-tmp/
 .git-tmp/
 .axon-v*/
-.axon-v*-clean/
-
-# OS/editor
+*.swp
 .DS_Store
-Thumbs.db

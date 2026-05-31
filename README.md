@@ -1,42 +1,32 @@
 # Become the Brain OS: Evolver
 
-[![▶ Play Evolver](https://img.shields.io/badge/%E2%96%B6%20Play-v12.2.9%20Evolver-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.2.9)
-![version](https://img.shields.io/badge/version-v12.2.9--evolver-0a4a8f?style=flat-square)
+[![▶ Play Evolver](https://img.shields.io/badge/%E2%96%B6%20Play-Become%20the%20Brain%20OS%3A%20Evolver-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.5.1)
+[![Release](https://img.shields.io/badge/release-v12.5.1-0d7a5f?style=for-the-badge&labelColor=050509)](https://github.com/AxonOS-org/become-the-brain-os/releases/tag/v12.5.1)
 ![local-only](https://img.shields.io/badge/local--only-no%20backend-0d7a5f?style=flat-square)
-![neural-data](https://img.shields.io/badge/neural%20data-none-0d7a5f?style=flat-square)
+![neural data](https://img.shields.io/badge/neural%20data-none-0d7a5f?style=flat-square)
 
-**Become the Brain OS: Evolver v12.2.9** is a playability-first major release of the AxonOS educational game surface.
+**Current release:** `v12.5.1-evolver`
 
-It explains the operating-system layer between neural hardware and AI through a simple, forgiving, mobile-first loop:
+A local-only educational browser game by the AxonOS project.
 
-```text
-hold signal -> release in gold -> choose safe OS action -> continue
-```
-
-## Current build
-
-```text
-v12.2.9-evolver
-```
+The game explains the operating-system layer between neural hardware and AI: signal stabilization, derived intent, neural permissions, consent revocation, artifact rejection, deadline discipline, and local-only cognitive state.
 
 ## Play
 
 ```text
-https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.2.9
+https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=12.5.1
 ```
 
-## Design objective
+## Release intent
 
-v12.2.9 is built to solve the core criticism: previous versions could feel impossible or unstable. This release prioritizes readable gameplay, stable input, explicit phases, and zero dead-end states.
+`v12.5.1` is a cleanup and playability release. It removes the previous release-surface drift and replaces the game loop with a simpler, playable, mobile-safe loop.
 
 ## Honesty boundary
 
-This is an educational simulation. It is not a medical device, not a clinical BCI, not the AxonOS kernel, and reads no neural data.
+This is an educational simulation. It is not a medical device, not a BCI, not the AxonOS kernel, and reads no neural data.
 
 ## Validate
 
 ```bash
-python3 scripts/validate_v12_2_9.py
+python3 scripts/validate_v12_5_1.py
 ```
-
-Apache-2.0 OR MIT.
