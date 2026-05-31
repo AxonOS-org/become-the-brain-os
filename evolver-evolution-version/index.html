@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#050509" />
   <meta name="description" content="Become the Brain OS: Evolver is an educational browser game about signal stabilization, intent capture, neural permissions, consent, and privacy. Not a medical device. Reads no neural data. Local-only." />
-  <meta property="og:title" content="Become the Brain OS: Evolver · AxonOS v9.3.9" />
+  <meta property="og:title" content="Become the Brain OS: Evolver · AxonOS v9.3.11" />
   <meta property="og:description" content="You are the operating system between neural hardware and AI. Stabilize signal. Capture intent. Deny raw neural leaks. Respect consent." />
   <meta property="og:type" content="website" />
-  <title>Become the Brain OS: Evolver · AxonOS v9.3.9</title>
+  <title>Become the Brain OS: Evolver · AxonOS v9.3.11</title>
   <style>
     :root{
       --bg:#050509;
@@ -237,11 +237,11 @@
         <span class="sigil" aria-hidden="true"></span>
         <span>
           <h1>AxonOS</h1>
-          <p>Become the Brain OS · v9.3.9</p>
+          <p>Become the Brain OS · v9.3.11</p>
         </span>
       </a>
       <div class="stats" aria-label="Local player status">
-        <span class="pill gold">Build <strong>v9.3.9</strong></span>
+        <span class="pill gold">Build <strong>v9.3.11</strong></span>
         <span class="pill">Best <strong id="bestTop">0</strong></span>
         <span class="pill">Streak <strong id="streakTop">0</strong></span>
         <span class="pill">Level <strong id="levelTop">1</strong></span>
@@ -288,7 +288,7 @@
           <div class="miniList" id="leaderList"></div>
         </aside>
       </div>
-      <footer class="footer">A game by <a href="https://github.com/AxonOS-org">The AxonOS Project</a> · <a href="https://axonos.org">axonos.org</a> · v9.3.9 · QA-stable · local-only · reads no neural data</footer>
+      <footer class="footer">A game by <a href="https://github.com/AxonOS-org">The AxonOS Project</a> · <a href="https://axonos.org">axonos.org</a> · v9.3.11 · QA-stable · local-only · reads no neural data</footer>
     </section>
 
     <section class="screen" id="playScreen" aria-label="Game screen">
@@ -340,7 +340,7 @@
       <div class="resultGrid">
         <article class="card gradeCard">
           <div>
-            <p class="kicker">Run complete · v9.3.9</p>
+            <p class="kicker">Run complete · v9.3.11</p>
             <div class="grade" id="gradeText">S</div>
           </div>
           <div>
@@ -368,7 +368,7 @@
             <small>Become the Brain OS</small>
             <div>
               <b id="shareTitle">AxonOS online</b>
-              <p id="shareText">Score 0 · v9.3.9 · QA-stable · local-only · reads no neural data.</p>
+              <p id="shareText">Score 0 · v9.3.11 · QA-stable · local-only · reads no neural data.</p>
             </div>
             <small>axonos.org</small>
           </div>
@@ -415,10 +415,11 @@
   (()=>{
     'use strict';
 
-    const VERSION='9.3.9';
-    const STORE='axonos_v939_';
-    const SHARE_FILE='axonos-v939-share-card.png';
-    const CHALLENGE_PREFIX='v939';
+    const VERSION='9.3.11';
+    const STORE='axonos_v9311_';
+    const LEGACY_STORES=['axonos_v9310_','axonos_v939_','axonos_v938_','axonos_v937_','axonos_v936_','axonos_v935_'];
+    const SHARE_FILE='axonos-v9311-share-card.png';
+    const CHALLENGE_PREFIX='v9311';
     const GOLD_MIN=.42;
     const GOLD_MAX=.60;
 
@@ -474,7 +475,21 @@
     const todayKey=()=>{const d=new Date();return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`};
     const escapeHTML=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-    function loadJSON(key,fallback){try{const raw=localStorage.getItem(STORE+key);return raw==null?fallback:(JSON.parse(raw)??fallback)}catch{return fallback}}
+    function loadJSON(key,fallback){
+      try{
+        const raw=localStorage.getItem(STORE+key);
+        if(raw!=null)return JSON.parse(raw)??fallback;
+        for(const prefix of LEGACY_STORES){
+          const legacy=localStorage.getItem(prefix+key);
+          if(legacy!=null){
+            const parsed=JSON.parse(legacy)??fallback;
+            try{localStorage.setItem(STORE+key,JSON.stringify(parsed))}catch{}
+            return parsed;
+          }
+        }
+      }catch{}
+      return fallback;
+    }
     function saveJSON(key,value){try{localStorage.setItem(STORE+key,JSON.stringify(value))}catch{}}
     function seedRand(seed){let a=(seed>>>0)||0x9e3779b9;return()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return ((t^(t>>>14))>>>0)/4294967296}}
     function hashSeed(text){let h=2166136261>>>0;for(let i=0;i<text.length;i++){h^=text.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
@@ -507,7 +522,22 @@
     function clearTimer(name){if(game&&game[name]){clearTimeout(game[name]);game[name]=0}}
     function clearRunTimers(){clearTimer('choiceTimer');clearTimer('transitionTimer')}
     function stopLoop(){if(raf){cancelAnimationFrame(raf);raf=0}}
-    function cleanupRun(){if(!game)return;clearRunTimers();game.holding=false;game.pointerId=null;expectedLostCapture=false;setHoldEnabled(false);els.holdPad.classList.remove('holding');lockCards(true);stopLoop()}
+    function cleanupRun(){
+      if(!game)return;
+      clearRunTimers();
+      try{
+        if(game.pointerId!==null&&game.pointerId!==undefined&&els.holdPad.releasePointerCapture){
+          if(!els.holdPad.hasPointerCapture||els.holdPad.hasPointerCapture(game.pointerId))els.holdPad.releasePointerCapture(game.pointerId);
+        }
+      }catch{}
+      game.holding=false;
+      game.pointerId=null;
+      expectedLostCapture=false;
+      setHoldEnabled(false);
+      els.holdPad.classList.remove('holding');
+      lockCards(true);
+      stopLoop();
+    }
     function ownsPointer(e){return !e||e.pointerId===undefined||!game||game.pointerId===null||e.pointerId===game.pointerId}
 
     function renderHome(){
@@ -625,7 +655,17 @@
     function loop(){if(!game||game.finished)return;const t=now();const dt=Math.min(50,t-lastTick);lastTick=t;tick(dt);if(!game||game.finished)return;draw(t);raf=requestAnimationFrame(loop)}
 
     function pointerDown(e){if(!game||game.finished||game.paused||game.phase!=='hold'||game.holding||!holdEnabled)return;if(e&&e.button!==undefined&&e.button!==0)return;if(e&&e.preventDefault)e.preventDefault();game.holding=true;game.holdStart=now();game.pointerId=e&&e.pointerId!==undefined?e.pointerId:null;try{if(game.pointerId!==null&&els.holdPad.setPointerCapture)els.holdPad.setPointerCapture(game.pointerId)}catch{}els.holdPad.classList.add('holding');els.holdTitle.textContent='Stabilizing';els.holdHint.textContent='Release inside gold.'}
-    function cancelHold(reason='signal interrupted',e=null){if(!game||!game.holding||!ownsPointer(e))return;game.holding=false;game.pointerId=null;els.holdPad.classList.remove('holding');els.holdTitle.textContent='Hold signal';els.holdHint.textContent='Release when the cursor enters gold.';log(reason,'warn')}
+    function cancelHold(reason='signal interrupted',e=null){
+      if(!game||!game.holding||!ownsPointer(e))return;
+      const pid=game.pointerId;
+      game.holding=false;
+      game.pointerId=null;
+      try{if(pid!==null&&pid!==undefined&&els.holdPad.releasePointerCapture){if(!els.holdPad.hasPointerCapture||els.holdPad.hasPointerCapture(pid))els.holdPad.releasePointerCapture(pid)}}catch{}
+      els.holdPad.classList.remove('holding');
+      els.holdTitle.textContent='Hold signal';
+      els.holdHint.textContent='Release when the cursor enters gold.';
+      log(reason,'warn');
+    }
     function pointerUp(e){
       if(!game||game.finished||game.paused||game.phase!=='hold'||!game.holding)return;
       if(!ownsPointer(e))return;
@@ -646,7 +686,7 @@
     function abort(){if(game)cleanupRun();game=null;lastResult=null;els.cardsGrid.innerHTML='';els.kernelLog.innerHTML='';els.pauseModal.classList.remove('active');setHoldEnabled(true);show('home');renderHome()}
     function homeFromResult(){if(game)cleanupRun();game=null;show('home');renderHome()}
 
-    function resultText(){const r=lastResult;if(!r)return'';return `I became the Brain OS: ${r.grade}-grade · ${fmt(r.score)} pts · ${r.leaks} leaks · ${r.avg?r.avg.toFixed(2):'—'} avg latency · AxonOS Evolver v${VERSION} · https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/`}
+    function resultText(){const r=lastResult;if(!r)return'';return `I became the Brain OS: ${r.grade}-grade · ${fmt(r.score)} pts · ${r.leaks} leaks · ${r.avg?r.avg.toFixed(2):'—'} avg latency · AxonOS Evolver v${VERSION} · https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=9.3.11`}
     async function copy(text){try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);toast('Copied');return}throw new Error('clipboard unavailable')}catch{try{const ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.top='0';ta.style.left='0';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();const ok=document.execCommand('copy');ta.remove();toast(ok?'Copied':'Copy blocked')}catch{toast('Copy blocked')}}}
     function downloadCard(){const r=lastResult;if(!r){toast('No result yet');return}const c=els.shareCanvas,ctx=shareCtx;ctx.clearRect(0,0,c.width,c.height);const g=ctx.createLinearGradient(0,0,c.width,c.height);g.addColorStop(0,'#050509');g.addColorStop(.5,'#111827');g.addColorStop(1,'#050509');ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle='rgba(241,199,107,.55)';ctx.lineWidth=4;ctx.strokeRect(42,42,c.width-84,c.height-84);ctx.fillStyle='#f1c76b';ctx.font='44px ui-sans-serif,system-ui';ctx.fillText('AXONOS · BECOME THE BRAIN OS',80,130);ctx.fillStyle='#ffffff';ctx.font='bold 106px ui-sans-serif,system-ui';ctx.fillText(`${r.grade}-GRADE`,80,300);ctx.font='bold 78px ui-sans-serif,system-ui';ctx.fillText(`${fmt(r.score)} POINTS`,80,405);ctx.fillStyle='#cbd7ea';ctx.font='38px ui-sans-serif,system-ui';ctx.fillText(`${r.leaks} leaks · ${r.avg?r.avg.toFixed(2)+'ms':'—'} avg latency · ${r.stability}% stability`,80,500);ctx.fillStyle='#7de7ff';ctx.font='32px ui-sans-serif,system-ui';ctx.fillText(`AxonOS Evolver v${VERSION} · local-only · reads no neural data`,80,760);const a=document.createElement('a');a.download=SHARE_FILE;a.href=c.toDataURL('image/png');a.style.display='none';document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),0);toast('Card downloaded')}
 
@@ -658,11 +698,11 @@
       window.addEventListener('keydown',e=>{if(e.code==='Space'){if(!game||e.repeat||game.phase!=='hold')return;e.preventDefault();pointerDown(e)}if(e.key==='Escape'&&game&&!game.finished)pause()});
       window.addEventListener('keyup',e=>{if(e.code==='Space')pointerUp(e)});
       els.pauseBtn.addEventListener('click',pause);els.abortBtn.addEventListener('click',abort);els.resumeBtn.addEventListener('click',resume);els.abortFromModalBtn.addEventListener('click',abort);
-      els.retryBtn.addEventListener('click',()=>start(activeMode()));els.homeBtn.addEventListener('click',homeFromResult);els.copyBtn.addEventListener('click',()=>copy(resultText()));els.challengeBtn.addEventListener('click',()=>{const r=lastResult;copy(`${CHALLENGE_PREFIX}-${r?r.mode:selectedMode}-${todayKey()}-${(r?r.seed:0).toString(36)}`)});els.downloadBtn.addEventListener('click',downloadCard);
+      els.retryBtn.addEventListener('click',()=>start(activeMode()));els.homeBtn.addEventListener('click',homeFromResult);els.copyBtn.addEventListener('click',()=>copy(resultText()));els.challengeBtn.addEventListener('click',()=>{const r=lastResult;if(!r){toast('Finish a run first');return}copy(`${CHALLENGE_PREFIX}-${r.mode}-${todayKey()}-${r.seed.toString(36)}`)});els.downloadBtn.addEventListener('click',downloadCard);
       document.addEventListener('visibilitychange',()=>{if(document.hidden&&game&&!game.finished&&!game.paused)pause()});window.addEventListener('blur',()=>{if(game&&game.holding)cancelHold('window lost focus')});
     }
 
-    window.__AXONOS_EVOLVER_BUILD__={version:VERSION,store:STORE,challengePrefix:CHALLENGE_PREFIX,shareFile:SHARE_FILE,fixes:['explicit-hold-enabled-flag','owned-pointer-cancel','lostpointercapture-guard','privacy-denial-scoring','public-version-consistency']};
+    window.__AXONOS_EVOLVER_BUILD__={version:VERSION,store:STORE,challengePrefix:CHALLENGE_PREFIX,shareFile:SHARE_FILE,fixes:['explicit-hold-enabled-flag','owned-pointer-cancel','lostpointercapture-guard','privacy-denial-scoring','public-version-consistency','legacy-storage-migration','pointer-capture-cleanup','strict-challenge-result-guard','cache-busted-result-url','no-temp-folder-self-check']};
     normalizeProfile();bindSafe();renderHome();draw(now());
   })();
   </script>

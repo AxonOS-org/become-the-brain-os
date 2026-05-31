@@ -1,43 +1,26 @@
 # Become the Brain OS: Evolver
 
-[![Play Evolver](https://img.shields.io/badge/%E2%96%B6%20Play-v9.3.9--evolver-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=9.3.9)
-![local-only](https://img.shields.io/badge/local--only-no%20backend-0d7a5f?style=flat-square)
-![neural data](https://img.shields.io/badge/neural%20data-none-0d7a5f?style=flat-square)
-
 Current build:
 
 ```text
-v9.3.9-evolver
+v9.3.11-evolver
 ```
 
-## Runtime contract
+Live URL:
 
-- Single-file browser game.
-- No backend.
-- No analytics.
-- No trackers.
-- No sensor access.
-- No neural data.
-- LocalStorage only for local progress.
+<https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=9.3.11>
 
-## v9.3.9 fixes
+## What changed
 
-- logical hold-enabled flag;
-- pointer ownership guard;
-- lost-pointer-capture false-cancel guard;
-- result persistence remains idempotent;
-- privacy-denial badge scoring repaired;
-- share-card / challenge / storage namespaces moved to `v939`;
-- CI validates `evolver-evolution-version/index.html`.
+- cleaned release metadata;
+- fixed GitHub Actions YAML formatting;
+- removed self-matching stale-version checks from public deployment commands;
+- added legacy localStorage migration from older v9.3.x namespaces;
+- hardened pointer-capture cleanup for abort, pause, cancel, and finish paths;
+- guarded challenge-copy until a real result exists;
+- cache-busted result URL now includes `?v=9.3.11`;
+- package manifest excludes local temp and unpack folders.
 
-## Run locally
+## Boundary
 
-```bash
-python3 -m http.server 8080
-```
-
-Open:
-
-```text
-http://localhost:8080/evolver-evolution-version/?v=9.3.9
-```
+Educational simulation only. No backend. No analytics. No trackers. No neural data.
