@@ -1,89 +1,177 @@
-<div align="center">
+# Become the Brain OS
 
-# 🧠 Become the OS
+### Play the operating system layer between neural hardware and AI.
 
-### Play the operating system of a brain–computer interface.
+[![▶ Play Evolver](https://img.shields.io/badge/%E2%96%B6%20Play-Become%20the%20Brain%20OS%3A%20Evolver-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/)
+![version](https://img.shields.io/badge/version-v9.3.5--evolver-0a4a8f?style=flat-square)
+![local-only](https://img.shields.io/badge/local--only-no%20backend-0d7a5f?style=flat-square)
+![neural data](https://img.shields.io/badge/neural%20data-none-0d7a5f?style=flat-square)
+![static](https://img.shields.io/badge/deploy-GitHub%20Pages-475569?style=flat-square)
 
-**[▶ Play it live](https://axonos-org.github.io/become-the-brain-os/)** &nbsp;·&nbsp; a free browser game by the [AxonOS](https://github.com/AxonOS-org) project &nbsp;·&nbsp; `v0.3.3`
+**Become the Brain OS** is a public educational browser game by the [AxonOS](https://github.com/AxonOS-org) project.
 
-</div>
+The canonical playable build in this package is:
 
-> ⚠️ **This is a game.** It does not read your brain and uses no sensor of any kind. It is a *simulation* that teaches how a real brain–computer operating system works.
+```text
+evolver-evolution-version/ · v9.3.5-evolver
+```
 
----
-
-## ▶ New — Become the Brain OS: Evolver (experimental)
-
-<div align="center">
-
-[![Run the Evolver build](https://img.shields.io/badge/%E2%96%B6%20Run-Become%20the%20Brain%20OS%3A%20Evolver-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/)
-
-**`v9.3.2-evolver`** — a deeper, one-thumb run: signal stability, intent capture, privacy vaults, consent gates, and real-time neural-OS deadlines. Still being refined.
-
-</div>
+> ⚠️ **This is a game.** It does not read your brain and uses no sensor of any kind. It is a simulation that teaches how a real brain-computer operating system should handle signal, intent, consent, hard timing, and neural permissions.
 
 ---
 
 ## ▶ Play in 10 seconds
 
-- **Online:** open **[axonos-org.github.io/become-the-brain-os](https://axonos-org.github.io/become-the-brain-os/)** — nothing to install.
-- **Offline:** download `index.html` and double-click it. That is the entire game — one file.
-- **Controls:** one slider, mouse/tap, and arrow keys. ~90 seconds, 6 rounds.
-
-## What is this?
-
-A real brain–computer interface runs an operating system between the electrodes and the app you control. For ninety seconds, **you are that OS**, across four stages that repeat each round:
-
-1. **Calibrate** — a quick ZeroCalib locks onto your "patterns" (instant here; ~70 s in the real system).
-2. **Clean the signal** — filter power-line hum and muscle noise out of a live **3-channel** feed; reject sudden artifacts. The clearer the signal, the more confident the decode.
-3. **Read the intent** — turn the cleaned waveform into one of four intents, each with a confidence score — **before a 4 ms real-time deadline closes.**
-4. **Pass the consent gate** — grant an app only what it needs. Deny raw brain data. Your thoughts never leave the kernel.
-
-Clean + correct + leak-free rounds build a **streak multiplier**; the run ends with a grade from **D to S** and a shareable result.
-
-## Why it exists
-
-AxonOS is an open-source, formally-verified real-time operating system for brain–computer interfaces, written in Rust. This game is the friendly front door: it makes the four core ideas — **acquisition, classification, hard real-time, and neurorights** — playable in a couple of minutes, then points to the real engineering for anyone who wants to go deeper. We're one engineer building it in the open, so curiosity and ⭐ genuinely help.
-
-## What's new in v0.3.3
-
-- **Live 3-channel oscilloscope** (Fz / Cz / Pz) with crisp, glowing scrolling traces.
-- **ZeroCalib step** — an interactive calibration that primes decode accuracy.
-- **Muscle-artifact events** — a >±120 µV spike you must *reject*, not decode (just like the real artifact guard).
-- **Live `kernel.log`** — a running trace of what the OS is doing (filters, locks, denials, deadline misses).
-- **Streak multiplier**, **end-screen grade**, and **one-tap "copy my result"** for sharing.
-- **Subtle sound** (toggleable) and **particle feedback**. Sharper grid, type, and motion throughout.
-
-## What's real vs simulated
-
-Everything the game dramatises is real in AxonOS: the filter → classify pipeline, the bounded 4 ms deadline, the fixed-point confidence score, the ±120 µV artifact rejection, and the capability-based consent gate. The **only** fiction is the input: there is no brain and no sensor. The waveforms are generated math, and the game says so plainly.
-
-## Tech
-
-- A single self-contained `index.html`. No build step, no dependencies, no tracking, no analytics, no storage.
-- Vanilla JavaScript + `<canvas>` for the live waveforms and effects; Web Audio for optional sound.
-- Runs offline once loaded (web fonts aside). Deploys to any static host.
-
-## Deploy
-
-The repository ships an idempotent **`deploy.sh`** that pushes the game and enables GitHub Pages in one go (branch build, via your `gh` token — which works even when an org blocks the Actions token):
-
-```bash
-bash deploy.sh
-```
-
-Prefer to do it by hand? Push the repo, then **Settings → Pages → Source: "Deploy from a branch" → `main` / `(root)`**. The site appears at `https://axonos-org.github.io/become-the-brain-os/`.
-
-## Contributing
-
-Issues and pull requests welcome — especially clearer explanations, accessibility, and translations. One rule: keep it **honest**. Nothing in here should suggest the game reads real brain activity.
+- **Online:** open <https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/>.
+- **Offline:** open `evolver-evolution-version/index.html` directly, or serve the repository with `python3 -m http.server 8080`.
+- **Controls:** hold signal, release in the gold band, then select the safe intent/privacy card.
 
 ---
 
-<div align="center">
+## What is this?
 
-**The AxonOS Project** · [axonos.org](https://axonos.org) · [github.com/AxonOS-org](https://github.com/AxonOS-org) · [medium.com/@AxonOS](https://medium.com/@AxonOS)
+A brain-computer interface needs an operating-system layer between electrodes, decoders, applications, and AI agents.
 
-Licensed under Apache-2.0 OR MIT · a game, built to explain real engineering
+For a short run, **you are that OS**.
 
-</div>
+Each round compresses one AxonOS idea into a playable decision:
+
+1. **Stabilize signal** — lock onto a synthetic signal without pretending to read real neural data.
+2. **Capture intent** — work with derived intent classes, not raw brain streams.
+3. **Enforce neural permissions** — deny unsafe raw access requests.
+4. **Respect consent** — revocation stops the flow immediately.
+5. **Reject artifacts** — noise, drift, spikes, and phantom nodes must not become intent.
+6. **Stay inside timing pressure** — the game dramatizes hard real-time constraints without claiming clinical timing proof.
+
+Clean, correct, leak-free rounds build score, combo, XP, badges, and local leaderboard entries.
+
+---
+
+## Why it exists
+
+AxonOS is the missing operating-system layer between neural hardware and AI.
+
+This game is the public front door. It gives a non-specialist a fast, honest understanding of why AxonOS is not just an AI-agent OS, not just a demo UI, and not a generic app framework.
+
+It is an **OS for the Brain** concept demonstration.
+
+---
+
+## What's new in v9.3.5
+
+- Full `evolver-evolution-version/` package.
+- Correct `v9.3.5-evolver` version surface.
+- Single-file game build with no external runtime dependencies.
+- Local-only XP, levels, badges, quests, streaks, and leaderboard.
+- Daily Brain mode with deterministic challenge seed.
+- Share-card PNG generation.
+- Copy-result and copy-challenge flows.
+- Mobile-safe layout.
+- Validation script for stale markers and JavaScript parse errors.
+- Release notes and deploy script.
+
+---
+
+## What's real vs simulated
+
+The game teaches real AxonOS principles:
+
+- signal path separation;
+- derived intent over raw data;
+- capability-based permissioning;
+- consent revocation;
+- privacy-vault boundaries;
+- artifact rejection;
+- deterministic operating-system discipline.
+
+The input is simulated. There is no brain, no EEG, no sensor, no medical inference, and no clinical claim.
+
+---
+
+## Tech
+
+- Single self-contained `evolver-evolution-version/index.html`.
+- Vanilla JavaScript.
+- Canvas for synthetic signal rendering and share-card generation.
+- LocalStorage for local game progress only.
+- No backend.
+- No analytics.
+- No trackers.
+- No build step.
+
+---
+
+## Validate
+
+```bash
+python3 scripts/validate_v9_3_5.py
+```
+
+The validator checks:
+
+- required files;
+- `v9.3.5` version markers;
+- stale older-version markers;
+- stale storage namespaces;
+- broken mobile selector patterns;
+- share-card filename;
+- inline JavaScript extraction;
+- `node --check` when Node.js is available.
+
+---
+
+## Deploy to GitHub Pages
+
+```bash
+bash scripts/deploy_v9_3_5.sh
+```
+
+Manual path:
+
+```text
+Settings → Pages → Source: Deploy from a branch → main / root
+```
+
+Expected live path:
+
+```text
+https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/
+```
+
+---
+
+## Repository layout
+
+```text
+.
+├── README.md
+├── index.html
+├── LICENSE-APACHE
+├── LICENSE-MIT
+├── CHANGELOG.md
+├── RELEASE_NOTES_v9.3.5.md
+├── evolver-evolution-version/
+│   ├── index.html
+│   ├── README.md
+│   └── VERSION
+└── scripts/
+    ├── validate_v9_3_5.py
+    └── deploy_v9_3_5.sh
+```
+
+---
+
+## Contributing
+
+Issues and pull requests are welcome, especially around accessibility, language clarity, mobile UX, and educational precision.
+
+One rule: keep it honest. Nothing in this repository should imply that the game reads real brain activity.
+
+---
+
+**The AxonOS Project**  
+<https://axonos.org>  
+<https://github.com/AxonOS-org>  
+<https://medium.com/@AxonOS>
+
+Licensed under Apache-2.0 OR MIT · a game built to explain real engineering.
