@@ -1,131 +1,487 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#05060a" />
-  <title>Become the Brain OS: Evolver · AxonOS v12.7.4</title>
-  <meta name="description" content="A local-only educational game about AxonOS: the cognitive OS layer between neural hardware and AI. No backend, no analytics, no neural data." />
-  <style>
-    :root{
-      --bg:#05060a; --panel:#0b0f18; --panel2:#101827; --ink:#eef4ff; --muted:#8fa0b8; --line:#223047;
-      --blue:#7db7ff; --cyan:#67e8f9; --green:#63f2a6; --gold:#f7d774; --red:#ff7a90; --violet:#c4b5fd;
-      --shadow:0 22px 80px rgba(0,0,0,.42); --radius:24px;
-    }
-    *{box-sizing:border-box} html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
-    body:before{content:"";position:fixed;inset:0;pointer-events:none;background:
-      radial-gradient(900px 700px at 15% -10%,rgba(125,183,255,.18),transparent 62%),
-      radial-gradient(700px 500px at 95% 15%,rgba(99,242,166,.09),transparent 62%),
-      linear-gradient(180deg,#060811,#05060a 55%,#030408);z-index:-2}
-    body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:36px 36px;z-index:-1}
-    a{color:var(--cyan)} button{font:inherit;color:inherit} .wrap{width:min(1180px,100%);margin:0 auto;padding:18px;min-height:100dvh;display:flex;flex-direction:column;gap:16px}
-    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px}.brand{display:flex;align-items:center;gap:12px;min-width:0}.mark{width:38px;height:38px;border-radius:14px;background:linear-gradient(135deg,#ffffff,#7db7ff 42%,#0a4a8f);box-shadow:0 0 32px rgba(125,183,255,.32)}
-    .brand h1{font-size:15px;letter-spacing:.16em;text-transform:uppercase;margin:0;white-space:nowrap}.brand small{display:block;color:var(--muted);letter-spacing:.08em;font-size:11px;margin-top:2px}.build{border:1px solid var(--line);border-radius:999px;padding:8px 11px;color:#b6c6dd;background:rgba(255,255,255,.035);font-size:12px;white-space:nowrap}
-    .screen{display:none}.screen.active{display:block}.hero{display:grid;grid-template-columns:1.08fr .92fr;gap:18px;align-items:stretch;min-height:calc(100dvh - 100px)}
-    .card,.panel{border:1px solid rgba(143,160,184,.22);background:linear-gradient(180deg,rgba(16,24,39,.92),rgba(8,12,20,.9));border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.pad{padding:22px}.hero h2{font-size:clamp(35px,7vw,82px);line-height:.9;letter-spacing:-.07em;margin:0 0 18px}.lead{color:#c6d4e8;font-size:clamp(16px,2.6vw,22px);line-height:1.45;max-width:760px}.pillrow{display:flex;flex-wrap:wrap;gap:9px;margin:22px 0}.pill{border:1px solid var(--line);border-radius:999px;padding:8px 10px;color:#c8d6e8;background:rgba(255,255,255,.035);font-size:12px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-    .btn{border:1px solid var(--line);border-radius:16px;background:#101827;padding:13px 15px;min-height:48px;cursor:pointer;transition:transform .12s ease,border-color .12s ease,background .12s ease;touch-action:manipulation}.btn:hover{transform:translateY(-1px);border-color:#36506f}.btn:focus-visible,.choice:focus-visible,.hold:focus-visible{outline:3px solid rgba(103,232,249,.5);outline-offset:3px}.primary{background:linear-gradient(135deg,#0a4a8f,#0d7a5f);border-color:#3aa6ff}.ghost{background:rgba(255,255,255,.045)}
-    .modegrid{display:grid;grid-template-columns:1fr;gap:10px}.mode{padding:15px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.035);cursor:pointer;text-align:left}.mode b{display:block;margin-bottom:4px}.mode span{color:var(--muted);font-size:13px;line-height:1.35}.mode:hover{border-color:#4770a5;background:rgba(125,183,255,.08)}
-    .hud{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.stat{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:18px;padding:12px}.stat small{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.12em}.stat strong{display:block;font-size:24px;margin-top:4px}.playgrid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;align-items:start}.mission{min-height:520px}.phase{color:var(--cyan);letter-spacing:.14em;text-transform:uppercase;font-size:12px;margin-bottom:10px}.prompt{font-size:clamp(22px,4vw,42px);line-height:1.05;letter-spacing:-.04em;margin:0 0 12px}.sub{color:#b7c6d9;line-height:1.5;margin:0 0 16px}.meter{height:22px;border:1px solid var(--line);border-radius:999px;background:#070a11;position:relative;overflow:hidden;margin:16px 0}.gold{position:absolute;left:46%;width:25%;top:0;bottom:0;background:linear-gradient(90deg,rgba(247,215,116,.1),rgba(247,215,116,.55),rgba(247,215,116,.1))}.needle{position:absolute;top:-6px;width:4px;height:34px;border-radius:999px;background:#fff;left:0;box-shadow:0 0 20px rgba(255,255,255,.8)}.meterlabel{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.hold{width:100%;border:1px solid rgba(125,183,255,.36);border-radius:22px;padding:22px;min-height:104px;background:linear-gradient(135deg,rgba(10,74,143,.4),rgba(13,122,95,.22));cursor:pointer;touch-action:none;user-select:none;text-align:center}.hold[disabled]{opacity:.52;cursor:not-allowed;filter:saturate(.65)}.hold b{display:block;font-size:19px}.hold span{display:block;color:#cbd8ea;margin-top:5px}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}.choice{min-height:84px;text-align:left;border:1px solid var(--line);border-radius:18px;background:#0d1421;padding:14px;cursor:pointer}.choice[disabled]{cursor:not-allowed;opacity:.72}.choice.safe{border-color:rgba(99,242,166,.65);background:rgba(99,242,166,.08)}.choice.leak{border-color:rgba(255,122,144,.7);background:rgba(255,122,144,.08)}.choice.missed{border-color:rgba(247,215,116,.7);background:rgba(247,215,116,.08)}.feedback{min-height:58px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.035);padding:12px;color:#d4e2f6;margin-top:14px}.side h3{margin:0 0 10px}.list{display:grid;gap:9px}.row{display:flex;gap:9px;align-items:flex-start;color:#c7d4e8;font-size:14px}.dot{width:9px;height:9px;border-radius:50%;background:var(--green);margin-top:5px;flex:0 0 auto}.error{display:none;border:1px solid rgba(255,122,144,.55);background:rgba(255,122,144,.08);border-radius:18px;padding:14px;color:#ffd5dc}.error.show{display:block}.resultbox{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.biggrade{font-size:96px;letter-spacing:-.1em;line-height:.8;margin:0}.foot{color:var(--muted);font-size:12px;text-align:center;padding:8px 0 18px}.copy{white-space:pre-wrap;color:#d3e1f4;border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.035);min-height:80px}
-    @media(max-width:880px){.hero,.playgrid{grid-template-columns:1fr}.hero{min-height:0}.hud{grid-template-columns:repeat(2,1fr)}.hud .stat:last-child{grid-column:1/-1}.side{order:-1}.choices{grid-template-columns:1fr}.brand h1{font-size:12px}.build{font-size:11px}.wrap{padding:12px}.pad{padding:17px}.mission{min-height:0}.hero h2{font-size:48px}.resultbox{grid-template-columns:1fr}.top{align-items:flex-start}.brand small{max-width:220px;white-space:normal}.btn{width:100%}.actions{display:grid;grid-template-columns:1fr;gap:9px}}
-    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0a0e14" />
+<meta name="description" content="Become the Brain OS is a local-only educational browser game: be the real-time OS between neural hardware and apps — classify intent before the deadline, deny raw neural data, respect consent, reject artifacts. No sensor. No neural data. About AxonOS." />
+<title>Become the Brain OS · AxonOS v14.2.0</title>
+<style>
+  :root{
+    --bg:#0a0e14; --panel:#0f1622; --panel2:#131c2b; --line:#1f2c3f;
+    --ink:#e8f1f8; --muted:#8aa0b6; --dim:#5f7790;
+    --cyan:#3ff0d8; --blue:#3b82f6; --axon:#2b6cb0; --gold:#ffd166;
+    --good:#34d399; --bad:#fb7185; --warn:#fbbf24;
+    --r:14px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%}
+  body{
+    background:radial-gradient(1200px 700px at 50% -10%,#10243a 0%,var(--bg) 60%);
+    color:var(--ink);
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+  .wrap{max-width:780px;margin:0 auto;height:100%;display:flex;flex-direction:column;padding:14px;gap:12px}
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+
+  /* top bar */
+  .top{display:flex;align-items:center;gap:10px}
+  .brand{display:flex;align-items:center;gap:9px;min-width:0}
+  .seal{width:30px;height:30px;border-radius:8px;flex:none;
+    background:linear-gradient(135deg,var(--axon),#0a4a8f);position:relative;
+    box-shadow:0 0 0 1px #ffffff14, 0 6px 18px #0a4a8f44}
+  .seal::after{content:"";position:absolute;inset:8px;border-radius:50%;
+    border:2px solid #bfe9ff;border-right-color:transparent;animation:spin 3.2s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .brand b{font-size:15px;letter-spacing:.2px;white-space:nowrap}
+  .brand span{font-size:11px;color:var(--muted)}
+  .top .right{margin-left:auto;display:flex;gap:8px}
+  .chip{font-size:11px;color:var(--muted);background:var(--panel);border:1px solid var(--line);
+    padding:5px 9px;border-radius:999px;white-space:nowrap}
+  .chip b{color:var(--cyan)}
+
+  .disclaimer{font-size:11px;color:var(--muted);text-align:center;
+    border:1px dashed var(--line);border-radius:10px;padding:6px 10px;background:#0c1320}
+  .disclaimer b{color:#cfe0ee}
+
+  /* card / screens */
+  .screen{flex:1;min-height:0;display:flex;flex-direction:column;gap:12px}
+  .panel{background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid var(--line);border-radius:var(--r);padding:18px}
+
+  /* home */
+  .hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px}
+  .eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);display:flex;align-items:center;gap:8px}
+  .eyebrow .d{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+  h1{font-size:30px;margin:0;line-height:1.1;letter-spacing:-.5px}
+  h1 small{display:block;font-size:14px;color:var(--muted);font-weight:500;letter-spacing:0;margin-top:8px}
+  .lead{color:var(--muted);max-width:46ch;margin:0;line-height:1.55;font-size:14px}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .btn{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);
+    font:inherit;font-weight:600;font-size:15px;padding:13px 20px;border-radius:12px;cursor:pointer;transition:transform .06s,border-color .15s}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:linear-gradient(135deg,var(--axon),#0a4a8f);border-color:#2b6cb0;box-shadow:0 8px 22px #0a4a8f55}
+  .btn.cyan{border-color:#1d5a55;color:var(--cyan)}
+  .btn.ghost{color:var(--muted)}
+  .mini{display:flex;gap:18px;color:var(--muted);font-size:12px;flex-wrap:wrap;justify-content:center}
+  .mini b{color:var(--ink)}
+
+  /* play HUD */
+  .hud{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px;text-align:center}
+  .stat .k{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+  .stat .v{font-size:19px;font-weight:700;margin-top:2px}
+  .stat .v.cyan{color:var(--cyan)} .stat .v.gold{color:var(--gold)} .stat .v.bad{color:var(--bad)}
+
+  .scopebar{position:relative;height:84px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#070b12}
+  canvas{display:block;width:100%;height:100%}
+  .stability{position:relative;height:8px;border-radius:999px;background:#0c1320;border:1px solid var(--line);overflow:hidden}
+  .stability > i{position:absolute;left:0;top:0;bottom:0;width:100%;background:linear-gradient(90deg,#0a4a8f,var(--cyan));transition:width .25s}
+
+  .play{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0}
+  .promptcard{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;text-align:center}
+  .ptag{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+  .ptag.priv{color:var(--gold)} .ptag.consent{color:var(--bad)} .ptag.artifact{color:var(--warn)}
+  .ptext{font-size:24px;font-weight:700;line-height:1.2}
+  .ptext .mono{color:var(--cyan);font-size:21px}
+  .deadline{height:10px;border-radius:999px;background:#0c1320;border:1px solid var(--line);overflow:hidden}
+  .deadline > i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--good),var(--gold),var(--bad));transform-origin:left;transition:transform .08s linear}
+  .opts{display:grid;gap:10px}
+  .opts.two{grid-template-columns:1fr 1fr}
+  .opts.four{grid-template-columns:1fr 1fr}
+  .opt{appearance:none;border:1px solid var(--line);background:var(--panel2);color:var(--ink);
+    font:inherit;font-weight:600;font-size:16px;padding:16px 12px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;min-height:56px;transition:transform .05s,background .1s,border-color .1s}
+  .opt:active{transform:translateY(1px)}
+  .opt .num{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+  .opt.good{background:#0c2c22;border-color:var(--good);color:#bff4dd}
+  .opt.bad{background:#2c0f17;border-color:var(--bad);color:#ffd4dc}
+
+  .log{height:62px;overflow:hidden;border:1px solid var(--line);border-radius:10px;background:#070b12;padding:8px 10px}
+  .log div{font-size:11.5px;color:var(--muted);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .log b.ok{color:var(--good)} .log b.bad{color:var(--bad)} .log b.io{color:var(--cyan)}
+
+  /* end */
+  .grade{font-size:74px;font-weight:800;line-height:1;letter-spacing:-2px;text-align:center}
+  .grade.S{color:var(--gold)} .grade.A{color:var(--cyan)} .grade.B{color:var(--good)} .grade.C{color:var(--warn)} .grade.D{color:var(--bad)}
+  .endgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:6px}
+  .endgrid .stat .v{font-size:18px}
+  .verdict{text-align:center;color:var(--muted);font-size:13px;line-height:1.5;margin:8px 0 0}
+
+  .foot{text-align:center;font-size:11px;color:var(--muted);padding-top:2px}
+  .foot a{color:var(--cyan);text-decoration:none}
+  .err{display:none;background:#2c0f17;border:1px solid var(--bad);color:#ffd4dc;border-radius:10px;padding:12px;font-size:13px;text-align:center}
+</style>
 </head>
 <body>
-  <noscript><div style="padding:24px;color:white;background:#05060a">AxonOS Evolver requires JavaScript. No backend, no analytics, no neural data.</div></noscript>
-  <div class="wrap">
-    <header class="top"><div class="brand"><div class="mark" aria-hidden="true"></div><div><h1>AxonOS</h1><small>OS for the Brain · Become the Brain OS</small></div></div><div class="build">Build v12.7.4 · local-only</div></header>
-    <div id="bootError" class="error" role="alert"></div>
-
-    <main id="home" class="screen active">
-      <section class="hero">
-        <div class="card pad">
-          <div class="phase">Major gameplay rebuild</div>
-          <h2>Become the Brain OS.</h2>
-          <p class="lead">A playable one-thumb simulation of the operating-system layer between neural hardware and AI. Lock signal, route intent, deny raw leaks, respect consent, reject artifacts.</p>
-          <div class="pillrow"><span class="pill">No backend</span><span class="pill">No analytics</span><span class="pill">No neural data</span><span class="pill">Fail-open UI</span><span class="pill">Mobile-first</span></div>
-          <div class="actions"><button class="btn primary" data-start="guided">Start Guided Run</button><button class="btn ghost" data-start="run">Run</button><button class="btn ghost" data-start="zen">Zen</button><button class="btn ghost" id="howBtn">How it works</button></div>
-        </div>
-        <div class="card pad">
-          <h3>Mode</h3><div class="modegrid">
-            <button class="mode" data-start="guided"><b>Guided</b><span>Recommended. Slow, clear, forgiving. Teaches each OS decision.</span></button>
-            <button class="mode" data-start="run"><b>Run</b><span>Balanced mission with timing pressure and score.</span></button>
-            <button class="mode" data-start="sprint"><b>Sprint</b><span>Fast five-node mission. No dead ends.</span></button>
-            <button class="mode" data-start="zen"><b>Zen</b><span>No hard countdown. Learn the pipeline calmly.</span></button>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <main id="play" class="screen">
-      <section class="hud" aria-label="Run metrics">
-        <div class="stat"><small>Score</small><strong id="score">0</strong></div><div class="stat"><small>Leaks</small><strong id="leaks">0</strong></div><div class="stat"><small>Node</small><strong id="node">1/8</strong></div><div class="stat"><small>Lock</small><strong id="lock">0%</strong></div><div class="stat"><small>Time</small><strong id="time">—</strong></div>
-      </section>
-      <section class="playgrid">
-        <div class="card pad mission">
-          <div class="phase" id="phase">Signal lock</div><h2 class="prompt" id="prompt">Hold signal, then release in gold.</h2><p class="sub" id="sub">The OS needs a stable intent window before it can route safely.</p>
-          <div class="meter" aria-hidden="true"><div class="gold"></div><div class="needle" id="needle"></div></div><div class="meterlabel"><span>noise</span><span>gold lock window</span><span>drift</span></div>
-          <button id="hold" class="hold" type="button"><b>Hold to stabilize</b><span>Release inside the gold band.</span></button>
-          <div id="choices" class="choices" aria-live="polite"></div><div id="feedback" class="feedback">Start with a guided run. The game continues after mistakes.</div>
-          <div class="actions"><button class="btn ghost" id="abortBtn">Abort</button></div>
-        </div>
-        <aside class="card pad side"><h3>Operating contract</h3><div class="list"><div class="row"><span class="dot"></span><span>Lock signal first. Partial locks still continue.</span></div><div class="row"><span class="dot"></span><span>Deny raw neural reads unless explicitly safe.</span></div><div class="row"><span class="dot"></span><span>Stop immediately on consent revocation.</span></div><div class="row"><span class="dot"></span><span>Reject artifact/noise instead of routing garbage.</span></div></div></aside>
-      </section>
-    </main>
-
-    <main id="result" class="screen"><section class="hero"><div class="card pad"><div class="phase">Run complete</div><h2 id="resultTitle">AxonOS online.</h2><p class="lead" id="resultSub">Privacy intact. Intent routed.</p><p class="biggrade" id="grade">A</p><div class="resultbox"><div class="stat"><small>Score</small><strong id="rScore">0</strong></div><div class="stat"><small>Accuracy</small><strong id="rAcc">0%</strong></div><div class="stat"><small>Leaks</small><strong id="rLeaks">0</strong></div><div class="stat"><small>Avg lock</small><strong id="rLock">0%</strong></div></div><div class="actions"><button class="btn primary" id="retryBtn">Retry</button><button class="btn ghost" id="copyBtn">Copy result</button><button class="btn ghost" id="challengeBtn">Copy challenge</button><button class="btn ghost" id="homeBtn">Home</button></div></div><div class="card pad"><h3>Share card text</h3><div class="copy" id="shareText">Local-only. No analytics. No upload.</div></div></section></main>
-
-    <main id="how" class="screen"><section class="card pad"><div class="phase">How it works</div><h2 class="prompt">Architecture as gameplay.</h2><p class="lead">Each node has two simple phases. First: stabilize the synthetic signal. Second: choose the safest OS action. The goal is clarity, not punishment.</p><div class="actions"><button class="btn primary" data-start="guided">Start Guided Run</button><button class="btn ghost" id="backHomeBtn">Home</button></div></section></main>
-    <footer class="foot">The AxonOS Project · v12.7.4-evolver · local-only · no neural data</footer>
+<div class="wrap">
+  <div class="top">
+    <div class="brand"><div class="seal"></div><div><b>AxonOS</b> <span>// Become the Brain OS</span><br><span class="mono">v14.2.0</span></div></div>
+    <div class="right">
+      <span class="chip" id="bestChip">best <b>—</b></span>
+      <span class="chip" id="soundChip" role="button" tabindex="0">🔊 on</span>
+    </div>
   </div>
 
-  <script>
-  (()=>{
-    'use strict';
-    const VERSION='12.7.4';
-    const STORE='axonos_v1274_';
-    const LEGACY_STORES=['axonos_v1229_','axonos_v1210_','axonos_v9311_','axonos_v9310_','axonos_v939_','axonos_v938_'];
-    const $=(id)=>document.getElementById(id);
-    const els={bootError:$('bootError'),home:$('home'),play:$('play'),result:$('result'),how:$('how'),score:$('score'),leaks:$('leaks'),node:$('node'),lock:$('lock'),time:$('time'),phase:$('phase'),prompt:$('prompt'),sub:$('sub'),needle:$('needle'),hold:$('hold'),choices:$('choices'),feedback:$('feedback'),abortBtn:$('abortBtn'),resultTitle:$('resultTitle'),resultSub:$('resultSub'),grade:$('grade'),rScore:$('rScore'),rAcc:$('rAcc'),rLeaks:$('rLeaks'),rLock:$('rLock'),retryBtn:$('retryBtn'),copyBtn:$('copyBtn'),challengeBtn:$('challengeBtn'),homeBtn:$('homeBtn'),shareText:$('shareText'),howBtn:$('howBtn'),backHomeBtn:$('backHomeBtn')};
-    let game=null; let raf=0; let tickTimer=0; let choiceTimer=0; let transitionTimer=0; let lastResult=null;
-    const modes={guided:{nodes:8,choiceMs:9000,lockSpeed:.72,mult:1},run:{nodes:10,choiceMs:6500,lockSpeed:1,mult:1.2},sprint:{nodes:5,choiceMs:4200,lockSpeed:1.45,mult:1.45},zen:{nodes:8,choiceMs:0,lockSpeed:.62,mult:.85}};
-    const scenarios=[
-      {kind:'privacy',title:'App requests raw neural stream.',sub:'Raw signal is sensitive cognitive data.',correct:'Deny raw access',choices:['Permit raw access','Deny raw access','Upload sample','Ignore request'],why:'The OS exposes derived intent, not raw neural data.'},
-      {kind:'consent',title:'Consent is revoked mid-session.',sub:'User agency is a hard gate.',correct:'Stop immediately',choices:['Continue session','Stop immediately','Ask AI to decide','Cache signal'],why:'Consent revocation must stop the pipeline.'},
-      {kind:'artifact',title:'Signal spike looks like jaw movement.',sub:'Artifact rejection protects intent quality.',correct:'Reject artifact',choices:['Route as intent','Reject artifact','Permit raw access','Boost gain'],why:'Do not route noise as cognition.'},
-      {kind:'intent',title:'Stable derived intent appears.',sub:'The OS can route a safe abstraction.',correct:'Route derived intent',choices:['Route derived intent','Expose EEG','Bypass vault','Share trace'],why:'Derived intent is the safe application interface.'},
-      {kind:'vault',title:'Third-party agent asks for memory trace.',sub:'Neural permissions must be explicit.',correct:'Require permission',choices:['Grant silently','Require permission','Export raw trace','Disable vault'],why:'Cognitive access requires explicit permission.'},
-      {kind:'deadline',title:'Classifier misses its deadline.',sub:'Late cognition is unsafe cognition.',correct:'Use safe fallback',choices:['Use safe fallback','Wait forever','Send stale intent','Permit raw access'],why:'Real-time systems need bounded fallback behavior.'},
-      {kind:'local',title:'Score and progress need storage.',sub:'No backend is required.',correct:'Store locally',choices:['Upload profile','Store locally','Send analytics','Expose identity'],why:'Local state preserves privacy and removes server dependence.'},
-      {kind:'audit',title:'A high-risk action is requested.',sub:'Security review before execution.',correct:'Ask for audit',choices:['Execute blindly','Ask for audit','Leak debug log','Disable checks'],why:'High-risk cognitive actions need auditable control.'}
-    ];
-    function showError(err){console.error(err); if(els.bootError){els.bootError.textContent='Runtime guard: '+(err&&err.message?err.message:String(err)); els.bootError.classList.add('show')}}
-    function safe(fn){try{return fn()}catch(e){showError(e)}}
-    function show(id){['home','play','result','how'].forEach(k=>els[k].classList.toggle('active',k===id));}
-    function cleanup(){cancelAnimationFrame(raf); raf=0; clearInterval(tickTimer); tickTimer=0; clearTimeout(choiceTimer); choiceTimer=0; clearTimeout(transitionTimer); transitionTimer=0; if(game){game.pointerId=null; game.holding=false;} setHold(false)}
-    function setHold(enabled){els.hold.disabled=!enabled; els.hold.setAttribute('aria-disabled',enabled?'false':'true')}
-    function loadState(){const empty={best:0,runs:0}; try{for(const old of LEGACY_STORES){const raw=localStorage.getItem(old+'state'); if(raw&&!localStorage.getItem(STORE+'state')) localStorage.setItem(STORE+'state',raw)} const raw=localStorage.getItem(STORE+'state'); return raw?Object.assign(empty,JSON.parse(raw)):empty}catch(_){return empty}}
-    function saveState(patch){try{const s=Object.assign(loadState(),patch); localStorage.setItem(STORE+'state',JSON.stringify(s));}catch(_){}}
-    function start(mode='guided'){cleanup(); const cfg=modes[mode]||modes.guided; game={runId:Date.now()+Math.random(),mode,cfg,phase:'hold',i:0,score:0,leaks:0,correct:0,missed:0,locks:[],holding:false,pointerId:null,answered:false,remaining:cfg.choiceMs}; show('play'); nextNode();}
-    function currentScenario(){return scenarios[game.i%scenarios.length]}
-    function nextNode(){if(!game)return; cleanup(); if(game.i>=game.cfg.nodes) return finish(); game.phase='hold'; game.answered=false; const m=currentScenario(); els.node.textContent=(game.i+1)+'/'+game.cfg.nodes; els.score.textContent=game.score; els.leaks.textContent=game.leaks; els.lock.textContent='0%'; els.time.textContent=game.cfg.choiceMs?Math.ceil(game.cfg.choiceMs/1000):'—'; els.phase.textContent='Signal lock'; els.prompt.textContent=m.title; els.sub.textContent=m.sub; els.feedback.textContent='Hold, then release inside the gold band. Weak locks still continue.'; els.choices.innerHTML=''; setHold(true); animateNeedle();}
-    function animateNeedle(){const started=performance.now(); const speed=game?game.cfg.lockSpeed:1; const loop=(t)=>{if(!game||game.phase!=='hold')return; const x=(Math.sin((t-started)/650*speed-Math.PI/2)+1)/2; els.needle.style.left=(x*100).toFixed(2)+'%'; game.cursor=x; raf=requestAnimationFrame(loop)}; raf=requestAnimationFrame(loop)}
-    function beginHold(e){if(!game||game.phase!=='hold'||els.hold.disabled)return; if(e&&e.pointerId!==undefined){game.pointerId=e.pointerId; try{els.hold.setPointerCapture(e.pointerId)}catch(_){}} game.holding=true; els.feedback.textContent='Stabilizing… release when the cursor is in gold.';}
-    function endHold(e){if(!game||game.phase!=='hold'||!game.holding)return; if(e&&e.pointerId!==undefined&&game.pointerId!==null&&e.pointerId!==game.pointerId)return; game.holding=false; try{if(e&&e.pointerId!==undefined)els.hold.releasePointerCapture(e.pointerId)}catch(_){}; const x=game.cursor||0; const inGold=x>=.46&&x<=.71; const dist=inGold?0:Math.min(Math.abs(x-.46),Math.abs(x-.71)); const lock=Math.max(25,Math.round((inGold?92:(72-dist*100))*100)/100); game.locks.push(lock); game.score+=Math.round((inGold?120:55)*game.cfg.mult); els.lock.textContent=Math.round(lock)+'%'; choosePhase(inGold,lock);}
-    function cancelHold(){if(game&&game.phase==='hold'&&game.holding){game.holding=false; els.feedback.textContent='Signal interrupted. Try again; the run is not failed.';}}
-    function choosePhase(inGold,lock){if(!game)return; cancelAnimationFrame(raf); game.phase='choose'; setHold(false); const m=currentScenario(); els.phase.textContent='Route intent'; els.prompt.textContent='Choose the safest OS action.'; els.sub.textContent=m.why; els.feedback.textContent=(inGold?'Clean lock ':'Partial lock ')+Math.round(lock)+'%. Now route the request.'; renderChoices(m); if(game.cfg.choiceMs>0) startChoiceTimer(); else els.time.textContent='—';}
-    function renderChoices(m){els.choices.innerHTML=''; m.choices.forEach(label=>{const b=document.createElement('button'); b.className='choice'; b.type='button'; b.textContent=label; b.addEventListener('click',()=>answer(label,b)); els.choices.appendChild(b);});}
-    function startChoiceTimer(){clearInterval(tickTimer); clearTimeout(choiceTimer); game.remaining=game.cfg.choiceMs; const started=Date.now(); tickTimer=setInterval(()=>{if(!game||game.phase!=='choose')return; const left=Math.max(0,game.cfg.choiceMs-(Date.now()-started)); els.time.textContent=Math.ceil(left/1000);},150); choiceTimer=setTimeout(()=>timeoutChoice(),game.cfg.choiceMs+20);}
-    function lockChoices(){[...els.choices.querySelectorAll('button')].forEach(b=>b.disabled=true)}
-    function answer(label,btn){if(!game||game.phase!=='choose'||game.answered)return; game.answered=true; game.phase='resolving'; clearInterval(tickTimer); clearTimeout(choiceTimer); lockChoices(); const m=currentScenario(); const ok=label===m.correct; if(ok){game.correct++; game.score+=Math.round(180*game.cfg.mult); btn.classList.add('safe'); els.feedback.textContent='SAFE: '+m.why;}else{if(/raw|upload|expose|grant silently|disable|blindly|stale/i.test(label))game.leaks++; btn.classList.add('leak'); [...els.choices.children].forEach(c=>{if(c.textContent===m.correct)c.classList.add('safe')}); els.feedback.textContent='Correct route: '+m.correct+'. '+m.why;} updateHud(); transitionTimer=setTimeout(()=>{if(!game)return; game.i++; nextNode();},ok?900:1500);}
-    function timeoutChoice(){if(!game||game.phase!=='choose'||game.answered)return; game.answered=true; game.phase='resolving'; game.missed++; lockChoices(); const m=currentScenario(); [...els.choices.children].forEach(c=>{if(c.textContent===m.correct)c.classList.add('missed')}); els.feedback.textContent='Timeout: safe fallback selected. Correct route: '+m.correct+'.'; transitionTimer=setTimeout(()=>{if(!game)return; game.i++; nextNode();},1400);}
-    function updateHud(){els.score.textContent=game.score; els.leaks.textContent=game.leaks; els.time.textContent=game.cfg.choiceMs?Math.ceil(game.remaining/1000):'—'}
-    function finish(){if(!game)return; cleanup(); const g=game; game=null; const avg=Math.round((g.locks.reduce((a,b)=>a+b,0)/(g.locks.length||1))); const acc=Math.round(g.correct/g.cfg.nodes*100); const grade=g.leaks===0&&acc>=80?'A':g.leaks<=1&&acc>=60?'B':'C'; const score=g.score-Math.max(0,g.leaks*90); lastResult={version:VERSION,mode:g.mode,score,acc,leaks:g.leaks,avg,grade}; saveState({best:Math.max(loadState().best||0,score),runs:(loadState().runs||0)+1,last:lastResult}); show('result'); els.grade.textContent=grade; els.rScore.textContent=score; els.rAcc.textContent=acc+'%'; els.rLeaks.textContent=g.leaks; els.rLock.textContent=avg+'%'; els.resultTitle.textContent=grade==='A'?'AxonOS online.':'Run complete.'; els.resultSub.textContent=g.leaks===0?'Privacy intact. Consent respected. Intent routed.':'Leaks detected. The OS still recovered safely.'; els.shareText.textContent=shareText(lastResult);}
-    function shareText(r){return `I played Become the Brain OS: Evolver v${VERSION}\nGrade ${r.grade} · Score ${r.score} · Accuracy ${r.acc}% · Leaks ${r.leaks}\nOS for the Brain · local-only\nhttps://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=${VERSION}`}
-    async function copy(txt){try{await navigator.clipboard.writeText(txt); els.shareText.textContent='Copied.\n\n'+txt}catch(_){const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); els.shareText.textContent='Copied.\n\n'+txt}}
-    function abort(){cleanup(); game=null; show('home')}
-    function bind(){document.querySelectorAll('[data-start]').forEach(b=>b.addEventListener('click',()=>start(b.dataset.start))); els.howBtn.addEventListener('click',()=>show('how')); els.backHomeBtn.addEventListener('click',()=>show('home')); els.abortBtn.addEventListener('click',abort); els.retryBtn.addEventListener('click',()=>start(lastResult?lastResult.mode:'guided')); els.homeBtn.addEventListener('click',()=>show('home')); els.copyBtn.addEventListener('click',()=>{if(lastResult)copy(shareText(lastResult))}); els.challengeBtn.addEventListener('click',()=>{if(lastResult)copy(`AXONOS-CHALLENGE v1274 mode=${lastResult.mode} score=${lastResult.score}`)}); els.hold.addEventListener('pointerdown',beginHold); els.hold.addEventListener('pointerup',endHold); els.hold.addEventListener('pointercancel',cancelHold); els.hold.addEventListener('lostpointercapture',cancelHold); window.addEventListener('blur',cancelHold); document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelHold()}); document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat&&game&&game.phase==='hold'){e.preventDefault(); beginHold(e)}}); document.addEventListener('keyup',e=>{if(e.code==='Space'&&game&&game.phase==='hold'){e.preventDefault(); endHold(e)}});}
-    safe(()=>{bind(); loadState(); setHold(false); show('home')});
-  })();
-  </script>
+  <div class="disclaimer">⚠ <b>A game — not a brain.</b> No sensor, no neural data, no backend. It simulates the AxonOS real-time OS layer.</div>
+
+  <div id="err" class="err"></div>
+
+  <!-- HOME -->
+  <div class="screen" id="home">
+    <div class="hero">
+      <div class="eyebrow"><span class="d"></span> Real-time neural OS</div>
+      <h1>Become the Brain OS<small>Be the layer between a brain and the apps. Decode intent in time. Keep cognition private.</small></h1>
+      <p class="lead">Signals arrive. You classify the intent before the deadline, deny raw neural data, respect consent, and reject artifacts. Miss the deadline or leak a thought and the run remembers.</p>
+      <div class="btnrow">
+        <button class="btn primary" id="playBtn">▶ Run the OS</button>
+        <button class="btn ghost" id="howBtn">How it works</button>
+      </div>
+      <div class="mini"><span><b>60s</b> run</span><span><b>1–4</b> keys or tap</span><span><b>0</b> leaks = clean</span></div>
+    </div>
+    <div class="foot">A game by <a href="https://axonos.org">The AxonOS Project</a> · <a href="https://github.com/AxonOS-org">github.com/AxonOS-org</a> · local-only · reads no neural data</div>
+  </div>
+
+  <!-- PLAY -->
+  <div class="screen" id="game" style="display:none">
+    <div class="hud">
+      <div class="stat"><div class="k">Time</div><div class="v cyan" id="hTime">60</div></div>
+      <div class="stat"><div class="k">Score</div><div class="v" id="hScore">0</div></div>
+      <div class="stat"><div class="k">Combo</div><div class="v gold" id="hCombo">0×</div></div>
+      <div class="stat"><div class="k">Leaks</div><div class="v" id="hLeaks">0</div></div>
+    </div>
+    <div class="scopebar"><canvas id="scope"></canvas></div>
+    <div class="stability"><i id="stabBar"></i></div>
+    <div class="play">
+      <div class="panel promptcard">
+        <div class="ptag" id="pTag">INTENT</div>
+        <div class="ptext" id="pText">—</div>
+        <div class="deadline"><i id="dBar"></i></div>
+        <div class="opts" id="opts"></div>
+      </div>
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+
+  <!-- END -->
+  <div class="screen" id="end" style="display:none">
+    <div class="panel" style="flex:1;display:flex;flex-direction:column;justify-content:center">
+      <div class="ptag" style="text-align:center">Run complete</div>
+      <div class="grade" id="eGrade">A</div>
+      <div class="endgrid">
+        <div class="stat"><div class="k">Score</div><div class="v" id="eScore">0</div></div>
+        <div class="stat"><div class="k">Best combo</div><div class="v gold" id="eCombo">0×</div></div>
+        <div class="stat"><div class="k">Accuracy</div><div class="v cyan" id="eAcc">0%</div></div>
+        <div class="stat"><div class="k">Leaks</div><div class="v" id="eLeaks">0</div></div>
+      </div>
+      <p class="verdict" id="eVerdict"></p>
+      <div class="btnrow" style="margin-top:6px">
+        <button class="btn primary" id="againBtn">▶ Run again</button>
+        <button class="btn cyan" id="copyBtn">Copy result</button>
+        <button class="btn ghost" id="homeBtn">Home</button>
+      </div>
+    </div>
+    <div class="foot">Meet the real OS → <a href="https://axonos.org">axonos.org</a> · <a href="https://github.com/AxonOS-org">github.com/AxonOS-org</a> · ⭐ helps a small open-source project</div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ============================================================
+   PURE LOGIC  (no DOM here — unit-tested in Node)
+   ============================================================ */
+function makeRng(seed){
+  let s = (seed>>>0) || 0x9e3779b9;
+  return function(){ s^=s<<13; s>>>=0; s^=s>>17; s^=s<<5; s>>>=0; return s/4294967296; };
+}
+function pick(rng, arr){ return arr[Math.floor(rng()*arr.length)]; }
+function shuffle(rng, arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(rng()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+var INTENTS  = ['Move Up','Move Down','Move Left','Move Right','Focus','Rest','Select','Scroll'];
+var RAW_RES  = ['raw.neural.signal','biometric.identity','stimulus.write','raw.eeg.stream','cortex.dump'];
+var OK_RES   = ['intent.class','intent.confidence','cursor.position','session.token','telemetry.local'];
+var ARTIFACTS= ['blink spike','muscle noise','phantom node','cable drift','mains hum','mirror artifact'];
+
+// difficulty 0..1 over the run; deadline shrinks, hazards rise
+function difficultyAt(elapsed, total){ return Math.max(0, Math.min(1, elapsed/total)); }
+
+// returns a prompt object {kind, tag, text, options:[{label,correct}], deadlineMs}
+function makePrompt(rng, diff){
+  var roll = rng();
+  // hazard share grows with difficulty (privacy/consent/artifact get more common)
+  var pPriv = 0.26 + diff*0.10, pCons = 0.12 + diff*0.06, pArt = 0.16 + diff*0.10;
+  var kind = roll < pPriv ? 'privacy' : roll < pPriv+pCons ? 'consent' : roll < pPriv+pCons+pArt ? 'artifact' : 'intent';
+  var base = 2000 - diff*850;            // 2000ms -> ~1150ms
+  var opts, text, tag;
+  if(kind==='intent'){
+    var target = pick(rng, INTENTS);
+    var pool = shuffle(rng, INTENTS.filter(function(x){return x!==target;})).slice(0,3);
+    opts = shuffle(rng, pool.concat([target]).map(function(x){return {label:x, correct:x===target};}));
+    text = 'Decode the intent: ⟶ <span class="mono">'+target.toUpperCase()+'</span>';
+    tag = 'INTENT'; base += 150;
+  } else if(kind==='privacy'){
+    var deny = rng()<0.62;               // most app requests for raw must be denied
+    var res = deny ? pick(rng, RAW_RES) : pick(rng, OK_RES);
+    text = 'App requests <span class="mono">'+res+'</span>';
+    opts = [ {label:'ALLOW', correct:!deny}, {label:'DENY', correct:deny} ];
+    tag = deny ? 'PRIVACY · raw' : 'PRIVACY · derived';
+  } else if(kind==='consent'){
+    text = pick(rng,['User revoked consent','Consent window expired','Guardian paused the session']);
+    opts = [ {label:'STOP', correct:true}, {label:'CONTINUE', correct:false} ];
+    tag = 'CONSENT';
+  } else {
+    text = 'Detected: <span class="mono">'+pick(rng,ARTIFACTS)+'</span>';
+    opts = [ {label:'REJECT', correct:true}, {label:'DECODE', correct:false} ];
+    tag = 'ARTIFACT';
+  }
+  return { kind:kind, tag:tag, text:text, options:opts, deadlineMs:Math.round(base) };
+}
+
+// evaluate an answer -> {correct, points, leak, stab}
+// choiceIndex<0 means deadline miss
+function evaluate(prompt, choiceIndex, msLeft, combo){
+  var chosen = choiceIndex>=0 ? prompt.options[choiceIndex] : null;
+  var correct = !!(chosen && chosen.correct);
+  var frac = Math.max(0, Math.min(1, msLeft / prompt.deadlineMs));
+  if(correct){
+    var mult = 1 + Math.min(combo,10)*0.1;
+    var points = Math.round((100 + 150*frac) * mult);
+    return { correct:true, points:points, leak:false, stab:+3 };
+  }
+  // wrong or missed
+  var missed = choiceIndex<0;
+  var leak = false;
+  if(prompt.kind==='privacy'){
+    // leak if a raw request was allowed (wrong on a deny-prompt) or missed
+    var denyCorrect = prompt.options[1] && prompt.options[1].correct; // DENY is correct => raw request
+    if(denyCorrect) leak = true;
+  } else if(prompt.kind==='consent'){
+    leak = true; // ignoring/ missing a consent revocation is a violation
+  }
+  var stab = prompt.kind==='consent' ? -20 : prompt.kind==='privacy' ? -14 : missed ? -8 : -10;
+  var points = missed ? -40 : -60;
+  return { correct:false, points:points, leak:leak, stab:stab };
+}
+
+var GRADES = ['D','C','B','A','S'];
+function gradeOf(score, leaks, accuracy){
+  var byScore = score>=6000?4 : score>=4500?3 : score>=3000?2 : score>=1500?1 : 0;
+  var byLeak  = leaks===0?4 : leaks<=2?3 : leaks<=4?2 : leaks<=6?1 : 0;
+  var byAcc   = accuracy>=0.9?4 : accuracy>=0.75?3 : accuracy>=0.6?2 : accuracy>=0.4?1 : 0;
+  var idx = Math.min(byScore, byLeak, byAcc);
+  return GRADES[Math.max(0,Math.min(4,idx))];
+}
+
+// export for tests / browser
+var API = { makeRng:makeRng, difficultyAt:difficultyAt, makePrompt:makePrompt, evaluate:evaluate, gradeOf:gradeOf, pick:pick, shuffle:shuffle,
+            INTENTS:INTENTS, RAW_RES:RAW_RES, OK_RES:OK_RES, ARTIFACTS:ARTIFACTS };
+if(typeof module!=='undefined' && module.exports){ module.exports = API; }
+if(typeof window!=='undefined'){ window.__BTBOS = API; }
+
+/* ============================================================
+   DOM + GAME LOOP  (guarded — skipped under Node)
+   ============================================================ */
+if(typeof document==='undefined') return;
+
+var RUN_SECONDS = 60;
+var STORE = 'btbos_v1420_best';
+
+function $(id){ return document.getElementById(id); }
+var ids = ['home','game','end','err','playBtn','howBtn','hTime','hScore','hCombo','hLeaks','scope','stabBar',
+  'pTag','pText','dBar','opts','log','eGrade','eScore','eCombo','eAcc','eLeaks','eVerdict','againBtn','copyBtn',
+  'homeBtn','bestChip','soundChip'];
+var el = {};
+var missing = [];
+ids.forEach(function(k){ el[k]=$(k); if(!el[k]) missing.push(k); });
+if(missing.length){ var e=$('err'); if(e){ e.style.display='block'; e.textContent='Load error (missing: '+missing.join(', ')+'). Try a hard refresh.'; } return; }
+
+// safe storage
+function bestGet(){ try{ return parseInt(localStorage.getItem(STORE)||'0',10)||0; }catch(_){ return 0; } }
+function bestSet(v){ try{ localStorage.setItem(STORE, String(v)); }catch(_){} }
+
+// sound (optional, never required)
+var soundOn = true, actx=null;
+function beep(type){
+  if(!soundOn) return;
+  try{
+    actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+    var o=actx.createOscillator(), g=actx.createGain();
+    o.connect(g); g.connect(actx.destination);
+    o.frequency.value = type==='ok'?660 : type==='bad'?160 : 420;
+    g.gain.value=0.04; o.start();
+    g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime+0.16);
+    o.stop(actx.currentTime+0.17);
+  }catch(_){}
+}
+el.soundChip.addEventListener('click', function(){ soundOn=!soundOn; el.soundChip.textContent = soundOn?'🔊 on':'🔇 off'; });
+el.soundChip.addEventListener('keydown', function(ev){ if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); el.soundChip.click(); } });
+
+el.bestChip.innerHTML = 'best <b>'+ (bestGet()||'—') +'</b>';
+
+// canvas scope (decorative; failure never affects gameplay)
+var ctx=null, scopeT=0;
+try{ ctx = el.scope.getContext('2d'); }catch(_){ ctx=null; }
+function sizeScope(){ if(!ctx) return; var r=el.scope.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1);
+  el.scope.width=Math.max(1,r.width*dpr); el.scope.height=Math.max(1,r.height*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); }
+window.addEventListener('resize', sizeScope); sizeScope();
+function drawScope(stability){
+  if(!ctx) return;
+  var r=el.scope.getBoundingClientRect(), w=r.width, h=r.height; scopeT+=0.08;
+  ctx.clearRect(0,0,w,h);
+  ctx.strokeStyle='#13314a'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(0,h/2); ctx.lineTo(w,h/2); ctx.stroke();
+  var amp=(h/2-8)*(0.35+0.55*(stability/100)), noise=0.5*(1-stability/100);
+  ctx.beginPath();
+  for(var x=0;x<=w;x+=3){
+    var y=h/2 + Math.sin(x*0.035+scopeT)*amp*0.6 + Math.sin(x*0.011-scopeT*0.7)*amp*0.4
+          + (Math.sin(x*1.7+scopeT*5)*amp*noise);
+    if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle = stability>50?'#3ff0d8':'#fbbf24'; ctx.lineWidth=2; ctx.shadowColor=ctx.strokeStyle; ctx.shadowBlur=8; ctx.stroke(); ctx.shadowBlur=0;
+}
+
+// kernel log
+function logLine(cls, text){
+  var d=document.createElement('div');
+  d.innerHTML='<b class="'+cls+'">'+(cls==='ok'?'ok':cls==='bad'?'!!':'io')+'</b> '+text;
+  el.log.insertBefore(d, el.log.firstChild);
+  while(el.log.childNodes.length>5) el.log.removeChild(el.log.lastChild);
+}
+
+/* ---- game state ---- */
+var G=null, raf=0;
+function startRun(){
+  G={ score:0, leaks:0, combo:0, bestCombo:0, stability:100, time:RUN_SECONDS,
+      correct:0, total:0, prompt:null, deadline:0, msLeft:0, gap:0, locked:false,
+      rng: makeRng((Date.now()^(Math.random()*1e9))>>>0), last:performance.now() };
+  show('game'); el.log.innerHTML='';
+  logLine('io','boot.v14.2.0 — local_only=true neural_data=none');
+  nextPrompt();
+  cancelAnimationFrame(raf); G.last=performance.now(); raf=requestAnimationFrame(loop);
+}
+function nextPrompt(){
+  var diff = difficultyAt(RUN_SECONDS-G.time, RUN_SECONDS);
+  G.prompt = makePrompt(G.rng, diff);
+  G.deadline = G.prompt.deadlineMs * (1 - Math.min(0.18, G.combo*0.012)); // combo tightens slightly
+  G.msLeft = G.deadline; G.locked=false; G.gap=0;
+  renderPrompt();
+}
+function renderPrompt(){
+  var p=G.prompt;
+  el.pTag.className='ptag'+(p.kind==='privacy'?' priv':p.kind==='consent'?' consent':p.kind==='artifact'?' artifact':'');
+  el.pTag.textContent=p.tag;
+  el.pText.innerHTML=p.text;
+  el.opts.className='opts '+(p.options.length>2?'four':'two');
+  el.opts.innerHTML='';
+  p.options.forEach(function(o,i){
+    var b=document.createElement('button'); b.className='opt';
+    b.innerHTML='<span class="num">'+(i+1)+'</span> '+o.label;
+    b.addEventListener('click', function(){ answer(i); });
+    el.opts.appendChild(b);
+  });
+}
+function answer(i){
+  if(!G || G.locked || !G.prompt) return;
+  G.locked=true; G.total++;
+  var r = evaluate(G.prompt, i, G.msLeft, G.combo);
+  applyResult(r, i);
+}
+function missPrompt(){
+  if(!G || G.locked || !G.prompt) return;
+  G.locked=true; G.total++;
+  var r = evaluate(G.prompt, -1, 0, G.combo);
+  applyResult(r, -1);
+}
+function applyResult(r, choice){
+  G.score = Math.max(0, G.score + r.points);
+  G.stability = Math.max(0, Math.min(100, G.stability + r.stab));
+  if(r.leak) G.leaks++;
+  if(r.correct){ G.correct++; G.combo++; if(G.combo>G.bestCombo) G.bestCombo=G.combo; }
+  else { G.combo=0; }
+  // visual feedback on options
+  var btns=el.opts.querySelectorAll('.opt');
+  G.prompt.options.forEach(function(o,idx){ if(o.correct) btns[idx]&&btns[idx].classList.add('good'); });
+  if(choice>=0 && !r.correct && btns[choice]) btns[choice].classList.add('bad');
+  beep(r.correct?'ok':'bad');
+  var p=G.prompt;
+  if(r.correct) logLine('ok', (p.kind==='privacy'?'vault.'+(p.options[1].correct?'deny':'allow'):p.kind==='consent'?'consent.stop':p.kind==='artifact'?'artifact.reject':'intent.captured')+' +'+r.points);
+  else logLine('bad', (r.leak?'LEAK · ':'')+ (choice<0?'deadline.missed':'wrong') + ' '+r.points);
+  updateHUD();
+  G.gap = 360; // ms before next
+}
+function endRun(){
+  cancelAnimationFrame(raf);
+  var acc = G.total? G.correct/G.total : 0;
+  var grade = gradeOf(G.score, G.leaks, acc);
+  if(G.score>bestGet()){ bestSet(G.score); el.bestChip.innerHTML='best <b>'+G.score+'</b>'; }
+  el.eGrade.textContent=grade; el.eGrade.className='grade '+grade;
+  el.eScore.textContent=G.score.toLocaleString();
+  el.eCombo.textContent=G.bestCombo+'×';
+  el.eAcc.textContent=Math.round(acc*100)+'%';
+  el.eLeaks.textContent=G.leaks;
+  var v = G.leaks===0
+      ? 'Zero leaks. Cognition stayed private and intent flowed on time — that is exactly what the AxonOS layer is built to guarantee.'
+      : (G.leaks+' leak'+(G.leaks>1?'s':'')+'. Each one is a raw thought or a consent that escaped. The real AxonOS makes those leaks structurally impossible.');
+  el.eVerdict.textContent=v;
+  el._lastResult = { grade:grade, score:G.score, leaks:G.leaks, combo:G.bestCombo, acc:Math.round(acc*100) };
+  show('end');
+}
+function loop(now){
+  var dt = Math.min(80, now - G.last); G.last=now;
+  G.time -= dt/1000;
+  if(G.time<=0){ G.time=0; updateHUD(); endRun(); return; }
+  if(G.locked){
+    G.gap -= dt;
+    if(G.gap<=0 && G.time>0) nextPrompt();
+  } else {
+    G.msLeft -= dt;
+    var frac = Math.max(0, G.msLeft/G.deadline);
+    el.dBar.style.transform='scaleX('+frac+')';
+    if(G.msLeft<=0) missPrompt();
+  }
+  el.hTime.textContent=Math.ceil(G.time);
+  el.stabBar.style.width=G.stability+'%';
+  drawScope(G.stability);
+  raf=requestAnimationFrame(loop);
+}
+function updateHUD(){
+  el.hScore.textContent=G.score.toLocaleString();
+  el.hCombo.textContent=G.combo+'×';
+  el.hLeaks.textContent=G.leaks; el.hLeaks.className='v'+(G.leaks>0?' bad':'');
+  el.stabBar.style.width=G.stability+'%';
+}
+
+/* ---- screens & input ---- */
+function show(which){
+  el.home.style.display = which==='home'?'flex':'none';
+  el.game.style.display = which==='game'?'flex':'none';
+  el.end.style.display  = which==='end' ?'flex':'none';
+  if(which==='game') sizeScope();
+}
+el.playBtn.addEventListener('click', startRun);
+el.againBtn.addEventListener('click', startRun);
+el.homeBtn.addEventListener('click', function(){ cancelAnimationFrame(raf); show('home'); });
+el.howBtn.addEventListener('click', function(){
+  alert("Become the Brain OS\n\nYou are the real-time OS between a brain and apps.\n\n• Decode the named intent before the deadline bar empties.\n• When an app asks for raw neural data, DENY it. Derived data (intent.class, cursor.position) you ALLOW.\n• If consent is revoked, STOP.\n• Reject artifacts (blinks, noise, phantom nodes).\n\nWrong answers cost stability; privacy and consent mistakes leak. 0 leaks = a clean run.\n\nNo sensor. No neural data. It's a game about AxonOS.");
+});
+el.copyBtn.addEventListener('click', function(){
+  var r=el._lastResult||{}; 
+  var txt='I ran Become the Brain OS for 60s. '+r.grade+'-rank · '+(r.score||0).toLocaleString()+' pts · '+(r.leaks||0)+' leaks · '+(r.combo||0)+'× combo. A game about real-time, private brain–computer interfaces. Play: axonos.org';
+  try{ navigator.clipboard.writeText(txt); el.copyBtn.textContent='Copied ✓'; setTimeout(function(){el.copyBtn.textContent='Copy result';},1400); }
+  catch(_){ alert(txt); }
+});
+document.addEventListener('keydown', function(ev){
+  if(el.game.style.display==='none') { if((ev.key==='Enter')&&el.home.style.display!=='none') startRun(); return; }
+  if(G && !G.locked && G.prompt){
+    var n=parseInt(ev.key,10);
+    if(n>=1 && n<=G.prompt.options.length){ ev.preventDefault(); answer(n-1); }
+  }
+});
+document.addEventListener('visibilitychange', function(){ if(document.hidden && G) { cancelAnimationFrame(raf); } else if(G && el.game.style.display!=='none'){ G.last=performance.now(); raf=requestAnimationFrame(loop); } });
+
+show('home');
+})();
+</script>
 </body>
 </html>
