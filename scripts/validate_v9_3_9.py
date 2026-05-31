@@ -14,8 +14,9 @@ EV_README = ROOT / "evolver-evolution-version" / "README.md"
 ROOT_README = ROOT / "README.md"
 ROOT_INDEX = ROOT / "index.html"
 CI = ROOT / ".github" / "workflows" / "ci.yml"
+QA = ROOT / "QA_MANIFEST_v9.3.9.md"
 
-required = [INDEX, VERSION, EV_README, ROOT_README, ROOT_INDEX, CI]
+required = [INDEX, VERSION, EV_README, ROOT_README, ROOT_INDEX, CI, QA]
 missing = [str(p.relative_to(ROOT)) for p in required if not p.exists()]
 if missing:
     print("FAIL: missing required files:")
@@ -23,41 +24,46 @@ if missing:
         print(" -", p)
     sys.exit(1)
 
-public_files = [INDEX, VERSION, EV_README, ROOT_README, ROOT_INDEX, CI]
+public_files = [INDEX, VERSION, EV_README, ROOT_README, ROOT_INDEX, CI, QA]
 text = "\n".join(p.read_text(encoding="utf-8") for p in public_files)
 
 must_have = [
-    "v9.3.8",
-    "v9.3.8-evolver",
-    "axonos_v938_",
-    "v938-",
-    "axonos-v938-share-card.png",
+    "v9.3.9",
+    "v9.3.9-evolver",
+    "axonos_v939_",
+    "v939-",
+    "axonos-v939-share-card.png",
     "evolver-evolution-version/index.html",
-    "phase='choose'",
+    "holdEnabled",
+    "expectedLostCapture",
+    "function ownsPointer(",
     "function timeoutChoice(",
     "function armChoiceTimer(",
-    "function scheduleTransition(",
     "lastResult={",
     "game.persisted",
+    "__AXONOS_EVOLVER_BUILD__",
 ]
 for marker in must_have:
     if marker not in text:
         print(f"FAIL: required marker not found: {marker}")
         sys.exit(1)
 
-stale = [
+# Only public release surfaces are stale-scanned. Validator scripts may mention old
+# versions as forbidden markers; that is not a release-surface defect.
+stale_public = [
     "v7.1.5", "7.1.5",
     "v9.3.2", "9.3.2",
     "v9.3.5", "9.3.5",
     "v9.3.6", "9.3.6",
     "v9.3.7", "9.3.7",
-    "v715", "v932", "v935", "v936", "v937",
-    "axonos_v715_", "axonos_v932_", "axonos_v935_", "axonos_v936_", "axonos_v937_",
-    "axonos-v935-share-card.png", "axonos-v936-share-card.png", "axonos-v937-share-card.png",
+    "v9.3.8", "9.3.8",
+    "v715", "v932", "v935", "v936", "v937", "v938",
+    "axonos_v715_", "axonos_v932_", "axonos_v935_", "axonos_v936_", "axonos_v937_", "axonos_v938_",
+    "axonos-v935-share-card.png", "axonos-v936-share-card.png", "axonos-v937-share-card.png", "axonos-v938-share-card.png",
 ]
-for marker in stale:
+for marker in stale_public:
     if marker in text:
-        print(f"FAIL: stale marker remains: {marker}")
+        print(f"FAIL: stale public marker remains: {marker}")
         sys.exit(1)
 
 html = INDEX.read_text(encoding="utf-8")
@@ -82,4 +88,4 @@ if node:
 else:
     print("NOTE: node not found; skipped node --check")
 
-print("PASS: AxonOS Evolver v9.3.8 validation complete")
+print("PASS: AxonOS Evolver v9.3.9 validation complete")

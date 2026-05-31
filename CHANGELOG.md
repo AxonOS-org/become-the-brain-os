@@ -1,13 +1,13 @@
 # Changelog
 
-## v9.3.8-evolver
+## v9.3.9-evolver
 
-Architecture stabilization release.
+QA stabilization release.
 
-- Rebuilt gameplay lifecycle around explicit FSM phases.
-- Added real timed card-selection window.
-- Added idempotent result persistence.
-- Added pause/resume timer accounting.
-- Hardened pointer/touch/keyboard handling.
-- Added stable result object for copy/share/retry/challenge.
-- Rebuilt validation and CI for the current release.
+- Fixed hold lifecycle with explicit runtime state.
+- Fixed pointer ownership and lost-pointer-capture behavior.
+- Fixed privacy-denial quest scoring.
+- Fixed release metadata consistency.
+- Fixed CI/deploy validation false positives.
+- Added QA manifest.
+

@@ -1,70 +1,63 @@
 # Become the Brain OS
 
-### Play the operating-system layer between neural hardware and AI.
-
-[![▶ Play Evolver](https://img.shields.io/badge/%E2%96%B6%20Play-Become%20the%20Brain%20OS%3A%20Evolver-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/)
-![version](https://img.shields.io/badge/version-v9.3.8--evolver-0a4a8f?style=flat-square)
+[![Play Evolver](https://img.shields.io/badge/%E2%96%B6%20Play-Become%20the%20Brain%20OS%3A%20Evolver-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=9.3.9)
+![version](https://img.shields.io/badge/version-v9.3.9--evolver-0a4a8f?style=flat-square)
 ![local-only](https://img.shields.io/badge/local--only-no%20backend-0d7a5f?style=flat-square)
 ![neural data](https://img.shields.io/badge/neural%20data-none-0d7a5f?style=flat-square)
-![static](https://img.shields.io/badge/deploy-GitHub%20Pages-475569?style=flat-square)
 
-**Become the Brain OS** is a public educational browser game by the [AxonOS](https://github.com/AxonOS-org) project.
+**Become the Brain OS: Evolver** is the public educational game for the AxonOS project.
 
-Canonical playable build:
+Current build:
 
 ```text
-evolver-evolution-version/ · v9.3.8-evolver
+v9.3.9-evolver
 ```
 
-This is a game. It does not read your brain and uses no sensor of any kind. It is a simulation that teaches how a real brain-computer operating system should handle signal, intent, consent, hard timing, and neural permissions.
+Live path:
 
-## Play
+```text
+https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/?v=9.3.9
+```
 
-- Online: https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/
-- Offline: open `evolver-evolution-version/index.html`, or run `python3 -m http.server 8080`.
-- Controls: hold signal, release in the gold band, then select the safe intent/privacy card before the card deadline.
+## What this game teaches
 
-## What's new in v9.3.8
+AxonOS is positioned as the operating-system layer between neural hardware and AI. This game turns that idea into a strict local-only simulation:
 
-This is an architecture-stabilization release, not a cosmetic version bump.
+1. stabilize a synthetic signal;
+2. release inside the gold timing window;
+3. select derived intent, not raw neural data;
+4. enforce neural permissions;
+5. stop immediately on consent revocation;
+6. reject artifacts before they become intent;
+7. preserve local-only privacy.
 
-- Rebuilt the runtime as an explicit finite-state machine: `hold → choose → resolving → result`.
-- Added a real card-selection deadline instead of allowing stale/unfinished choose states.
-- Added idempotent result persistence, so XP, leaderboard, badges, and streaks are written once.
-- Added pause/resume timer accounting for choice timers and transition timers.
-- Hardened pointer/touch/keyboard input with pointer-id ownership and lost-capture handling.
-- Separated `lastResult` from the active `game` object, so copy/share/retry remain stable after finish.
-- Replaced the random generator with deterministic Mulberry32-style seeded randomness.
-- Updated storage namespace to `axonos_v938_`.
-- Updated challenge prefix to `v938-`.
-- Updated share-card filename to `axonos-v938-share-card.png`.
-- Rebuilt CI around `scripts/validate_v9_3_8.py`.
+## v9.3.9 QA stabilization
 
-## Honesty boundary
+This release fixes issues found during real play-testing of the v9.3.x line:
 
-The game teaches real AxonOS principles: derived intent over raw data, capability boundaries, consent revocation, privacy-vault discipline, artifact rejection, and deterministic OS control.
+- result/version metadata consistency;
+- logical hold disable state instead of relying on `div.disabled` behavior;
+- pointer ownership on cancel/release;
+- `lostpointercapture` false cancellation after successful release;
+- privacy-denial quest scoring;
+- install validation false positives;
+- CI validation target path;
+- archive manifest clarity.
 
-The input is simulated. There is no brain, no EEG, no sensor, no medical inference, and no clinical claim.
+## Non-claim boundary
+
+This is a game. It is not a medical device, not a BCI, not the AxonOS kernel, and does not read neural data.
 
 ## Validate
 
 ```bash
-python3 scripts/validate_v9_3_8.py
+python3 scripts/validate_v9_3_9.py
 ```
 
 ## Deploy
 
 ```bash
-bash scripts/deploy_v9_3_8.sh
+bash scripts/install_v9_3_9_from_download.sh
 ```
 
-Expected live path:
-
-```text
-https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/
-```
-
----
-
-**The AxonOS Project**  
-Licensed under Apache-2.0 OR MIT · a game built to explain real engineering.
+Licensed under Apache-2.0 OR MIT.

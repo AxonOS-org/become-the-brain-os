@@ -3,9 +3,4 @@
 .git-tmp/
 .axon-v*/
 .axon-v*-clean/
-
-# Local validation / Termux temp
-.ci-tmp/
-.git-tmp/
-.axon-v*/
-.axon-v*-clean/
+.DS_Store

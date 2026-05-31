@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   validate:
-    name: Validate Become the Brain OS Evolver v9.3.8
+    name: Validate AxonOS Evolver v9.3.9
     runs-on: ubuntu-latest
 
     steps:
@@ -29,4 +29,4 @@ jobs:
 
       - name: Validate package
         run: |
-          python3 scripts/validate_v9_3_8.py
+          python3 scripts/validate_v9_3_9.py
