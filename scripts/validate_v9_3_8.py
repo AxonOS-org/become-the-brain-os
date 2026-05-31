@@ -27,12 +27,18 @@ public_files = [INDEX, VERSION, EV_README, ROOT_README, ROOT_INDEX, CI]
 text = "\n".join(p.read_text(encoding="utf-8") for p in public_files)
 
 must_have = [
-    "v9.3.7",
-    "v9.3.7-evolver",
-    "axonos_v937_",
-    "v937-",
-    "axonos-v937-share-card.png",
+    "v9.3.8",
+    "v9.3.8-evolver",
+    "axonos_v938_",
+    "v938-",
+    "axonos-v938-share-card.png",
     "evolver-evolution-version/index.html",
+    "phase='choose'",
+    "function timeoutChoice(",
+    "function armChoiceTimer(",
+    "function scheduleTransition(",
+    "lastResult={",
+    "game.persisted",
 ]
 for marker in must_have:
     if marker not in text:
@@ -44,9 +50,10 @@ stale = [
     "v9.3.2", "9.3.2",
     "v9.3.5", "9.3.5",
     "v9.3.6", "9.3.6",
-    "v715", "v932", "v935", "v936",
-    "axonos_v715_", "axonos_v932_", "axonos_v935_", "axonos_v936_",
-    "axonos-v935-share-card.png", "axonos-v936-share-card.png",
+    "v9.3.7", "9.3.7",
+    "v715", "v932", "v935", "v936", "v937",
+    "axonos_v715_", "axonos_v932_", "axonos_v935_", "axonos_v936_", "axonos_v937_",
+    "axonos-v935-share-card.png", "axonos-v936-share-card.png", "axonos-v937-share-card.png",
 ]
 for marker in stale:
     if marker in text:
@@ -57,18 +64,6 @@ html = INDEX.read_text(encoding="utf-8")
 if 'body[data-screen="playScreen"].' in html:
     print('FAIL: broken mobile selector pattern remains')
     sys.exit(1)
-
-required_js_markers = [
-    "function shuffle(",
-    "function clearNextTimer(",
-    "function lockCards(",
-    "runId:++runSeq",
-    "node --check",
-]
-for marker in required_js_markers[:-1]:
-    if marker not in html:
-        print(f"FAIL: gameplay hardening marker missing: {marker}")
-        sys.exit(1)
 
 scripts = [m.group(1) for m in re.finditer(r"<script[^>]*>(.*?)</script>", html, re.I | re.S) if m.group(1).strip()]
 if not scripts:
@@ -87,4 +82,4 @@ if node:
 else:
     print("NOTE: node not found; skipped node --check")
 
-print("PASS: AxonOS Evolver v9.3.7 validation complete")
+print("PASS: AxonOS Evolver v9.3.8 validation complete")

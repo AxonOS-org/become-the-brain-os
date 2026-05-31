@@ -1,4 +1,5 @@
-.DS_Store
-Thumbs.db
-*.log
-node_modules/
+# Local validation / Termux temp
+.ci-tmp/
+.git-tmp/
+.axon-v*/
+.axon-v*-clean/
