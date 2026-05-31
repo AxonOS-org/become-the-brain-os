@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   validate:
-    name: Validate Become the Brain OS Evolver v9.3.6
+    name: Validate Become the Brain OS Evolver v9.3.7
     runs-on: ubuntu-latest
 
     steps:
@@ -27,16 +27,6 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Required files
-        run: |
-          test -f README.md
-          test -f index.html
-          test -f evolver-evolution-version/index.html
-          test -f evolver-evolution-version/README.md
-          test -f evolver-evolution-version/VERSION
-          test -f scripts/validate_v9_3_6.py
-          echo "required files ok"
-
       - name: Validate package
         run: |
-          python3 scripts/validate_v9_3_6.py
+          python3 scripts/validate_v9_3_7.py

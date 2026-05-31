@@ -27,11 +27,12 @@ public_files = [INDEX, VERSION, EV_README, ROOT_README, ROOT_INDEX, CI]
 text = "\n".join(p.read_text(encoding="utf-8") for p in public_files)
 
 must_have = [
-    "v9.3.6",
-    "v9.3.6-evolver",
-    "axonos_v936_",
-    "v936-",
-    "axonos-v936-share-card.png",
+    "v9.3.7",
+    "v9.3.7-evolver",
+    "axonos_v937_",
+    "v937-",
+    "axonos-v937-share-card.png",
+    "evolver-evolution-version/index.html",
 ]
 for marker in must_have:
     if marker not in text:
@@ -39,12 +40,13 @@ for marker in must_have:
         sys.exit(1)
 
 stale = [
-    "v" + "7.1.5", "7.1.5",
-    "v" + "9.3.2", "9.3.2",
-    "v" + "9.3.5", "9.3.5",
-    "v" + "715", "v" + "932", "v" + "935",
-    "axonos_" + "v" + "715_", "axonos_" + "v" + "932_", "axonos_" + "v" + "935_",
-    "axonos-" + "v" + "935" + "-share-card.png",
+    "v7.1.5", "7.1.5",
+    "v9.3.2", "9.3.2",
+    "v9.3.5", "9.3.5",
+    "v9.3.6", "9.3.6",
+    "v715", "v932", "v935", "v936",
+    "axonos_v715_", "axonos_v932_", "axonos_v935_", "axonos_v936_",
+    "axonos-v935-share-card.png", "axonos-v936-share-card.png",
 ]
 for marker in stale:
     if marker in text:
@@ -56,7 +58,19 @@ if 'body[data-screen="playScreen"].' in html:
     print('FAIL: broken mobile selector pattern remains')
     sys.exit(1)
 
-scripts = [m.group(1) for m in re.finditer(r"<script\b[^>]*>([\s\S]*?)</script>", html, re.I) if m.group(1).strip()]
+required_js_markers = [
+    "function shuffle(",
+    "function clearNextTimer(",
+    "function lockCards(",
+    "runId:++runSeq",
+    "node --check",
+]
+for marker in required_js_markers[:-1]:
+    if marker not in html:
+        print(f"FAIL: gameplay hardening marker missing: {marker}")
+        sys.exit(1)
+
+scripts = [m.group(1) for m in re.finditer(r"<script[^>]*>(.*?)</script>", html, re.I | re.S) if m.group(1).strip()]
 if not scripts:
     print("FAIL: no inline script found in evolver-evolution-version/index.html")
     sys.exit(1)
@@ -67,11 +81,10 @@ out.mkdir(exist_ok=True)
 js_path = out / "evolver-inline.js"
 js_path.write_text(js, encoding="utf-8")
 
-# Inline JavaScript syntax is checked by Node when available.
 node = shutil.which("node")
 if node:
     subprocess.run([node, "--check", str(js_path)], check=True)
 else:
     print("NOTE: node not found; skipped node --check")
 
-print("PASS: AxonOS Evolver v9.3.6 validation complete")
+print("PASS: AxonOS Evolver v9.3.7 validation complete")

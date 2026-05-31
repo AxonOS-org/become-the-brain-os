@@ -1,106 +1,46 @@
 # Become the Brain OS: Evolver
 
 [![Play Evolver](https://img.shields.io/badge/%E2%96%B6%20Play-Become%20the%20Brain%20OS%3A%20Evolver-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/)
-![version](https://img.shields.io/badge/version-v9.3.6--evolver-0a4a8f?style=flat-square)
+![version](https://img.shields.io/badge/version-v9.3.7--evolver-0a4a8f?style=flat-square)
 ![local-only](https://img.shields.io/badge/local--only-no%20backend-0d7a5f?style=flat-square)
 ![neural data](https://img.shields.io/badge/neural%20data-none-0d7a5f?style=flat-square)
 ![single file](https://img.shields.io/badge/build-single%20index.html-475569?style=flat-square)
 
 **Become the Brain OS: Evolver** is a one-thumb educational browser game about the operating-system layer between neural hardware and AI.
 
-You are the OS.
+Current build:
 
-You stabilize the signal, release inside the gold timing band, capture intent before the deadline collapses, enforce neural permissions, respect consent revocation, reject artifacts, and bring AxonOS online.
-
----
-
-## Play
+```text
+v9.3.7-evolver
+```
 
 Live:
 
 <https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/>
 
-No install. No backend. No account. No analytics.
-
 ---
 
-## Version
+## v9.3.7 stabilization fixes
 
-```text
-v9.3.6-evolver
-```
-
----
-
-## Fixed in v9.3.6
-
-- Repeated finish/result execution after timeout.
-- Daily Brain non-determinism caused by unseeded `Math.random()` calls.
-- Retry mode mismatch after Daily/Sprint/Focus runs.
-- Challenge seed mode mismatch.
-- Clipboard failure on some mobile browsers.
-- Duplicate hold start events from repeated pointer/keyboard input.
-- Broken/stale CI path that checked root `index.html` instead of this build.
-
----
-
-## Game loop
-
-```text
-Hold signal
-  -> release in gold
-  -> capture intent
-  -> enforce privacy vault
-  -> respect consent
-  -> reject artifacts
-  -> bring AxonOS online
-  -> share result
-```
+- touch/pointer/keyboard input hardening;
+- lost pointer capture and browser blur guards;
+- deterministic mission/card shuffle;
+- one-shot result finalization;
+- one-shot XP/badge/leaderboard write;
+- fixed home XP progress overflow;
+- card lock and correct-card reveal after answer;
+- retry and challenge-copy use the active run mode;
+- mobile clipboard fallback;
+- share-card filename: `axonos-v937-share-card.png`;
+- localStorage namespace: `axonos_v937_`;
+- challenge prefix: `v937-`.
 
 ---
 
 ## Privacy posture
 
-This game:
-
-- reads no neural data;
-- uses no sensor;
-- has no backend;
-- has no analytics;
-- has no trackers;
-- sends no gameplay data anywhere;
-- stores scores, badges, XP, streaks, and settings locally on the device only.
-
-`localStorage` is used only for local progress.
-
----
+This game reads no neural data, uses no sensor, has no backend, has no analytics, and stores progress locally only.
 
 ## Non-claim
 
-This is an educational simulation.
-
-It is **not** the AxonOS kernel.
-
-It is **not** medical software.
-
-It is **not** a clinical BCI system.
-
-It does not read a brain, process EEG, infer real intent, or prove kernel timing guarantees.
-
-AxonOS itself is the real open-source operating-system project. This game is the public front door for explaining the concept.
-
----
-
-## Local run
-
-From repository root:
-
-```bash
-python3 -m http.server 8080
-```
-
-Open:
-
-```text
-http://localhost:8080/evolver-evolution-version/
-```
+This is an educational simulation. It is not the AxonOS kernel, not medical software, not a clinical BCI system, and does not infer real intent.

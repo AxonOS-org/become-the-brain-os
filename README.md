@@ -3,20 +3,20 @@
 ### Play the operating-system layer between neural hardware and AI.
 
 [![▶ Play Evolver](https://img.shields.io/badge/%E2%96%B6%20Play-Become%20the%20Brain%20OS%3A%20Evolver-0a4a8f?style=for-the-badge&labelColor=050509)](https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/)
-![version](https://img.shields.io/badge/version-v9.3.6--evolver-0a4a8f?style=flat-square)
+![version](https://img.shields.io/badge/version-v9.3.7--evolver-0a4a8f?style=flat-square)
 ![local-only](https://img.shields.io/badge/local--only-no%20backend-0d7a5f?style=flat-square)
 ![neural data](https://img.shields.io/badge/neural%20data-none-0d7a5f?style=flat-square)
 ![static](https://img.shields.io/badge/deploy-GitHub%20Pages-475569?style=flat-square)
 
 **Become the Brain OS** is a public educational browser game by the [AxonOS](https://github.com/AxonOS-org) project.
 
-The canonical playable build is:
+Canonical playable build:
 
 ```text
-evolver-evolution-version/ · v9.3.6-evolver
+evolver-evolution-version/ · v9.3.7-evolver
 ```
 
-> ⚠️ **This is a game.** It does not read your brain and uses no sensor of any kind. It is a simulation that teaches how a real brain-computer operating system should handle signal, intent, consent, hard timing, and neural permissions.
+> This is a game. It does not read your brain and uses no sensor of any kind. It is a simulation that teaches how a real brain-computer operating system should handle signal, intent, consent, hard timing, and neural permissions.
 
 ---
 
@@ -43,30 +43,21 @@ Each round compresses one AxonOS idea into a playable decision:
 5. **Reject artifacts** — noise, drift, spikes, and phantom nodes must not become intent.
 6. **Stay inside timing pressure** — the game dramatizes hard real-time constraints without claiming clinical timing proof.
 
-Clean, correct, leak-free rounds build score, combo, XP, badges, and local leaderboard entries.
-
 ---
 
-## Why it exists
+## What's new in v9.3.7
 
-AxonOS is the missing operating-system layer between neural hardware and AI.
+This is a stabilization release after hands-on gameplay testing.
 
-This game is the public front door. It gives a non-specialist a fast, honest understanding of why AxonOS is not just an AI-agent OS, not just a demo UI, and not a generic app framework.
-
-It is an **OS for the Brain** concept demonstration.
-
----
-
-## What's new in v9.3.6
-
-- Fixed repeated `finish()` execution after timeout/result screen.
-- Fixed Daily Brain determinism by using the seeded RNG for mission order, card order, needle spawn, artifacts, and latency.
-- Fixed retry so it preserves the just-played mode.
-- Fixed challenge seed so it uses the actual run mode instead of stale UI selection.
-- Added clipboard fallback for browsers where `navigator.clipboard` is blocked.
-- Added pointer/keyboard guards to prevent duplicate hold start events.
-- Cleaned public version surface to `v9.3.6-evolver`.
-- Replaced the CI workflow so it validates `evolver-evolution-version/index.html`, not stale root game files.
+- Reworked input handling for touch, pointer, keyboard, blur, and lost pointer capture.
+- Prevented duplicate hold/release paths and stale scheduled round transitions.
+- Replaced random `Array.sort()` shuffles with deterministic Fisher-Yates shuffles.
+- Fixed XP progress overflow on the home screen.
+- Locked and marked cards after a decision so the player sees the correct gate.
+- Cleaned result finalization so score, XP, badges, leaderboard, and Daily are written once.
+- Hardened retry, challenge copy, share-card download, and clipboard fallback.
+- Updated storage namespace to `axonos_v937_`, challenge prefix to `v937-`, and share-card filename to `axonos-v937-share-card.png`.
+- Rebuilt CI and validation for the canonical `evolver-evolution-version/index.html` file.
 
 ---
 
@@ -102,17 +93,15 @@ The input is simulated. There is no brain, no EEG, no sensor, no medical inferen
 ## Validate
 
 ```bash
-python3 scripts/validate_v9_3_6.py
+python3 scripts/validate_v9_3_7.py
 ```
-
-The validator checks required files, version markers, stale markers, storage namespace, share-card filename, inline JavaScript extraction, and `node --check` when Node.js is available.
 
 ---
 
 ## Deploy
 
 ```bash
-bash scripts/deploy_v9_3_6.sh
+bash scripts/deploy_v9_3_7.sh
 ```
 
 The deploy script is Termux-safe: it uses a writable temp directory inside the repository and does not use `/tmp`.
@@ -121,8 +110,5 @@ The deploy script is Termux-safe: it uses a writable temp directory inside the r
 
 **The AxonOS Project**  
 <https://axonos.org>  
-connect@axonos.org  
-security@axonos.org  
-<https://github.com/AxonOS-org>
-
-Licensed under Apache-2.0 OR MIT.
+<https://github.com/AxonOS-org>  
+connect@axonos.org

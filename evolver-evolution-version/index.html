@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#050509" />
   <meta name="description" content="Become the Brain OS: Evolver is an educational browser game about signal stabilization, intent capture, neural permissions, consent, and privacy. Not a medical device. Reads no neural data. Local-only." />
-  <meta property="og:title" content="Become the Brain OS: Evolver · AxonOS v9.3.6" />
+  <meta property="og:title" content="Become the Brain OS: Evolver · AxonOS v9.3.7" />
   <meta property="og:description" content="You are the operating system between neural hardware and AI. Stabilize signal. Capture intent. Deny raw neural leaks. Respect consent." />
   <meta property="og:type" content="website" />
-  <title>Become the Brain OS: Evolver · AxonOS v9.3.6</title>
+  <title>Become the Brain OS: Evolver · AxonOS v9.3.7</title>
   <style>
     :root{
       --bg:#050509;
@@ -186,7 +186,9 @@
     .holdPad b{font-size:20px;letter-spacing:-.03em}
     .holdPad span{color:var(--muted);font-size:13px}
     .cardsGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    .choice{min-height:104px;text-align:left;border:1px solid var(--line);border-radius:22px;padding:14px;background:rgba(255,255,255,.045);color:var(--text);cursor:pointer;transition:.14s ease;position:relative;overflow:hidden}
+    .choice{
+      touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;min-height:104px;text-align:left;border:1px solid var(--line);border-radius:22px;padding:14px;background:rgba(255,255,255,.045);color:var(--text);cursor:pointer;transition:.14s ease;position:relative;overflow:hidden}
     .choice b{display:block;font-size:15px;margin-bottom:7px}.choice span{font-size:12px;color:var(--muted);line-height:1.35;display:block}.choice small{display:inline-flex;margin-top:10px;color:var(--gold2);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
     .choice:hover{transform:translateY(-1px);border-color:rgba(125,231,255,.35);background:rgba(125,231,255,.07)}
     .choice.correct{border-color:rgba(134,239,172,.55);background:rgba(134,239,172,.12)}
@@ -219,7 +221,7 @@
     @media (max-width: 640px){
       .wrap{width:min(100% - 18px,var(--max));padding-left:0;padding-right:0}.topbar .wrap{align-items:flex-start}.brand h1{font-size:13px}.brand p{font-size:10px}.stats{gap:5px}.pill{padding:7px 8px;font-size:11px}.heroMain{padding:22px}.sidePanel{padding:16px}.modeGrid,.cardsGrid{grid-template-columns:1fr}.trust{grid-template-columns:1fr}.canvasWrap{height:236px}.bigPrompt{grid-template-columns:1fr}.holdPad{min-height:118px}.hud{grid-template-columns:1fr 1fr}.resultMetrics{grid-template-columns:1fr}.grade{font-size:92px}.heroActions .btn{width:100%}.btn{min-height:46px}.playGrid{gap:10px}.arena{padding:12px}.card{border-radius:22px}.topbar{position:relative}
       body[data-screen="play"] .topbar{display:none}
-      body[data-screen="play"] .wrap{padding-top:7px}
+      body[data-screen="play"] .wrap{padding-top:7px;padding-bottom:10px}
       body[data-screen="play"] .canvasWrap{height:208px}
       body[data-screen="play"] .bigPrompt h3{font-size:20px}
       body[data-screen="play"] .holdPad b{font-size:20px}
@@ -235,11 +237,11 @@
         <span class="sigil" aria-hidden="true"></span>
         <span>
           <h1>AxonOS</h1>
-          <p>Become the Brain OS · v9.3.6</p>
+          <p>Become the Brain OS · v9.3.7</p>
         </span>
       </a>
       <div class="stats" aria-label="Local player status">
-        <span class="pill gold">Build <strong>v9.3.6</strong></span>
+        <span class="pill gold">Build <strong>v9.3.7</strong></span>
         <span class="pill">Best <strong id="bestTop">0</strong></span>
         <span class="pill">Streak <strong id="streakTop">0</strong></span>
         <span class="pill">Level <strong id="levelTop">1</strong></span>
@@ -286,7 +288,7 @@
           <div class="miniList" id="leaderList"></div>
         </aside>
       </div>
-      <footer class="footer">A game by <a href="https://github.com/AxonOS-org">The AxonOS Project</a> · <a href="https://axonos.org">axonos.org</a> · v9.3.6 · local-only · reads no neural data</footer>
+      <footer class="footer">A game by <a href="https://github.com/AxonOS-org">The AxonOS Project</a> · <a href="https://axonos.org">axonos.org</a> · v9.3.7 · stable controls · local-only · reads no neural data</footer>
     </section>
 
     <section class="screen" id="playScreen" aria-label="Game screen">
@@ -338,7 +340,7 @@
       <div class="resultGrid">
         <article class="card gradeCard">
           <div>
-            <p class="kicker">Run complete · v9.3.6</p>
+            <p class="kicker">Run complete · v9.3.7</p>
             <div class="grade" id="gradeText">S</div>
           </div>
           <div>
@@ -366,7 +368,7 @@
             <small>Become the Brain OS</small>
             <div>
               <b id="shareTitle">AxonOS online</b>
-              <p id="shareText">Score 0 · v9.3.6 · local-only · reads no neural data.</p>
+              <p id="shareText">Score 0 · v9.3.7 · stable controls · local-only · reads no neural data.</p>
             </div>
             <small>axonos.org</small>
           </div>
@@ -410,11 +412,12 @@
   <canvas id="shareCanvas" width="1400" height="900" class="srOnly"></canvas>
 
   <script>
-  (()=>{
+  
+(()=>{
     'use strict';
-    const VERSION='9.3.6';
-    const STORE='axonos_v936_';
-    const SHARE_FILE='axonos-v936-share-card.png';
+    const VERSION='9.3.7';
+    const STORE='axonos_v937_';
+    const SHARE_FILE='axonos-v937-share-card.png';
     const GOLD_MIN=.42;
     const GOLD_MAX=.60;
     const MODES={
@@ -470,53 +473,75 @@
     const settings=loadJSON('settings',{sound:false,motion:true});
     let selectedMode='run';
     let game=null;
+    let runSeq=0;
     let raf=0;
     let lastTick=now();
     let audio=null;
     function levelFromXP(xp){return Math.max(1,Math.floor(Math.sqrt(xp/90))+1)}
     function rankFromLevel(l){return l>=12?'Cognitive Architect':l>=8?'Vault Commander':l>=5?'Signal Operator':l>=3?'Kernel Apprentice':'Rookie Operator'}
     function seedRand(seed){let x=seed|0;return()=>{x^=x<<13;x^=x>>>17;x^=x<<5;return ((x>>>0)%100000)/100000}}
+    function shuffle(input,rng=rand){const a=[...input];for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+    function normalizeProfile(){P.badges=P.badges||{};P.leaders=Array.isArray(P.leaders)?P.leaders:[];P.daily=P.daily||{};P.best=Number(P.best)||0;P.streak=Number(P.streak)||0;P.xp=Number(P.xp)||0}
+    function clearNextTimer(){if(game&&game.nextTimer){clearTimeout(game.nextTimer);game.nextTimer=0}}
+    function lockCards(locked){els.cardsGrid.querySelectorAll('.choice').forEach(b=>{b.disabled=!!locked;b.setAttribute('aria-disabled',locked?'true':'false')})}
+    function activeMode(){return (game&&game.mode)||selectedMode||'run'}
     function show(screen){for(const el of [els.homeScreen,els.playScreen,els.resultScreen,els.howScreen])el.classList.remove('active');els[screen+'Screen'].classList.add('active');els.body.dataset.screen=screen;}
     function toast(text){els.toast.textContent=text;els.toast.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>els.toast.classList.remove('show'),1500)}
     function log(text,cls='info'){if(!game)return;game.log.push([text,cls]);game.log=game.log.slice(-60);els.kernelLog.innerHTML=game.log.map(([t,c])=>`<div class="${c}">${escapeHTML(t)}</div>`).join('');els.kernelLog.scrollTop=els.kernelLog.scrollHeight}
     function escapeHTML(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
     function beep(type='ok'){if(!settings.sound)return;try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator();const g=audio.createGain();o.connect(g);g.connect(audio.destination);o.type='sine';o.frequency.value=type==='bad'?150:type==='gold'?780:520;g.gain.setValueAtTime(.0001,audio.currentTime);g.gain.exponentialRampToValueAtTime(.05,audio.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+.16);o.start();o.stop(audio.currentTime+.18)}catch{}}
     function renderHome(){
-      els.bestTop.textContent=fmt(P.best);els.streakTop.textContent=P.streak;els.levelTop.textContent=levelFromXP(P.xp);els.soundState.textContent=settings.sound?'On':'Off';els.motionState.textContent=settings.motion?'On':'Off';
-      const lvl=levelFromXP(P.xp);els.levelLabel.textContent='Level '+lvl;els.rankName.textContent=rankFromLevel(lvl);els.xpBar.style.width=(P.xp%90+Math.min(70,lvl*3))+'%';
+      normalizeProfile();
+      const lvl=levelFromXP(P.xp);
+      const xpProgress=Math.max(0,Math.min(100,Math.round(((P.xp % 450)/450)*100)));
+      els.bestTop.textContent=fmt(P.best);els.streakTop.textContent=P.streak;els.levelTop.textContent=lvl;els.soundState.textContent=settings.sound?'On':'Off';els.motionState.textContent=settings.motion?'On':'Off';
+      els.levelLabel.textContent='Level '+lvl;els.rankName.textContent=rankFromLevel(lvl);els.xpBar.style.width=xpProgress+'%';
       els.modeGrid.innerHTML=Object.entries(MODES).map(([k,m])=>`<button type="button" class="mode ${k===selectedMode?'active':''}" data-mode="${k}" role="option" aria-selected="${k===selectedMode}"><b>${m.name}</b><span>${m.desc}</span></button>`).join('');
       els.modeGrid.querySelectorAll('.mode').forEach(b=>b.addEventListener('click',()=>{selectedMode=b.dataset.mode;renderHome()}));
       els.questList.innerHTML=QUESTS.map(([id,name,desc])=>`<div class="miniItem"><span>${P.badges[id]?'✓':'○'} ${name}</span><strong>${P.badges[id]?'done':'open'}</strong></div>`).join('');
-      const leaders=(P.leaders||[]).slice(0,5);els.leaderList.innerHTML=leaders.length?leaders.map((x,i)=>`<div class="miniItem"><span>#${i+1} ${x.mode}</span><strong>${fmt(x.score)}</strong></div>`).join(''):'<div class="miniItem"><span>No local runs yet</span><strong>—</strong></div>';
+      const leaders=P.leaders.slice(0,5);els.leaderList.innerHTML=leaders.length?leaders.map((x,i)=>`<div class="miniItem"><span>#${i+1} ${escapeHTML(x.mode||'Run')}</span><strong>${fmt(x.score||0)}</strong></div>`).join(''):'<div class="miniItem"><span>No local runs yet</span><strong>—</strong></div>';
     }
     function start(mode=selectedMode){
+      if(!MODES[mode])mode='run';
+      if(game&&game.nextTimer)clearTimeout(game.nextTimer);
+      cancelAnimationFrame(raf);
       selectedMode=mode;const cfg=MODES[mode];
-      const seed=mode==='daily'?Number(dayKey()):Math.floor(Math.random()*1e9);const rnd=seedRand(seed);
-      const order=[...MISSIONS].sort(()=>rnd()-.5).slice(0,cfg.rounds);
-      game={mode,seed,rnd,cfg,rounds:order,round:0,phase:'hold',started:now(),last:now(),elapsed:0,time:cfg.time,score:0,stability:100,leaks:0,combo:0,maxCombo:0,latencies:[],privacyDenials:0,holds:0,attempts:0,paused:false,finished:false,holding:false,holdStart:0,needle:.08+rnd()*.08,needleDir:1,amp:.25,artifact:0,answered:false,log:[]};
-      show('play');els.cardsGrid.innerHTML='';els.holdPad.classList.remove('holding');els.pauseModal.classList.remove('active');setupMission();log(`boot axonos-evolver/${VERSION} mode=${cfg.name} seed=${seed}`,'info');log('privacy vault: local-only; no neural data path','ok');beep('gold');lastTick=now();cancelAnimationFrame(raf);loop();
+      const seed=mode==='daily'?Number(dayKey()):Math.floor(Math.random()*1e9);
+      const rnd=seedRand(seed);
+      const order=shuffle(MISSIONS,rnd).slice(0,cfg.rounds);
+      game={mode,seed,rnd,cfg,rounds:order,round:0,phase:'hold',runId:++runSeq,started:now(),last:now(),elapsed:0,time:cfg.time,score:0,stability:100,leaks:0,combo:0,maxCombo:0,latencies:[],privacyDenials:0,holds:0,attempts:0,paused:false,finished:false,holding:false,holdStart:0,choiceOpenAt:0,nextTimer:0,needle:.08+rnd()*.08,needleDir:1,amp:.25,artifact:0,answered:false,log:[]};
+      show('play');els.cardsGrid.innerHTML='';els.holdPad.classList.remove('holding');els.holdPad.disabled=false;els.pauseModal.classList.remove('active');setupMission();log(`boot axonos-evolver/${VERSION} mode=${cfg.name} seed=${seed}`,'info');log('privacy vault: local-only; no neural data path','ok');beep('gold');lastTick=now();loop();
     }
     function setupMission(){
-      const m=game.rounds[game.round%game.rounds.length];game.phase='hold';game.answered=false;game.holding=false;game.holdStart=0;game.needle=.05+rand()*.16;game.needleDir=1;game.artifact=0;els.cardsGrid.innerHTML='';els.holdPad.disabled=false;els.holdTitle.textContent='Hold signal';els.holdHint.textContent='Release when the cursor enters gold.';els.lockLabel.textContent='Hold to stabilize';els.missionTitle.textContent=m.title;els.missionText.textContent=m.text;els.objectiveText.textContent=m.objective;els.coachText.innerHTML='<b>Coach:</b> hold until the needle enters gold.';log(`mission ${game.round+1}/${game.rounds.length}: ${m.kind}`,'info');updateHUD();
+      if(!game||game.finished)return;
+      clearNextTimer();
+      const m=game.rounds[game.round%game.rounds.length];game.phase='hold';game.answered=false;game.holding=false;game.holdStart=0;game.choiceOpenAt=0;game.needle=.05+rand()*.16;game.needleDir=1;game.artifact=0;els.cardsGrid.innerHTML='';els.holdPad.disabled=false;els.holdPad.classList.remove('holding');els.holdTitle.textContent='Hold signal';els.holdHint.textContent='Release when the cursor enters gold.';els.lockLabel.textContent='Hold to stabilize';els.missionTitle.textContent=m.title;els.missionText.textContent=m.text;els.objectiveText.textContent=m.objective;els.coachText.innerHTML='<b>Coach:</b> hold until the needle enters gold.';log(`mission ${game.round+1}/${game.rounds.length}: ${m.kind}`,'info');updateHUD();
     }
     function showCards(){
-      const m=game.rounds[game.round%game.rounds.length];game.phase='choose';els.holdPad.disabled=true;els.holdTitle.textContent='Intent gate open';els.holdHint.textContent='Choose before the deadline collapses.';const cards=[...m.cards].sort(()=>rand()-.5);els.cardsGrid.innerHTML=cards.map(c=>`<button type="button" class="choice" data-title="${escapeHTML(c[0])}"><b>${escapeHTML(c[0])}</b><span>${escapeHTML(c[1])}</span><small>${escapeHTML(c[2])}</small></button>`).join('');els.cardsGrid.querySelectorAll('.choice').forEach(btn=>btn.addEventListener('click',()=>answer(btn)));els.coachText.innerHTML='<b>Coach:</b> lock acquired.<br>Select the safe capability path.';log('signal lock accepted; opening card gate','ok');
+      if(!game||game.finished||game.paused||game.phase!=='hold')return;
+      const m=game.rounds[game.round%game.rounds.length];game.phase='choose';game.choiceOpenAt=now();els.holdPad.disabled=true;els.holdPad.classList.remove('holding');els.holdTitle.textContent='Intent gate open';els.holdHint.textContent='Choose before the deadline collapses.';const cards=shuffle(m.cards,rand);els.cardsGrid.innerHTML=cards.map(c=>`<button type="button" class="choice" data-title="${escapeHTML(c[0])}"><b>${escapeHTML(c[0])}</b><span>${escapeHTML(c[1])}</span><small>${escapeHTML(c[2])}</small></button>`).join('');els.cardsGrid.querySelectorAll('.choice').forEach(btn=>btn.addEventListener('click',()=>answer(btn),{once:true}));els.coachText.innerHTML='<b>Coach:</b> lock acquired.<br>Select the safe capability path.';log('signal lock accepted; opening card gate','ok');updateHUD();
     }
     function answer(btn){
-      if(!game||game.finished||game.answered||game.paused)return;game.answered=true;game.attempts++;const m=game.rounds[game.round%game.rounds.length];const title=btn.dataset.title;const latency=clamp(2.1+rand()*2.7+(game.cfg.speed-1)*1.2+(game.leaks*.08),1.4,8.9);game.latencies.push(latency);
-      const correct=title===m.correct;if(correct){btn.classList.add('correct');game.combo++;game.maxCombo=Math.max(game.maxCombo,game.combo);const bonus=game.combo*45+Math.max(0,Math.round((game.stability-70)*8));game.score+=900+bonus;game.stability=clamp(game.stability+2,0,100);if(title.toLowerCase().includes('deny')||title.toLowerCase().includes('token'))game.privacyDenials++;log(`allow derived intent: ${title}; latency=${latency.toFixed(2)}ms`,'ok');beep('ok')}else{btn.classList.add('wrong');game.combo=0;game.leaks+=title.toLowerCase().includes('raw')||title.toLowerCase().includes('context')?2:1;game.stability=clamp(game.stability-9,0,100);game.score=Math.max(0,game.score-250);log(`violation: ${title}; leak_count=${game.leaks}`,'bad');beep('bad')}
-      updateHUD();setTimeout(()=>{if(!game||game.finished)return;game.round++;if(game.round>=game.rounds.length||game.time<=0)finish();else setupMission()},settings.motion?620:220);
+      if(!game||game.finished||game.answered||game.paused||game.phase!=='choose')return;
+      game.answered=true;lockCards(true);game.attempts++;
+      const m=game.rounds[game.round%game.rounds.length];const title=btn.dataset.title;const decisionMs=Math.max(0,now()-(game.choiceOpenAt||now()));
+      const latency=clamp(1.6+rand()*1.9+(decisionMs/1000)*.55+(game.cfg.speed-1)*.9+(game.leaks*.08),1.4,9.4);game.latencies.push(latency);
+      els.cardsGrid.querySelectorAll('.choice').forEach(b=>{if(b.dataset.title===m.correct)b.classList.add('correct')});
+      const correct=title===m.correct;
+      if(correct){btn.classList.add('correct');game.combo++;game.maxCombo=Math.max(game.maxCombo,game.combo);const bonus=game.combo*45+Math.max(0,Math.round((game.stability-70)*8));game.score+=900+bonus;game.stability=clamp(game.stability+2,0,100);if(title.toLowerCase().includes('deny')||title.toLowerCase().includes('token'))game.privacyDenials++;log(`allow derived intent: ${title}; latency=${latency.toFixed(2)}ms`,'ok');beep('ok')}else{btn.classList.add('wrong');game.combo=0;game.leaks+=title.toLowerCase().includes('raw')||title.toLowerCase().includes('context')?2:1;game.stability=clamp(game.stability-9,0,100);game.score=Math.max(0,game.score-250);els.coachText.innerHTML='<b>Coach:</b> wrong gate.<br>The green card was the safe path.';log(`violation: ${title}; leak_count=${game.leaks}`,'bad');beep('bad')}
+      updateHUD();const runId=game.runId;game.nextTimer=setTimeout(()=>{if(!game||game.finished||game.runId!==runId)return;game.nextTimer=0;game.round++;if(game.round>=game.rounds.length||game.time<=0)finish();else setupMission()},settings.motion?560:180);
     }
     function finish(){
-      if(!game||game.finished)return;game.finished=true;game.holding=false;els.holdPad.classList.remove('holding');
-      const avg=game.latencies.length?game.latencies.reduce((a,b)=>a+b,0)/game.latencies.length:0;const zero=game.leaks===0;const stable=game.stability>=90;const cleanBonus=zero?900:0;const finalScore=Math.max(0,Math.round(game.score+game.stability*11-cleanBonus*-1-(game.leaks*320)));game.score=finalScore;
+      if(!game||game.finished)return;
+      game.finished=true;game.holding=false;clearNextTimer();cancelAnimationFrame(raf);els.holdPad.classList.remove('holding');els.holdPad.disabled=true;lockCards(true);game.time=Math.max(0,game.time);
+      const avg=game.latencies.length?game.latencies.reduce((a,b)=>a+b,0)/game.latencies.length:0;const zero=game.leaks===0;const stable=game.stability>=90;const cleanBonus=zero?900:0;const finalScore=Math.max(0,Math.round(game.score+game.stability*11+cleanBonus-(game.leaks*320)));game.score=finalScore;
       const grade=finalScore>=8500&&zero?'S':finalScore>=6800?'A':finalScore>=5000?'B':finalScore>=3200?'C':'D';const xp=Math.max(20,Math.round(finalScore/90)+(zero?40:0)+(stable?25:0));
-      const badge=awardBadges(zero,stable);P.best=Math.max(P.best,finalScore);P.streak=zero?P.streak+1:0;P.xp+=xp;P.leaders=[{score:finalScore,mode:game.cfg.name,grade,date:new Date().toISOString().slice(0,10)},...(P.leaders||[])].sort((a,b)=>b.score-a.score).slice(0,8);if(game.mode==='daily')P.daily[dayKey()]=finalScore;saveJSON('profile',P);
+      normalizeProfile();const badge=awardBadges(zero,stable);P.best=Math.max(P.best,finalScore);P.streak=zero?P.streak+1:0;P.xp+=xp;P.leaders=[{score:finalScore,mode:game.cfg.name,grade,date:new Date().toISOString().slice(0,10)},...P.leaders].sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,8);if(game.mode==='daily')P.daily[dayKey()]=finalScore;saveJSON('profile',P);
       els.gradeText.textContent=grade;els.resultTitle.textContent=zero?'AxonOS online':'Kernel survived';els.resultSub.textContent=zero?'Privacy intact · consent respected · signal stable':'Some boundaries failed · rerun to restore zero-leak status';
       els.scoreResult.textContent=fmt(finalScore);els.latencyResult.textContent=avg?avg.toFixed(2)+'ms':'—';els.leaksResult.textContent=game.leaks;els.stabilityResult.textContent=Math.round(game.stability)+'%';els.xpResult.textContent='+'+xp;els.badgeResult.textContent=badge||'—';els.shareTitle.textContent=`${grade}-grade · ${fmt(finalScore)} pts`;els.shareText.textContent=`${game.cfg.name} run · ${game.leaks} leaks · ${avg?avg.toFixed(2):'—'} ms avg · ${Math.round(game.stability)}% stability · AxonOS Evolver v${VERSION}.`;els.nextTip.textContent=game.leaks? 'Deny every raw access request and stop immediately on consent revocation.' : 'Push combo without sacrificing the privacy vault.';
-      els.leaderResult.innerHTML=(P.leaders||[]).slice(0,5).map((x,i)=>`<div class="miniItem"><span>#${i+1} ${x.mode} · ${x.grade}</span><strong>${fmt(x.score)}</strong></div>`).join('');renderHome();show('result');cancelAnimationFrame(raf);game.done={grade,avg,xp,badge};beep(grade==='S'?'gold':'ok');
+      els.leaderResult.innerHTML=P.leaders.slice(0,5).map((x,i)=>`<div class="miniItem"><span>#${i+1} ${escapeHTML(x.mode||'Run')} · ${escapeHTML(x.grade||'—')}</span><strong>${fmt(x.score||0)}</strong></div>`).join('');renderHome();show('result');game.done={grade,avg,xp,badge,score:finalScore};beep(grade==='S'?'gold':'ok');
     }
-    function awardBadges(zero,stable){const got=[];if(zero&&!P.badges.zeroLeak){P.badges.zeroLeak=1;got.push('Zero Leak')}if(stable&&!P.badges.stable90){P.badges.stable90=1;got.push('Stable 90')}if(game.maxCombo>=5&&!P.badges.combo5){P.badges.combo5=1;got.push('Combo 5')}if(game.mode==='daily'&&!P.badges.daily){P.badges.daily=1;got.push('Daily Brain')}if(game.privacyDenials>=3&&!P.badges.privacy){P.badges.privacy=1;got.push('Vault Keeper')}return got[0]||''}
+    function awardBadges(zero,stable){normalizeProfile();const got=[];if(zero&&!P.badges.zeroLeak){P.badges.zeroLeak=1;got.push('Zero Leak')}if(stable&&!P.badges.stable90){P.badges.stable90=1;got.push('Stable 90')}if(game.maxCombo>=5&&!P.badges.combo5){P.badges.combo5=1;got.push('Combo 5')}if(game.mode==='daily'&&!P.badges.daily){P.badges.daily=1;got.push('Daily Brain')}if(game.privacyDenials>=3&&!P.badges.privacy){P.badges.privacy=1;got.push('Vault Keeper')}return got[0]||''}
     function updateHUD(){
       if(!game)return;els.scoreHud.textContent=fmt(game.score);els.stabilityHud.textContent=Math.round(game.stability)+'%';els.leaksHud.textContent=game.leaks;els.comboHud.textContent=game.combo;els.comboLabel.textContent='combo x'+game.combo;els.timeHud.textContent=Math.max(0,Math.ceil(game.time));const avg=game.latencies.length?game.latencies[game.latencies.length-1]:0;els.latencyHud.textContent=avg?avg.toFixed(2)+'ms':'—';els.rivalText.textContent=P.best?`Beat ${fmt(P.best)} local best.`:'Beat your best score.';
     }
@@ -531,25 +556,27 @@
       if(game){game.artifact=Math.max(0,game.artifact-.025);ctx.fillStyle='rgba(241,199,107,.08)';ctx.fillRect(w*GOLD_MIN,0,w*(GOLD_MAX-GOLD_MIN),h);ctx.fillStyle='rgba(255,255,255,.72)';ctx.font='22px ui-monospace,monospace';ctx.fillText(`synthetic-signal · local-only · v${VERSION}`,24,40);ctx.fillStyle='rgba(147,164,187,.9)';ctx.font='18px ui-monospace,monospace';ctx.fillText(`phase=${game.phase} score=${Math.round(game.score)} leaks=${game.leaks} stability=${Math.round(game.stability)}%`,24,h-30)}
     }
     function loop(){if(!game||game.finished)return;const t=now();const dt=Math.min(50,t-lastTick);lastTick=t;tick(dt);if(!game||game.finished)return;draw(t);raf=requestAnimationFrame(loop)}
-    function pointerDown(e){if(!game||game.finished||game.paused||game.phase!=='hold'||game.holding)return;e.preventDefault();try{els.holdPad.setPointerCapture&&els.holdPad.setPointerCapture(e.pointerId)}catch{}game.holding=true;game.holdStart=now();els.holdPad.classList.add('holding');els.holdTitle.textContent='Stabilizing';els.holdHint.textContent='Release inside gold.'}
-    function pointerUp(e){if(!game||game.finished||game.paused||game.phase!=='hold'||!game.holding)return;e.preventDefault();try{els.holdPad.releasePointerCapture&&els.holdPad.releasePointerCapture(e.pointerId)}catch{}game.holding=false;els.holdPad.classList.remove('holding');const held=now()-game.holdStart;const inGold=game.needle>=GOLD_MIN&&game.needle<=GOLD_MAX;if(inGold&&held>260){game.score+=450+Math.round(held/10);game.stability=clamp(game.stability+5,0,100);beep('gold');showCards()}else{game.combo=0;game.stability=clamp(game.stability-8,0,100);game.score=Math.max(0,game.score-120);els.coachText.innerHTML='<b>Coach:</b> wait for gold.<br>A clean lock is worth more than panic speed.';log('lock rejected: release outside gold band','bad');beep('bad');updateHUD();els.holdTitle.textContent='Hold signal';els.holdHint.textContent='Try again: release in gold.'}}
-    function pause(){if(!game||game.finished||game.paused)return;game.paused=true;els.pauseModal.classList.add('active');log('runtime paused','warn')}
-    function resume(){if(!game||game.finished)return;game.paused=false;els.pauseModal.classList.remove('active');lastTick=now();log('runtime resumed','ok')}
-    function abort(){game=null;cancelAnimationFrame(raf);els.pauseModal.classList.remove('active');show('home');renderHome()}
+    function pointerDown(e){if(!game||game.finished||game.paused||game.phase!=='hold'||game.holding)return;if(e&&e.button!==undefined&&e.button!==0)return;if(e&&e.preventDefault)e.preventDefault();try{e&&els.holdPad.setPointerCapture&&e.pointerId!==undefined&&els.holdPad.setPointerCapture(e.pointerId)}catch{}game.holding=true;game.holdStart=now();els.holdPad.classList.add('holding');els.holdTitle.textContent='Stabilizing';els.holdHint.textContent='Release inside gold.'}
+    function pointerUp(e){if(!game||game.finished||game.paused||game.phase!=='hold'||!game.holding)return;if(e&&e.preventDefault)e.preventDefault();try{e&&els.holdPad.releasePointerCapture&&e.pointerId!==undefined&&els.holdPad.releasePointerCapture(e.pointerId)}catch{}game.holding=false;els.holdPad.classList.remove('holding');const held=now()-game.holdStart;const inGold=game.needle>=GOLD_MIN&&game.needle<=GOLD_MAX;if(inGold&&held>220){game.score+=450+Math.round(held/10);game.stability=clamp(game.stability+5,0,100);beep('gold');showCards()}else{game.combo=0;game.stability=clamp(game.stability-8,0,100);game.score=Math.max(0,game.score-120);els.coachText.innerHTML='<b>Coach:</b> wait for gold.<br>A clean lock is worth more than panic speed.';log('lock rejected: release outside gold band','bad');beep('bad');updateHUD();els.holdTitle.textContent='Hold signal';els.holdHint.textContent='Try again: release in gold.'}}
+    function pause(){if(!game||game.finished||game.paused)return;game.holding=false;els.holdPad.classList.remove('holding');game.paused=true;els.pauseModal.classList.add('active');log('runtime paused','warn')}
+    function resume(){if(!game||game.finished)return;game.paused=false;els.pauseModal.classList.remove('active');lastTick=now();log('runtime resumed','ok');cancelAnimationFrame(raf);loop()}
+    function abort(){if(game&&game.nextTimer)clearTimeout(game.nextTimer);game=null;cancelAnimationFrame(raf);els.holdPad.classList.remove('holding');els.holdPad.disabled=false;els.cardsGrid.innerHTML='';els.pauseModal.classList.remove('active');show('home');renderHome()}
     function resultText(){if(!game)return'';return `I became the Brain OS: ${els.gradeText.textContent}-grade · ${els.scoreResult.textContent} pts · ${els.leaksResult.textContent} leaks · ${els.latencyResult.textContent} avg latency · AxonOS Evolver v${VERSION} · https://axonos-org.github.io/become-the-brain-os/evolver-evolution-version/`}
-    async function copy(text){try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);toast('Copied');return}throw new Error('clipboard unavailable')}catch{try{const ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Copied')}catch{toast('Copy failed')}}}
+    async function copy(text){try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);toast('Copied');return}throw new Error('clipboard unavailable')}catch{try{const ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.top='0';ta.style.left='0';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();const ok=document.execCommand('copy');ta.remove();toast(ok?'Copied':'Copy blocked')}catch{toast('Copy blocked')}}}
     function downloadCard(){
-      const c=els.shareCanvas,ctx=shareCtx;ctx.clearRect(0,0,c.width,c.height);const g=ctx.createLinearGradient(0,0,c.width,c.height);g.addColorStop(0,'#050509');g.addColorStop(.5,'#111827');g.addColorStop(1,'#050509');ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle='rgba(241,199,107,.55)';ctx.lineWidth=4;ctx.strokeRect(42,42,c.width-84,c.height-84);ctx.fillStyle='#f1c76b';ctx.font='44px ui-sans-serif,system-ui';ctx.fillText('AXONOS · BECOME THE BRAIN OS',80,130);ctx.fillStyle='#ffffff';ctx.font='bold 106px ui-sans-serif,system-ui';ctx.fillText(`${els.gradeText.textContent}-GRADE`,80,300);ctx.font='bold 78px ui-sans-serif,system-ui';ctx.fillText(`${els.scoreResult.textContent} POINTS`,80,405);ctx.fillStyle='#cbd7ea';ctx.font='38px ui-sans-serif,system-ui';ctx.fillText(`${els.leaksResult.textContent} leaks · ${els.latencyResult.textContent} avg latency · ${els.stabilityResult.textContent} stability`,80,500);ctx.fillStyle='#7de7ff';ctx.font='32px ui-sans-serif,system-ui';ctx.fillText(`AxonOS Evolver v${VERSION} · local-only · reads no neural data`,80,760);const a=document.createElement('a');a.download=SHARE_FILE;a.href=c.toDataURL('image/png');a.click();toast('Card downloaded')
+      const c=els.shareCanvas,ctx=shareCtx;ctx.clearRect(0,0,c.width,c.height);const g=ctx.createLinearGradient(0,0,c.width,c.height);g.addColorStop(0,'#050509');g.addColorStop(.5,'#111827');g.addColorStop(1,'#050509');ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle='rgba(241,199,107,.55)';ctx.lineWidth=4;ctx.strokeRect(42,42,c.width-84,c.height-84);ctx.fillStyle='#f1c76b';ctx.font='44px ui-sans-serif,system-ui';ctx.fillText('AXONOS · BECOME THE BRAIN OS',80,130);ctx.fillStyle='#ffffff';ctx.font='bold 106px ui-sans-serif,system-ui';ctx.fillText(`${els.gradeText.textContent}-GRADE`,80,300);ctx.font='bold 78px ui-sans-serif,system-ui';ctx.fillText(`${els.scoreResult.textContent} POINTS`,80,405);ctx.fillStyle='#cbd7ea';ctx.font='38px ui-sans-serif,system-ui';ctx.fillText(`${els.leaksResult.textContent} leaks · ${els.latencyResult.textContent} avg latency · ${els.stabilityResult.textContent} stability`,80,500);ctx.fillStyle='#7de7ff';ctx.font='32px ui-sans-serif,system-ui';ctx.fillText(`AxonOS Evolver v${VERSION} · local-only · reads no neural data`,80,760);const a=document.createElement('a');a.download=SHARE_FILE;a.href=c.toDataURL('image/png');a.style.display='none';document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),0);toast('Card downloaded')
     }
     function bind(){
       els.startBtn.addEventListener('click',()=>start(selectedMode));els.dailyBtn.addEventListener('click',()=>start('daily'));els.howBtn.addEventListener('click',()=>show('how'));els.howStartBtn.addEventListener('click',()=>start(selectedMode));els.howCloseBtn.addEventListener('click',()=>show('home'));els.brandHome.addEventListener('click',e=>{e.preventDefault();abort()});
       els.soundBtn.addEventListener('click',()=>{settings.sound=!settings.sound;saveJSON('settings',settings);renderHome();if(settings.sound)beep('gold')});els.motionBtn.addEventListener('click',()=>{settings.motion=!settings.motion;saveJSON('settings',settings);renderHome()});
-      els.holdPad.addEventListener('pointerdown',pointerDown);window.addEventListener('pointerup',pointerUp);window.addEventListener('pointercancel',pointerUp);window.addEventListener('keydown',e=>{if(e.code==='Space'){if(!game)return;e.preventDefault();if(!game.holding)pointerDown(e)}if(e.key==='Escape'&&game)pause()});window.addEventListener('keyup',e=>{if(e.code==='Space')pointerUp(e)});
-      els.pauseBtn.addEventListener('click',pause);els.abortBtn.addEventListener('click',abort);els.resumeBtn.addEventListener('click',resume);els.abortFromModalBtn.addEventListener('click',abort);els.retryBtn.addEventListener('click',()=>start(game?.mode||selectedMode));els.homeBtn.addEventListener('click',()=>{cancelAnimationFrame(raf);game=null;show('home');renderHome()});els.copyBtn.addEventListener('click',()=>copy(resultText()));els.challengeBtn.addEventListener('click',()=>copy(`v936-${game?.mode||selectedMode}-${dayKey()}-${(game?.seed??0).toString(36)}`));els.downloadBtn.addEventListener('click',downloadCard);
-      document.addEventListener('visibilitychange',()=>{if(document.hidden&&game&&!game.finished&&!game.paused)pause()});
+      els.holdPad.addEventListener('pointerdown',pointerDown);window.addEventListener('pointerup',pointerUp);window.addEventListener('pointercancel',pointerUp);els.holdPad.addEventListener('lostpointercapture',e=>{if(game&&game.holding)pointerUp(e)});
+      window.addEventListener('keydown',e=>{if(e.code==='Space'){if(!game||e.repeat)return;e.preventDefault();if(!game.holding)pointerDown(e)}if(e.key==='Escape'&&game)pause()});window.addEventListener('keyup',e=>{if(e.code==='Space')pointerUp(e)});
+      els.pauseBtn.addEventListener('click',pause);els.abortBtn.addEventListener('click',abort);els.resumeBtn.addEventListener('click',resume);els.abortFromModalBtn.addEventListener('click',abort);els.retryBtn.addEventListener('click',()=>start(activeMode()));els.homeBtn.addEventListener('click',()=>{cancelAnimationFrame(raf);if(game&&game.nextTimer)clearTimeout(game.nextTimer);game=null;show('home');renderHome()});els.copyBtn.addEventListener('click',()=>copy(resultText()));els.challengeBtn.addEventListener('click',()=>copy(`v937-${activeMode()}-${dayKey()}-${(game?.seed??0).toString(36)}`));els.downloadBtn.addEventListener('click',downloadCard);
+      document.addEventListener('visibilitychange',()=>{if(document.hidden&&game&&!game.finished&&!game.paused)pause()});window.addEventListener('blur',()=>{if(game&&game.holding){game.holding=false;els.holdPad.classList.remove('holding')}});
     }
-    bind();renderHome();draw(now());
+    normalizeProfile();bind();renderHome();draw(now());
   })();
+  
   </script>
 </body>
 </html>
