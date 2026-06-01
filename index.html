@@ -3,110 +3,159 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-<meta name="theme-color" content="#06080e" />
-<meta name="description" content="Neural Triage — a fast arcade game where you are the privacy firewall of a brain–computer interface: ALLOW derived intent, BLOCK raw thoughts, survive escalating waves. No sensor, no neural data. A game about AxonOS." />
-<title>Become the Brain OS · AxonOS v16.3.0</title>
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#05070d" />
+<meta name="description" content="Become the Brain OS — a local-only arcade where you are the privacy firewall of a brain–computer interface. Allow derived intent, block raw neural data, survive the load. No sensor, no neural data. A game about the real AxonOS real-time operating system." />
+<meta property="og:title" content="Become the Brain OS — Neural Triage" />
+<meta property="og:description" content="Be the privacy firewall of a brain–computer interface. Allow derived intent, block raw thoughts, survive. A game about AxonOS." />
+<meta property="og:type" content="website" />
+<title>Become the Brain OS · AxonOS v17.1.0</title>
 <style>
   :root{
-    --bg:#06080e; --panel:#0e1422; --line:#1d2b40; --ink:#eaf2fa; --muted:#8198b0;
-    --cyan:#3ff0d8; --axon:#2b6cb0; --gold:#ffd166; --good:#2ee6a6; --bad:#ff5d73; --warn:#ffb020;
+    --bg:#05070d; --bg2:#080c15; --panel:#0d1422; --panel2:#101a2b; --line:#1c2942; --line2:#26374f;
+    --ink:#eef4fb; --muted:#8298b2; --faint:#5a708a;
+    --cyan:#41f1da; --cyan-d:#1f8e80; --axon:#2f74c0; --axon-d:#0a4a8f; --gold:#ffd270;
+    --good:#2fe6a8; --bad:#ff5d76; --warn:#ffb43d;
+    --ease:cubic-bezier(.22,.61,.36,1); --easeIn:cubic-bezier(.55,.06,.68,.19);
+    --shadow:0 18px 50px rgba(0,0,0,.55), 0 2px 0 rgba(255,255,255,.03) inset;
+    --glow-cyan:0 0 22px rgba(65,241,218,.35);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
   html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none}
-  body{background:radial-gradient(900px 600px at 50% -8%,#10243a 0%,var(--bg) 62%);color:var(--ink);
-    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
-  .wrap{max-width:560px;margin:0 auto;height:100%;display:flex;flex-direction:column;padding:12px;gap:10px}
-  .shake{animation:sh .26s}
-  @keyframes sh{0%,100%{transform:translate(0,0)}20%{transform:translate(-7px,3px)}40%{transform:translate(6px,-4px)}60%{transform:translate(-5px,-3px)}80%{transform:translate(4px,3px)}}
+  body{
+    background:
+      radial-gradient(1100px 680px at 50% -12%, #11304d 0%, transparent 60%),
+      radial-gradient(800px 500px at 90% 110%, #0a2238 0%, transparent 55%),
+      linear-gradient(180deg, var(--bg2), var(--bg));
+    color:var(--ink); font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Roboto,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    letter-spacing:.1px;
+  }
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:0}
+  .wrap{max-width:540px;margin:0 auto;height:100%;display:flex;flex-direction:column;
+    padding:max(14px,env(safe-area-inset-top)) 14px max(14px,env(safe-area-inset-bottom));gap:11px}
+  button{font:inherit}
+  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:10px}
+  .shake{animation:sh .3s var(--ease)}
+  @keyframes sh{0%,100%{transform:translate(0,0)}15%{transform:translate(-8px,3px)}30%{transform:translate(7px,-4px)}45%{transform:translate(-6px,4px)}60%{transform:translate(5px,-3px)}80%{transform:translate(-3px,2px)}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes popIn{0%{opacity:0;transform:scale(.82)}60%{opacity:1;transform:scale(1.03)}100%{transform:scale(1)}}
 
-  .top{display:flex;align-items:center;gap:9px}
-  .seal{width:28px;height:28px;border-radius:8px;flex:none;background:linear-gradient(135deg,var(--axon),#0a4a8f);position:relative;box-shadow:0 6px 16px #0a4a8f44}
-  .seal::after{content:"";position:absolute;inset:7px;border-radius:50%;border:2px solid #bfe9ff;border-right-color:transparent;animation:spin 3s linear infinite}
+  /* top bar */
+  .top{display:flex;align-items:center;gap:10px;animation:fadeUp .5s var(--ease)}
+  .seal{width:30px;height:30px;border-radius:9px;flex:none;position:relative;
+    background:linear-gradient(135deg,var(--axon),var(--axon-d));box-shadow:0 6px 18px rgba(10,74,143,.45), 0 0 0 1px rgba(255,255,255,.06) inset}
+  .seal::after{content:"";position:absolute;inset:8px;border-radius:50%;border:2px solid #cdecff;border-right-color:transparent;animation:spin 3.4s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .top b{font-size:14px} .top span{font-size:11px;color:var(--muted)}
-  .top .r{margin-left:auto;display:flex;gap:7px}
-  .chip{font-size:11px;color:var(--muted);background:var(--panel);border:1px solid var(--line);padding:4px 9px;border-radius:999px}
-  .chip b{color:var(--cyan)}
-  .disc{font-size:10.5px;color:var(--muted);text-align:center;border:1px dashed var(--line);border-radius:9px;padding:5px 8px;background:#0a1018}
-  .disc b{color:#cfe0ee}
-  .err{display:none;background:#2c0f17;border:1px solid var(--bad);color:#ffd4dc;border-radius:10px;padding:12px;font-size:13px;text-align:center}
+  .bname{font-size:14px;font-weight:650;letter-spacing:.2px}
+  .bsub{font-size:11px;color:var(--faint)}
+  .top .r{margin-left:auto;display:flex;gap:7px;align-items:center}
+  .chip{font-size:11px;color:var(--muted);background:rgba(255,255,255,.025);border:1px solid var(--line);
+    padding:5px 10px;border-radius:999px;backdrop-filter:blur(6px);transition:border-color .2s,color .2s}
+  .chip b{color:var(--cyan);font-weight:650}
+  .iconbtn{cursor:pointer} .iconbtn:active{transform:scale(.92)}
+
+  .disc{font-size:10.5px;color:var(--muted);text-align:center;border:1px solid var(--line);border-radius:10px;
+    padding:6px 11px;background:rgba(255,255,255,.015)}
+  .disc b{color:#cfe2f2;font-weight:600}
+  .err{display:none;background:rgba(255,93,118,.08);border:1px solid var(--bad);color:#ffd4dc;border-radius:11px;padding:13px;font-size:13px;text-align:center}
 
   .screen{flex:1;min-height:0;display:flex;flex-direction:column}
-
-  /* HOME / END */
-  .center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:6px}
-  .eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan)}
-  h1{font-size:32px;margin:0;line-height:1.05;letter-spacing:-.5px}
-  h1 small{display:block;font-size:13.5px;color:var(--muted);font-weight:500;margin-top:9px;letter-spacing:0;line-height:1.5;max-width:34ch}
-  .lead{color:var(--muted);max-width:40ch;margin:0;line-height:1.55;font-size:13.5px}
-  .legend{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:12px}
-  .pill{border:1px solid var(--line);border-radius:999px;padding:7px 13px;background:var(--panel)}
-  .pill.allow{border-color:#1d5a4a;color:var(--good)} .pill.block{border-color:#5a2330;color:var(--bad)}
-  .btn{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:700;font-size:17px;padding:15px 26px;border-radius:13px;cursor:pointer;transition:transform .06s}
-  .btn:active{transform:translateY(1px)}
-  .btn.primary{background:linear-gradient(135deg,var(--axon),#0a4a8f);border-color:#2b6cb0;box-shadow:0 10px 26px #0a4a8f55}
-  .btn.cyan{border-color:#1d5a55;color:var(--cyan)} .btn.ghost{color:var(--muted);font-weight:600;font-size:14px}
+  .center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:15px;padding:6px;animation:fadeUp .55s var(--ease)}
+  .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);font-weight:600;opacity:.9}
+  h1{font-size:clamp(28px,8vw,36px);margin:0;line-height:1.02;letter-spacing:-.8px;font-weight:760;
+     background:linear-gradient(180deg,#ffffff,#bcd4ea);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{font-size:14px;color:var(--muted);max-width:33ch;line-height:1.5;margin:0}
+  .legend{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;font-size:12.5px;font-weight:600}
+  .pill{border-radius:999px;padding:8px 14px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+  .pill.allow{border-color:rgba(47,230,168,.4);color:var(--good)} .pill.block{border-color:rgba(255,93,118,.4);color:var(--bad)}
+  .lead{color:var(--muted);max-width:38ch;margin:0;line-height:1.55;font-size:13.5px}
+  .btn{appearance:none;border:1px solid var(--line2);background:rgba(255,255,255,.03);color:var(--ink);
+    font-weight:680;font-size:17px;padding:15px 28px;border-radius:14px;cursor:pointer;
+    transition:transform .12s var(--ease),box-shadow .2s,filter .2s,border-color .2s}
+  .btn:hover{border-color:var(--line2);filter:brightness(1.08)} .btn:active{transform:translateY(2px) scale(.99)}
+  .btn.primary{background:linear-gradient(135deg,var(--axon),var(--axon-d));border-color:#357bc6;
+    box-shadow:0 12px 30px rgba(10,74,143,.5), 0 0 0 1px rgba(255,255,255,.07) inset}
+  .btn.primary:hover{box-shadow:0 16px 40px rgba(10,74,143,.62), var(--glow-cyan)}
+  .btn.cyan{border-color:var(--cyan-d);color:var(--cyan)} .btn.ghost{color:var(--muted);font-weight:600;font-size:14px;border-color:transparent;background:transparent}
   .btnrow{display:flex;gap:9px;flex-wrap:wrap;justify-content:center}
-  .mini{display:flex;gap:16px;color:var(--muted);font-size:12px;flex-wrap:wrap;justify-content:center}.mini b{color:var(--ink)}
-  .foot{text-align:center;font-size:11px;color:var(--muted);padding-top:2px}
+  .mini{display:flex;gap:15px;color:var(--faint);font-size:12px;flex-wrap:wrap;justify-content:center}.mini b{color:var(--ink)}
+  .challengeNote{font-size:12px;color:var(--gold);border:1px solid rgba(255,210,112,.35);background:rgba(255,210,112,.06);border-radius:10px;padding:8px 12px;display:none}
+  .foot{text-align:center;font-size:11px;color:var(--faint);padding-top:2px;line-height:1.6}
   .foot a{color:var(--cyan);text-decoration:none}
 
   /* PLAY */
-  .hud{display:flex;align-items:center;gap:10px}
-  .hud .score{font-size:26px;font-weight:800;letter-spacing:-.5px}
-  .hud .score small{font-size:11px;color:var(--muted);font-weight:600;display:block;letter-spacing:1px;text-transform:uppercase}
-  .hud .mid{margin-left:auto;text-align:center}
-  .combo{font-size:22px;font-weight:800;color:var(--gold);transition:transform .1s;min-width:64px}
-  .combo small{display:block;font-size:10px;color:var(--muted);letter-spacing:1px}
-  .hearts{font-size:18px;letter-spacing:2px;margin-left:auto}
-  .wavebadge{position:absolute;left:50%;top:34%;transform:translateX(-50%);font-size:40px;font-weight:800;color:var(--cyan);opacity:0;pointer-events:none;text-shadow:0 0 20px var(--cyan)}
-  .arena{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:0;overflow:hidden}
-  .incoming{display:flex;gap:6px;height:14px;align-items:center;opacity:.7}
-  .incoming i{width:9px;height:9px;border-radius:3px;display:inline-block}
-  .packet{position:relative;width:min(86vw,420px);border-radius:18px;border:2px solid var(--line);background:var(--panel);
-    padding:26px 18px;text-align:center;box-shadow:0 16px 40px #0006;transition:transform .18s ease,opacity .18s ease}
-  .packet.safe{border-color:#1d5a4a;background:linear-gradient(180deg,#0c2c22,#0e1422)}
-  .packet.danger{border-color:#5a2330;background:linear-gradient(180deg,#2a0f17,#0e1422)}
-  .packet .kind{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-  .packet .label{font-size:25px;font-weight:800;line-height:1.15;word-break:break-word}
-  .packet.safe .kind{color:var(--good)} .packet.danger .kind{color:var(--bad)}
-  .ring{position:absolute;left:0;right:0;bottom:0;height:6px;border-bottom-left-radius:16px;border-bottom-right-radius:16px;overflow:hidden;background:#0008}
-  .ring > i{display:block;height:100%;width:100%;transform-origin:left;background:linear-gradient(90deg,var(--good),var(--gold),var(--bad))}
-  .flyL{transform:translateX(-130%) rotate(-12deg);opacity:0}
-  .flyR{transform:translateX(130%) rotate(12deg);opacity:0}
-  .hint{font-size:12px;color:var(--muted)}
-  .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .act{appearance:none;border:2px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:800;font-size:18px;padding:20px 10px;border-radius:14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:transform .05s,filter .1s}
-  .act:active{transform:translateY(2px)}
-  .act small{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:1px}
-  .act.block{border-color:#5a2330;color:var(--bad)} .act.allow{border-color:#1d5a4a;color:var(--good)}
-  .flash{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .12s}
-  .flash.ok{background:radial-gradient(circle at 50% 60%,#2ee6a644,transparent 60%)}
-  .flash.bad{background:radial-gradient(circle at 50% 60%,#ff5d7355,transparent 60%)}
-  #fx{position:fixed;inset:0;pointer-events:none}
+  .hud{display:flex;align-items:center;gap:12px;animation:fadeUp .4s var(--ease)}
+  .score{font-size:27px;font-weight:780;letter-spacing:-.6px;font-variant-numeric:tabular-nums}
+  .score small{display:block;font-size:10px;color:var(--faint);font-weight:600;letter-spacing:1.5px;text-transform:uppercase}
+  .mid{margin-left:auto;text-align:center}
+  .combo{font-size:23px;font-weight:800;color:var(--gold);min-width:66px;transition:transform .12s var(--ease);font-variant-numeric:tabular-nums;text-shadow:0 0 14px rgba(255,210,112,.25)}
+  .combo small{display:block;font-size:9px;color:var(--faint);letter-spacing:1.5px;text-transform:uppercase}
+  .hearts{margin-left:auto;font-size:17px;letter-spacing:3px;transition:transform .15s}
 
-  .grade{font-size:80px;font-weight:800;line-height:1;letter-spacing:-2px}
-  .grade.S{color:var(--gold)} .grade.A{color:var(--cyan)} .grade.B{color:var(--good)} .grade.C{color:var(--warn)} .grade.D{color:var(--bad)}
-  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;width:min(86vw,420px)}
-  .st{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:9px;text-align:center}
-  .st .k{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px} .st .v{font-size:20px;font-weight:800;margin-top:2px}
+  .arena{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;min-height:0;overflow:hidden}
+  .levelbadge{position:absolute;left:50%;top:30%;transform:translateX(-50%) scale(1);font-size:38px;font-weight:800;color:var(--cyan);opacity:0;pointer-events:none;text-shadow:var(--glow-cyan);letter-spacing:1px}
+  .incoming{display:flex;gap:7px;height:12px;align-items:center}
+  .incoming i{width:8px;height:8px;border-radius:3px;display:inline-block;transition:opacity .3s}
+  .packet{position:relative;width:min(86vw,400px);border-radius:20px;border:1.5px solid var(--line);
+    background:linear-gradient(180deg,var(--panel2),var(--panel));padding:30px 20px;text-align:center;
+    box-shadow:var(--shadow);transition:transform .22s var(--ease),opacity .22s var(--ease),border-color .2s}
+  .packet.in{animation:popIn .26s var(--ease)}
+  .packet.safe{border-color:rgba(47,230,168,.45);box-shadow:var(--shadow),0 0 30px rgba(47,230,168,.1)}
+  .packet.danger{border-color:rgba(255,93,118,.5);box-shadow:var(--shadow),0 0 30px rgba(255,93,118,.12)}
+  .packet .kind{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--faint);margin-bottom:8px;font-weight:600}
+  .packet.safe .kind{color:var(--good)} .packet.danger .kind{color:var(--bad)}
+  .packet .label{font-size:clamp(22px,6.4vw,27px);font-weight:780;line-height:1.15;word-break:break-word;letter-spacing:-.3px}
+  .ring{position:absolute;left:14px;right:14px;bottom:11px;height:5px;border-radius:999px;overflow:hidden;background:rgba(0,0,0,.4)}
+  .ring > i{display:block;height:100%;width:100%;transform-origin:left;border-radius:999px;background:linear-gradient(90deg,var(--good),var(--gold) 60%,var(--bad))}
+  .flyL{transform:translateX(-135%) rotate(-13deg) scale(.9);opacity:0}
+  .flyR{transform:translateX(135%) rotate(13deg) scale(.9);opacity:0}
+  .hint{font-size:12px;color:var(--faint);transition:opacity .4s}
+  .actions{display:grid;grid-template-columns:1fr 1fr;gap:11px;animation:fadeUp .4s var(--ease)}
+  .act{appearance:none;border:1.5px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);
+    color:var(--ink);font-weight:800;font-size:18px;padding:19px 10px;border-radius:16px;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;gap:3px;transition:transform .1s var(--ease),box-shadow .15s,filter .15s,border-color .15s}
+  .act small{font-size:10px;color:var(--faint);font-weight:600;letter-spacing:.5px}
+  .act:active{transform:translateY(3px) scale(.98);filter:brightness(1.15)}
+  .act.block{border-color:rgba(255,93,118,.4);color:var(--bad)} .act.block:hover{box-shadow:0 0 24px rgba(255,93,118,.18)}
+  .act.allow{border-color:rgba(47,230,168,.4);color:var(--good)} .act.allow:hover{box-shadow:0 0 24px rgba(47,230,168,.18)}
+
+  .flash{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .14s var(--ease);z-index:5}
+  .flash.ok{background:radial-gradient(circle at 50% 62%,rgba(47,230,168,.22),transparent 62%)}
+  .flash.bad{background:radial-gradient(circle at 50% 62%,rgba(255,93,118,.3),transparent 62%)}
+  .lowlife{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;box-shadow:inset 0 0 120px rgba(255,93,118,.4);z-index:4}
+  #fx{position:fixed;inset:0;pointer-events:none;z-index:6}
+
+  /* END */
+  .grade{font-size:clamp(64px,20vw,86px);font-weight:820;line-height:1;letter-spacing:-3px;animation:popIn .4s var(--ease)}
+  .grade.S{color:var(--gold);text-shadow:0 0 40px rgba(255,210,112,.4)} .grade.A{color:var(--cyan);text-shadow:var(--glow-cyan)}
+  .grade.B{color:var(--good)} .grade.C{color:var(--warn)} .grade.D{color:var(--bad)}
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;width:min(86vw,400px)}
+  .st{border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02);padding:11px;text-align:center}
+  .st .k{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:1.2px} .st .v{font-size:21px;font-weight:800;margin-top:3px;font-variant-numeric:tabular-nums}
   .st .v.gold{color:var(--gold)} .st .v.cyan{color:var(--cyan)} .st .v.bad{color:var(--bad)}
-  .verdict{color:var(--muted);font-size:13px;line-height:1.5;max-width:38ch}
+  .verdict{color:var(--muted);font-size:13px;line-height:1.55;max-width:36ch}
+  .newbest{color:var(--gold);font-weight:700;font-size:13px;display:none}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;transition-duration:.05ms !important}
+    .seal::after{animation:none}
+  }
 </style>
 </head>
 <body>
 <canvas id="fx"></canvas>
 <div class="flash ok" id="flashOk"></div>
 <div class="flash bad" id="flashBad"></div>
+<div class="lowlife" id="lowlife"></div>
 
 <div class="wrap" id="wrap">
   <div class="top">
-    <div class="seal"></div>
-    <div><b>AxonOS</b> <span>// Neural Triage</span><br><span class="mono">v16.3.0</span></div>
+    <div class="seal" aria-hidden="true"></div>
+    <div><div class="bname">AxonOS</div><div class="bsub">Neural Triage · <span class="mono">v17.1.0</span></div></div>
     <div class="r">
       <span class="chip" id="bestChip">best <b>—</b></span>
-      <span class="chip" id="soundChip" role="button" tabindex="0">🔊</span>
+      <span class="chip iconbtn" id="soundChip" role="button" tabindex="0" aria-label="toggle sound">🔊</span>
     </div>
   </div>
   <div class="disc">⚠ <b>A game — not a brain.</b> No sensor, no neural data, no backend. It simulates the AxonOS privacy firewall.</div>
@@ -115,29 +164,31 @@
   <!-- HOME -->
   <div class="screen" id="home">
     <div class="center">
-      <div class="eyebrow">▦ Real-time neural firewall</div>
-      <h1>Become the Brain OS<small>Thoughts are streaming out. You decide what's allowed to leave.</small></h1>
+      <div class="eyebrow">Real-time neural firewall</div>
+      <h1>Become the Brain OS</h1>
+      <p class="sub">Thoughts are streaming out of a mind. You decide what's allowed to leave.</p>
       <div class="legend">
         <span class="pill allow">✓ ALLOW derived intent</span>
         <span class="pill block">⛔ BLOCK raw thoughts</span>
       </div>
-      <p class="lead">Packets hit the brain–app boundary one after another, faster and faster. Let the safe ones through, block the raw ones, and survive. Let a raw thought slip and it's gone forever.</p>
+      <p class="lead">Packets hit the brain–app boundary, faster and faster. Let the safe ones through, block the raw ones, survive the load. Let one raw thought slip and it's gone forever.</p>
+      <div class="challengeNote" id="challengeNote">🎯 Challenge run — same packets as your challenger. Beat their score.</div>
       <button class="btn primary" id="playBtn">▶ Start the firewall</button>
       <div class="mini"><span>tap <b>⛔ / ✓</b> or <b>← / →</b></span><span><b>3</b> lives</span><span><b>0</b> leaks = perfect</span></div>
     </div>
-    <div class="foot">A game by <a href="https://axonos.org">The AxonOS Project</a> · <a href="https://github.com/AxonOS-org">github.com/AxonOS-org</a> · local-only · reads no neural data</div>
+    <div class="foot">A game by <a href="https://axonos.org">The AxonOS Project</a> · <a href="https://github.com/AxonOS-org">github.com/AxonOS-org</a><br>local-only · reads no neural data</div>
   </div>
 
   <!-- PLAY -->
   <div class="screen" id="game" style="display:none">
     <div class="hud">
-      <div class="score"><small>score</small><span id="hScore">0</span></div>
+      <div class="score"><small>score</small><span id="hScore" aria-live="off">0</span></div>
       <div class="mid"><div class="combo" id="hCombo">0×</div></div>
-      <div class="hearts" id="hHearts">♥♥♥</div>
+      <div class="hearts" id="hHearts" aria-label="lives">♥♥♥</div>
     </div>
     <div class="arena" id="arena">
-      <div class="wavebadge" id="waveBadge">WAVE 1</div>
-      <div class="incoming" id="incoming"></div>
+      <div class="levelbadge" id="levelBadge">LOAD 2</div>
+      <div class="incoming" id="incoming" aria-hidden="true"></div>
       <div class="packet" id="packet">
         <div class="kind" id="pKind">—</div>
         <div class="label" id="pLabel">—</div>
@@ -156,16 +207,17 @@
     <div class="center">
       <div class="eyebrow">firewall down</div>
       <div class="grade" id="eGrade">A</div>
+      <div class="newbest" id="newBest">★ New best score</div>
       <div class="stats">
         <div class="st"><div class="k">Score</div><div class="v" id="eScore">0</div></div>
         <div class="st"><div class="k">Best combo</div><div class="v gold" id="eCombo">0×</div></div>
-        <div class="st"><div class="k">Waves</div><div class="v cyan" id="eWaves">0</div></div>
+        <div class="st"><div class="k">Survived</div><div class="v cyan" id="eSurv">0</div></div>
         <div class="st"><div class="k">Thoughts leaked</div><div class="v" id="eLeaks">0</div></div>
       </div>
       <p class="verdict" id="eVerdict"></p>
       <div class="btnrow">
         <button class="btn primary" id="againBtn">▶ Again</button>
-        <button class="btn cyan" id="copyBtn">Share result</button>
+        <button class="btn cyan" id="challengeBtn">🎯 Challenge a friend</button>
         <button class="btn ghost" id="homeBtn">Home</button>
       </div>
     </div>
@@ -179,100 +231,95 @@
 /* ===================== PURE LOGIC (unit-tested in Node) ===================== */
 function makeRng(seed){ let s=(seed>>>0)||0x9e3779b9; return function(){ s^=s<<13;s>>>=0;s^=s>>17;s^=s<<5;s>>>=0;return s/4294967296; }; }
 function pick(rng,a){ return a[Math.floor(rng()*a.length)]; }
-
-var SAFE=['intent: ↑','intent: ↓','intent: ←','intent: →','cursor.pos','intent.class','confidence 0.92','scroll','select','focus'];
-var RAW =['raw EEG','your thoughts','raw.neural','biometric ID','identity','memory trace','cortex stream'];
-var ART =['⚡ blink spike','⚡ muscle noise','⚡ phantom node','⚡ mains hum'];
-var REV =['CONSENT REVOKED','consent expired'];
-
-// kinds: safe(allow), raw/artifact/consent(block). leak = a raw OR consent packet that gets through.
-function makePacket(rng, wave){
-  var r=rng();
-  var pSafe=0.46, pRaw=0.28, pArt=0.16; // remainder = consent
-  var kind = r<pSafe?'safe' : r<pSafe+pRaw?'raw' : r<pSafe+pArt+pRaw?'artifact':'consent';
+var SAFE=['intent: ↑','intent: ↓','intent: ←','intent: →','cursor.pos','intent.class','confidence 0.92','scroll','select','focus','click'];
+var RAW =['raw EEG','your thoughts','raw.neural','biometric ID','identity','memory trace','cortex stream','inner voice'];
+var ART =['⚡ blink spike','⚡ muscle noise','⚡ phantom node','⚡ mains hum','⚡ drift'];
+var REV =['CONSENT REVOKED','consent expired','session locked'];
+// kinds: safe(allow); raw/artifact/consent(block). leak = a raw OR consent packet that passes.
+function makePacket(rng, handled){
+  var r=rng(), pSafe=0.46, pRaw=0.28, pArt=0.16;
+  var kind = r<pSafe?'safe' : r<pSafe+pRaw?'raw' : r<pSafe+pRaw+pArt?'artifact':'consent';
   var label = kind==='safe'?pick(rng,SAFE) : kind==='raw'?pick(rng,RAW) : kind==='artifact'?pick(rng,ART) : pick(rng,REV);
-  var deadline = Math.max(620, 1500 - wave*85);
-  return { kind:kind, label:label, danger: kind!=='safe', correct: kind==='safe'?'allow':'block',
-           leakOnPass: (kind==='raw'||kind==='consent'), deadlineMs:Math.round(deadline) };
+  var deadline = Math.max(560, 1450 - handled*22); // smooth, always-escalating ramp
+  return { kind:kind, label:label, danger:kind!=='safe', correct:kind==='safe'?'allow':'block',
+           leakOnPass:(kind==='raw'||kind==='consent'), deadlineMs:Math.round(deadline) };
 }
-// action: 'allow' | 'block' | 'timeout'
 function evaluate(packet, action, frac, combo){
   if(action===packet.correct){
-    var mult=1+Math.min(combo,15)*0.08;
+    var mult=1+Math.min(combo,20)*0.07;
     return { correct:true, points:Math.round((100+120*Math.max(0,Math.min(1,frac)))*mult), life:0, leak:false };
   }
-  // wrong tap, or timeout (failed to act)
-  var passedThrough = (action==='allow') || (action==='timeout'); // it leaked out / wasn't stopped
-  var leak = packet.danger && packet.leakOnPass && passedThrough;
-  return { correct:false, points:0, life:-1, leak:leak };
+  var passedThrough=(action==='allow')||(action==='timeout');
+  return { correct:false, points:0, life:-1, leak: packet.danger && packet.leakOnPass && passedThrough };
 }
 var GR=['D','C','B','A','S'];
-function gradeOf(score, leaks, waves){
-  var s = score>=9000?4:score>=6000?3:score>=3500?2:score>=1500?1:0;
-  var w = waves>=10?4:waves>=7?3:waves>=5?2:waves>=3?1:0;
-  var l = leaks===0?4:leaks<=2?3:leaks<=4?2:leaks<=7?1:0;
-  return GR[Math.max(0,Math.min(4, Math.min(Math.max(s,w-1), l)))];
+function gradeOf(score, leaks, survived){
+  var s=score>=9000?4:score>=6000?3:score>=3500?2:score>=1500?1:0;
+  var v=survived>=55?4:survived>=38?3:survived>=24?2:survived>=12?1:0;
+  var l=leaks===0?4:leaks<=2?3:leaks<=4?2:leaks<=7?1:0;
+  return GR[Math.max(0,Math.min(4, Math.min(s, l, v)))];
 }
-var API={makeRng:makeRng,makePacket:makePacket,evaluate:evaluate,gradeOf:gradeOf,SAFE:SAFE,RAW:RAW,ART:ART,REV:REV};
+function seedFromString(str){ var h=2166136261>>>0; for(var i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+var API={makeRng:makeRng,makePacket:makePacket,evaluate:evaluate,gradeOf:gradeOf,seedFromString:seedFromString,SAFE:SAFE,RAW:RAW,ART:ART,REV:REV};
 if(typeof module!=='undefined'&&module.exports){ module.exports=API; }
 if(typeof window!=='undefined'){ window.__TRIAGE=API; }
 
 /* ===================== DOM + GAME (guarded; skipped in Node) ===================== */
 if(typeof document==='undefined') return;
-var STORE='btbos_v1630_best';
+var STORE='btbos_v17_best';
 function $(id){return document.getElementById(id);}
-var ids=['wrap','err','home','game','end','playBtn','againBtn','homeBtn','copyBtn','bestChip','soundChip',
-  'hScore','hCombo','hHearts','arena','waveBadge','incoming','packet','pKind','pLabel','pRing','hint',
-  'blockBtn','allowBtn','eGrade','eScore','eCombo','eWaves','eLeaks','eVerdict','fx','flashOk','flashBad'];
+var ids=['wrap','err','home','game','end','playBtn','againBtn','homeBtn','challengeBtn','challengeNote','bestChip','soundChip',
+  'hScore','hCombo','hHearts','arena','levelBadge','incoming','packet','pKind','pLabel','pRing','hint',
+  'blockBtn','allowBtn','eGrade','eScore','eCombo','eSurv','eLeaks','eVerdict','newBest','fx','flashOk','flashBad','lowlife'];
 var el={},miss=[]; ids.forEach(function(k){el[k]=$(k);if(!el[k])miss.push(k);});
-if(miss.length){var e=$('err');if(e){e.style.display='block';e.textContent='Load error (missing: '+miss.join(', ')+'). Hard-refresh.';}return;}
+if(miss.length){var e=$('err');if(e){e.style.display='block';e.textContent='Load error (missing: '+miss.join(', ')+'). Hard-refresh the page.';}return;}
 
 function bestGet(){try{return parseInt(localStorage.getItem(STORE)||'0',10)||0;}catch(_){return 0;}}
 function bestSet(v){try{localStorage.setItem(STORE,String(v));}catch(_){}}
 el.bestChip.innerHTML='best <b>'+(bestGet()||'—')+'</b>';
 
+// challenge seed from URL (?s=)
+var urlSeed=null;
+try{ var sp=new URLSearchParams(location.search); var s=sp.get('s'); if(s){ urlSeed=seedFromString(s); el.challengeNote.style.display='block'; } }catch(_){}
+
 var soundOn=true,actx=null;
 function beep(t){ if(!soundOn)return; try{ actx=actx||new(window.AudioContext||window.webkitAudioContext)();
   var o=actx.createOscillator(),g=actx.createGain();o.connect(g);g.connect(actx.destination);
-  o.type=t==='ok'?'triangle':'square'; o.frequency.value=t==='ok'?(520+Math.min(G?G.combo:0,20)*18):150; g.gain.value=.05;o.start();
-  g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+.15);o.stop(actx.currentTime+.16);}catch(_){}}
+  o.type=t==='ok'?'triangle':'sawtooth'; o.frequency.value=t==='ok'?(540+Math.min(G?G.combo:0,24)*16):150; g.gain.value=t==='ok'?.05:.06;o.start();
+  g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+.16);o.stop(actx.currentTime+.17);}catch(_){}}
 el.soundChip.addEventListener('click',function(){soundOn=!soundOn;el.soundChip.textContent=soundOn?'🔊':'🔇';});
 el.soundChip.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();el.soundChip.click();}});
 
-// particles
 var fx=el.fx, fctx=null, parts=[];
 try{fctx=fx.getContext('2d');}catch(_){fctx=null;}
 function sizeFx(){ if(!fctx)return; var dpr=Math.min(2,window.devicePixelRatio||1); fx.width=innerWidth*dpr;fx.height=innerHeight*dpr;fctx.setTransform(dpr,0,0,dpr,0,0);}
 addEventListener('resize',sizeFx); sizeFx();
-function burst(x,y,color,n){ if(!fctx)return; for(var i=0;i<n;i++){var a=Math.random()*6.28,sp=2+Math.random()*5;parts.push({x:x,y:y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-2,life:1,c:color});}}
-function flash(kind){ var f=kind==='ok'?el.flashOk:el.flashBad; f.style.opacity='1'; setTimeout(function(){f.style.opacity='0';},110); }
+function burst(x,y,color,n){ if(!fctx)return; for(var i=0;i<n;i++){var a=Math.random()*6.283,sp=2+Math.random()*5.5;parts.push({x:x,y:y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-2,life:1,c:color,s:2+Math.random()*3});}}
+function flash(kind){ var f=kind==='ok'?el.flashOk:el.flashBad; f.style.opacity='1'; setTimeout(function(){f.style.opacity='0';},120); }
 function shake(){ el.wrap.classList.remove('shake'); void el.wrap.offsetWidth; el.wrap.classList.add('shake'); }
 
-/* state */
-var G=null, raf=0;
+var G=null, raf=0, hintTimer=0;
 function start(){
-  G={score:0,combo:0,bestCombo:0,life:3,wave:1,handled:0,leaks:0,
-     packet:null,deadline:0,msLeft:0,gap:0,locked:false,
-     rng:makeRng((Date.now()^(Math.random()*1e9))>>>0),last:performance.now()};
-  show('game'); el.hHearts.textContent='♥♥♥'; el.hScore.textContent='0'; el.hCombo.textContent='0×';
+  var seed = urlSeed!=null ? urlSeed : ((Date.now()^(Math.random()*1e9))>>>0);
+  G={score:0,combo:0,bestCombo:0,life:3,handled:0,leaks:0,level:1,seedKey:(urlSeed!=null? (new URLSearchParams(location.search)).get('s') : seed.toString(36)),
+     packet:null,deadline:0,msLeft:0,gap:0,locked:false,rng:makeRng(seed),last:performance.now()};
+  show('game'); el.hHearts.textContent='♥♥♥'; el.hScore.textContent='0'; el.hCombo.textContent='0×'; el.lowlife.style.opacity='0';
+  el.hint.style.opacity='1'; clearTimeout(hintTimer); hintTimer=setTimeout(function(){el.hint.style.opacity='0';},3500);
   spawn(); cancelAnimationFrame(raf); G.last=performance.now(); raf=requestAnimationFrame(loop);
 }
-function renderIncoming(){
-  el.incoming.innerHTML='';
-  for(var i=0;i<4;i++){ var c=document.createElement('i');
-    var d=G.rng()<0.46; c.style.background=d?'#2ee6a6':'#ff5d73'; c.style.opacity=String(0.7-i*0.15); el.incoming.appendChild(c); }
-}
+function renderIncoming(){ el.incoming.innerHTML=''; for(var i=0;i<5;i++){var c=document.createElement('i');var d=G.rng()<0.46;c.style.background=d?'var(--good)':'var(--bad)';c.style.opacity=String(0.65-i*0.11);el.incoming.appendChild(c);} }
 function spawn(){
-  G.packet=makePacket(G.rng,G.wave);
+  G.packet=makePacket(G.rng,G.handled);
   G.deadline=G.packet.deadlineMs; G.msLeft=G.deadline; G.locked=false; G.gap=0;
   var p=G.packet;
-  el.packet.className='packet '+(p.danger?'danger':'safe');
+  el.packet.className='packet in '+(p.danger?'danger':'safe');
   el.pKind.textContent = p.kind==='safe'?'DERIVED INTENT' : p.kind==='raw'?'RAW NEURAL DATA' : p.kind==='artifact'?'ARTIFACT':'CONSENT';
-  el.pLabel.textContent=p.label;
-  el.pRing.style.transform='scaleX(1)';
-  renderIncoming();
+  el.pLabel.textContent=p.label; el.pRing.style.transform='scaleX(1)'; renderIncoming();
 }
 function rect(){ return el.packet.getBoundingClientRect(); }
+function setHearts(){ var h=''; for(var i=0;i<3;i++) h+= i<G.life?'♥':'·'; el.hHearts.textContent=h;
+  el.hHearts.style.transform='scale(1.2)'; setTimeout(function(){el.hHearts.style.transform='scale(1)';},150);
+  el.lowlife.style.opacity = G.life===1?'1':'0'; }
 function decide(action){
   if(!G||G.locked||!G.packet) return;
   G.locked=true; G.handled++;
@@ -281,73 +328,70 @@ function decide(action){
   var rc=rect(), cx=rc.left+rc.width/2, cy=rc.top+rc.height/2;
   if(r.correct){
     G.score+=r.points; G.combo++; if(G.combo>G.bestCombo)G.bestCombo=G.combo;
-    el.packet.classList.add(action==='allow'?'flyR':'flyL');
-    burst(cx,cy,action==='allow'?'#2ee6a6':'#ff5d73',14); flash('ok'); beep('ok');
-    el.hCombo.style.transform='scale(1.35)'; setTimeout(function(){el.hCombo.style.transform='scale(1)';},120);
-    // wave up every 7 handled-correct milestones
-    if(G.combo>0 && G.combo%7===0){ G.wave++; showWave(); }
+    el.packet.classList.remove('in'); el.packet.classList.add(action==='allow'?'flyR':'flyL');
+    burst(cx,cy,action==='allow'?'#2fe6a8':'#ff5d76',15); flash('ok'); beep('ok');
+    el.hCombo.style.transform='scale(1.4)'; setTimeout(function(){el.hCombo.style.transform='scale(1)';},130);
   } else {
     G.combo=0; G.life--; if(r.leak)G.leaks++;
-    shake(); flash('bad'); beep('bad'); burst(cx,cy,'#ff5d73',10);
-    el.hHearts.textContent = G.life>0 ? Array(G.life+1).join('♥')+Array(4-G.life).join('·') : '···';
+    shake(); flash('bad'); beep('bad'); burst(cx,cy,'#ff5d76',11); setHearts();
   }
-  el.hScore.textContent=G.score.toLocaleString();
-  el.hCombo.textContent=G.combo+'×';
-  if(G.life<=0){ setTimeout(end,180); return; }
-  G.gap = r.correct?170:300;
+  el.hScore.textContent=G.score.toLocaleString(); el.hCombo.textContent=G.combo+'×';
+  var nl=Math.floor(G.handled/10)+1; if(nl!==G.level){G.level=nl;showLevel();}
+  if(G.life<=0){ setTimeout(end,200); return; }
+  G.gap = r.correct?165:300;
 }
-function timeoutPacket(){ if(!G||G.locked||!G.packet)return; decideTimeout(); }
 function decideTimeout(){
   G.locked=true; G.handled++;
   var r=evaluate(G.packet,'timeout',0,G.combo);
   G.combo=0; G.life--; if(r.leak)G.leaks++;
-  shake(); flash('bad'); beep('bad');
-  el.hHearts.textContent = G.life>0 ? Array(G.life+1).join('♥')+Array(4-G.life).join('·') : '···';
-  el.hCombo.textContent='0×';
-  if(G.life<=0){ setTimeout(end,180); return; }
+  shake(); flash('bad'); beep('bad'); el.hCombo.textContent='0×'; setHearts();
+  if(G.life<=0){ setTimeout(end,200); return; }
   G.gap=300;
 }
-function showWave(){ el.waveBadge.textContent='WAVE '+G.wave; el.waveBadge.style.transition='none'; el.waveBadge.style.opacity='1'; el.waveBadge.style.transform='translateX(-50%) scale(1.2)';
-  setTimeout(function(){ el.waveBadge.style.transition='opacity .6s,transform .6s'; el.waveBadge.style.opacity='0'; el.waveBadge.style.transform='translateX(-50%) scale(1)'; },30); }
+function showLevel(){ el.levelBadge.textContent='LOAD '+G.level; el.levelBadge.style.transition='none';
+  el.levelBadge.style.opacity='1'; el.levelBadge.style.transform='translateX(-50%) scale(1.25)';
+  setTimeout(function(){ el.levelBadge.style.transition='opacity .7s,transform .7s'; el.levelBadge.style.opacity='0'; el.levelBadge.style.transform='translateX(-50%) scale(1)'; },30); }
 function end(){
-  cancelAnimationFrame(raf);
-  var grade=gradeOf(G.score,G.leaks,G.wave);
-  if(G.score>bestGet()){ bestSet(G.score); el.bestChip.innerHTML='best <b>'+G.score+'</b>'; }
+  cancelAnimationFrame(raf); el.lowlife.style.opacity='0';
+  var grade=gradeOf(G.score,G.leaks,G.handled);
+  var prev=bestGet(); var isBest=G.score>prev; if(isBest){bestSet(G.score);el.bestChip.innerHTML='best <b>'+G.score+'</b>';}
+  el.newBest.style.display=isBest&&G.score>0?'block':'none';
   el.eGrade.textContent=grade; el.eGrade.className='grade '+grade;
   el.eScore.textContent=G.score.toLocaleString(); el.eCombo.textContent=G.bestCombo+'×';
-  el.eWaves.textContent=G.wave; el.eLeaks.textContent=G.leaks; el.eLeaks.className='v'+(G.leaks>0?' bad':' gold');
+  el.eSurv.textContent=G.handled; el.eLeaks.textContent=G.leaks; el.eLeaks.className='v'+(G.leaks>0?' bad':' gold');
   el.eVerdict.textContent = G.leaks===0
     ? 'Zero thoughts leaked. You held the line between mind and machine — exactly what the real AxonOS layer is built to guarantee.'
     : (G.leaks+' thought'+(G.leaks>1?'s':'')+' escaped. Once raw neural data is out, it never comes back. The real AxonOS makes that leak structurally impossible.');
-  el._r={grade:grade,score:G.score,combo:G.bestCombo,waves:G.wave,leaks:G.leaks};
+  el._r={grade:grade,score:G.score,combo:G.bestCombo,surv:G.handled,leaks:G.leaks,seed:G.seedKey};
   show('end');
 }
 function loop(now){
   var dt=Math.min(70,now-G.last); G.last=now;
   if(G.locked){ G.gap-=dt; if(G.gap<=0) spawn(); }
   else { G.msLeft-=dt; var f=Math.max(0,G.msLeft/G.deadline); el.pRing.style.transform='scaleX('+f+')'; if(G.msLeft<=0) decideTimeout(); }
-  // particles
   if(fctx){ fctx.clearRect(0,0,innerWidth,innerHeight);
-    for(var i=parts.length-1;i>=0;i--){var p=parts[i];p.x+=p.vx;p.y+=p.vy;p.vy+=0.25;p.life-=0.03;
-      if(p.life<=0){parts.splice(i,1);continue;} fctx.globalAlpha=Math.max(0,p.life);fctx.fillStyle=p.c;fctx.fillRect(p.x,p.y,4,4);}
+    for(var i=parts.length-1;i>=0;i--){var p=parts[i];p.x+=p.vx;p.y+=p.vy;p.vy+=0.26;p.life-=0.028;
+      if(p.life<=0){parts.splice(i,1);continue;} fctx.globalAlpha=Math.max(0,p.life);fctx.fillStyle=p.c;fctx.fillRect(p.x,p.y,p.s,p.s);}
     fctx.globalAlpha=1; }
   raf=requestAnimationFrame(loop);
 }
-function show(w){ el.home.style.display=w==='home'?'flex':'none'; el.game.style.display=w==='game'?'flex':'none'; el.end.style.display=w==='end'?'flex':'none'; if(w!=='game'){parts.length=0; if(fctx)fctx.clearRect(0,0,innerWidth,innerHeight);} }
+function show(w){ el.home.style.display=w==='home'?'flex':'none'; el.game.style.display=w==='game'?'flex':'none'; el.end.style.display=w==='end'?'flex':'none';
+  if(w!=='game'){parts.length=0; if(fctx)fctx.clearRect(0,0,innerWidth,innerHeight); el.lowlife.style.opacity='0';} }
 
 el.playBtn.addEventListener('click',start);
-el.againBtn.addEventListener('click',start);
+el.againBtn.addEventListener('click',function(){ urlSeed=null; start(); }); // "Again" is a fresh random run
 el.homeBtn.addEventListener('click',function(){cancelAnimationFrame(raf);show('home');});
 el.blockBtn.addEventListener('click',function(){decide('block');});
 el.allowBtn.addEventListener('click',function(){decide('allow');});
-el.copyBtn.addEventListener('click',function(){
-  var r=el._r||{};
-  var t='🧠 Become the Brain OS — '+r.grade+'-rank · '+(r.score||0).toLocaleString()+' pts · '+(r.leaks||0)+' thoughts leaked · '+(r.combo||0)+'× combo · wave '+(r.waves||0)+'. I guarded a brain–computer interface. Can you keep cognition private? Play → axonos.org';
-  try{ navigator.clipboard.writeText(t); el.copyBtn.textContent='Copied ✓'; setTimeout(function(){el.copyBtn.textContent='Share result';},1400);}catch(_){alert(t);}
+el.challengeBtn.addEventListener('click',function(){
+  var r=el._r||{}; var base=location.origin+location.pathname;
+  var url=base+'?s='+encodeURIComponent(r.seed||'');
+  var t='🧠 I scored '+(r.score||0).toLocaleString()+' ('+r.grade+'-rank, '+(r.leaks||0)+' thoughts leaked) guarding a brain–computer interface in Become the Brain OS. Same packets, beat me: '+url;
+  try{ navigator.clipboard.writeText(t); el.challengeBtn.textContent='Link copied ✓'; setTimeout(function(){el.challengeBtn.textContent='🎯 Challenge a friend';},1600);}catch(_){ alert(t); }
 });
 document.addEventListener('keydown',function(e){
   if(el.home.style.display!=='none'){ if(e.key==='Enter')start(); return; }
-  if(el.game.style.display==='none')return;
+  if(el.game.style.display==='none') return;
   if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A'){e.preventDefault();decide('block');}
   else if(e.key==='ArrowRight'||e.key==='l'||e.key==='L'){e.preventDefault();decide('allow');}
 });

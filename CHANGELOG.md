@@ -1,5 +1,15 @@
 # Changelog
 
+## v17.1.0
+
+- **Luxury UX pass:** refined type scale and spacing, gradient wordmark, glass chrome, eased micro-interactions (button press, packet pop-in / fly-off, combo pulse, heart-loss, low-life vignette), focus-visible rings, `prefers-reduced-motion` support, and safe-area insets — a premium, jank-free feel built mobile-first.
+- **Virality — Challenge a friend:** runs are now seeded; the end screen copies a `?s=<seed>` link that replays your *exact* packet sequence, so two players can compare scores fairly. Seeded determinism is verified by test.
+- **Smoother escalation:** load (deadline) now ramps continuously with packets handled, so difficulty always climbs and the opening is learnable.
+- **Polish:** new-best indicator, "LOAD n" announcements, tasteful particles/flash/shake, combo-scaled sound.
+- Pure gameplay logic **unit-tested by execution in Node** (RNG, seeded-challenge determinism, packet generation, the allow/block/leak truth table, scoring, grading, full simulated runs); all DOM ids verified; fail-open boot guard.
+- Funnel intact: footers and the challenge link drive back to the live game and to axonos.org.
+- Release hygiene: a `release.sh` that sets the repository **About** (description + topics) and publishes the release, plus a **green, dynamic release badge** that always shows the current version (no more stale badge); version-agnostic CI that checks the build against `VERSION`.
+
 ## v16.3.0
 
 - New gameplay: **Neural Triage** — a fast, escalating arcade firewall. Allow derived intent, block raw neural data / artifacts / revoked consent; combo, waves, 3 lives, and "thoughts leaked" as the headline metric.

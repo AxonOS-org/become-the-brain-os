@@ -4,10 +4,11 @@
 
 ### Be the privacy firewall between a brain and the apps.
 
-[![Play](https://img.shields.io/badge/%E2%96%B6%20Play-Become%20the%20Brain%20OS-0a4a8f?style=for-the-badge&labelColor=06080e)](https://axonos-org.github.io/become-the-brain-os/)
+[![PLAY LIVE](https://img.shields.io/github/v/release/AxonOS-org/become-the-brain-os?style=for-the-badge&label=%E2%96%B6%20PLAY%20LIVE&color=2ea44f&labelColor=05070d)](https://axonos-org.github.io/become-the-brain-os/)
 
-![version](https://img.shields.io/badge/version-v16.3.0-0a4a8f?style=flat-square)
-&nbsp;![local-only](https://img.shields.io/badge/local--only-no%20backend-0d7a5f?style=flat-square)
+*▶ Play in your browser — no install, about a minute, works on phones. The badge above always points to the latest live build.*
+
+![local-only](https://img.shields.io/badge/local--only-no%20backend-0d7a5f?style=flat-square)
 &nbsp;![neural data](https://img.shields.io/badge/neural%20data-none-0d7a5f?style=flat-square)
 &nbsp;![single file](https://img.shields.io/badge/build-single%20index.html-475569?style=flat-square)
 &nbsp;![license](https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-475569?style=flat-square)
@@ -23,7 +24,7 @@ Thoughts are streaming out of a mind and into apps. **You are the firewall.** Pa
 ## ▶ Play
 
 - **Live:** **[axonos-org.github.io/become-the-brain-os](https://axonos-org.github.io/become-the-brain-os/)** — nothing to install.
-- **Offline:** download `index.html` and open it. The whole game is one file.
+- **Challenge a friend:** finish a run, tap **🎯 Challenge a friend**, and send the link — they get the *exact same packets* you did, so the score is a fair fight.
 - **Controls:** tap **⛔ BLOCK / ✓ ALLOW**, or **← / →**. Built for phones.
 
 ## How to play — and what it means
@@ -35,7 +36,7 @@ Thoughts are streaming out of a mind and into apps. **You are the firewall.** Pa
 | **BLOCK** `⚡ blink spike`, `phantom node` | Reject artifacts before they fire a false intent |
 | **BLOCK** `CONSENT REVOKED` | Consent is a hard gate the system can't bypass |
 
-Clean, fast decisions build a combo and climb the waves. A wrong call or a missed deadline costs a life; letting a raw thought through is a **leak**. **Zero leaks = a perfect run.**
+Fast, clean decisions build a combo and climb the load. A wrong call or a missed deadline costs a life; letting a raw thought through is a **leak**. **Zero leaks = a perfect run.**
 
 ## What this is — and is not
 
