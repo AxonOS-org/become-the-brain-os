@@ -18,4 +18,4 @@ jobs:
           node --check game.js
       - name: Assert invariants (version read from VERSION)
         run: |
-          node -e "const fs=require('fs');const h=fs.readFileSync('index.html','utf8');const v=fs.readFileSync('VERSION','utf8').trim();const need=['v'+v,'no neural data','axonos.org','Become the Brain OS'];for(const s of need){if(!h.includes(s)){console.error('missing invariant: '+s);process.exit(1);}}console.log('invariants ok for v'+v);"
+          node -e "const fs=require('fs');const h=fs.readFileSync('index.html','utf8');const v=fs.readFileSync('VERSION','utf8').trim();const need=['v'+v,'No neural data','axonos.org','Become the Brain OS'];for(const s of need){if(!h.includes(s)){console.error('missing invariant: '+s);process.exit(1);}}console.log('invariants ok for v'+v);"

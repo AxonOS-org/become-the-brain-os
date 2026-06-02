@@ -1,5 +1,16 @@
 # Changelog
 
+## v20.1.2
+
+- **Bug fixes** on the v19.1 luxury-UX build:
+  - Fixed a double-fire where a single packet could be scored/leaked twice on rapid input (the active packet is now consumed atomically on decision).
+  - Removed Enter/Space from the global ALLOW shortcut so they no longer conflict with a focused button or trigger an accidental allow; keys are now Arrow-Left/A = block, Arrow-Right/D = allow.
+  - Fixed "challenge" links getting stuck on replay: a shared seed is now consumed once and the URL is cleaned, so the next run is fresh while "Again" still replays.
+- **UX polish:** added tasteful feedback — screen flash, a brief shake and haptic buzz on a leak, a subtle cue on a correct call, and an optional sound toggle (off-screen, layout-safe). All respect `prefers-reduced-motion` and fail safe if unsupported.
+- **Robustness:** fail-open boot guard — a readable message instead of a black screen if anything fails to start; all DOM ids verified present.
+- Seed determinism re-verified (same seed → identical packet sequence), so "Daily brain" and "Challenge a friend" stay fair.
+- Local-only throughout: no sensor, no neural data, no backend; progress and best score stay on the device.
+
 ## v17.1.0
 
 - **Luxury UX pass:** refined type scale and spacing, gradient wordmark, glass chrome, eased micro-interactions (button press, packet pop-in / fly-off, combo pulse, heart-loss, low-life vignette), focus-visible rings, `prefers-reduced-motion` support, and safe-area insets — a premium, jank-free feel built mobile-first.
