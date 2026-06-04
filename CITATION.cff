@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you reference this project in your work, please cite it as below."
+title: "become-the-brain-os: an in-browser introduction to the AxonOS runtime"
+abstract: >-
+  An educational, install-free browser game that teaches the AxonOS real-time
+  brain-computer-interface runtime model: deterministic intent flow, consent
+  gating, and the typed application boundary.
+type: software
+authors:
+  - family-names: Yermakou
+    given-names: Denis
+    affiliation: "The AxonOS Project"
+version: "0.3.3"
+license: "Apache-2.0 OR MIT"
+repository-code: "https://github.com/AxonOS-org/become-the-brain-os"
+url: "https://axonos.org"
+keywords:
+  - brain-computer interface
+  - education
+  - visualization
