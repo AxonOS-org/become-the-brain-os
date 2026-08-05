@@ -10,7 +10,7 @@ authors:
   - family-names: Yermakou
     given-names: Denis
     affiliation: "The AxonOS Project"
-version: "0.3.3"
+version: "20.1.2"
 license: "Apache-2.0 OR MIT"
 repository-code: "https://github.com/AxonOS-org/become-the-brain-os"
 url: "https://axonos.org"

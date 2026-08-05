@@ -1,5 +1,17 @@
 # Changelog
 
+## [20.1.2] — 2026-08-01
+
+### Fixed
+- **`CITATION.cff` cited this project as 0.3.3 while it is at 20.1.2.** The file had
+  not moved since an early release, so anyone citing this work — the single
+  audience a citation file exists for — would have cited a version that has not
+  been current for a long time, and a reader following it would look for
+  behaviour the code no longer has.
+
+  Found by the organisation sweep. Nothing inside this repository compares the
+  citation file to the version file, because nothing here reads either one.
+
 ## v20.1.2
 
 - **Bug fixes** on the v19.1 luxury-UX build:
