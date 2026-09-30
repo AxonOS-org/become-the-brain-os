@@ -56,7 +56,6 @@ This game is the front door to **AxonOS** — a real, open-source, real-time ope
 
 **The AxonOS Project** · [axonos.org](https://axonos.org) · connect@axonos.org · security@axonos.org
 [medium.com/@AxonOS](https://medium.com/@AxonOS) · [github.com/AxonOS-org](https://github.com/AxonOS-org)
-Singapore · Zurich · Berlin · Milano · San Mateo
 
 Licensed under Apache-2.0 OR MIT · a game, built to explain real engineering
 
